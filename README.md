@@ -56,7 +56,8 @@ These are a set of tools we will use to develop our apps on the Raspberry Pi. Yo
 
 ![alt text](./Assets/vs-code-docker-sml.png "VS Code Docker")
 
-### Clone this project "Raspberry Pi "Protocol Translation" Gateway for Azure IoT Central"...
+### Clone this project "IoTC-OPCUA-Server-Basic"...
+Find a working folder for this project on your machine...
 ````bash
 git clone https://github.com/Larouex/IoTC-OPCUA-Server-Basic.git
 cd IoTC-OPCUA-Server-Basic
