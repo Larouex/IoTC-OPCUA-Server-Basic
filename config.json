@@ -1,0 +1,94 @@
+{
+    "UrlPattern": "opc.tcp://192.168.0.{id}:{port}",
+    "Name": "LAROUEX_INDUSTRIAL_MANUFACTURING_SERVER_{id}",
+    "Nodes": [
+      {"Name" : "Ambient",
+        "Parameters":[
+          {
+            "DisplayName": "Temperature",
+            "TelemetryName": "temperature",
+            "DataType": "float",
+            "RangeValues":[
+              72.45,
+              73.23,
+              85.90,
+              91.54,
+              73.28,
+              81.23
+            ]
+          },
+          {
+            "DisplayName": "Humidity",
+            "TelemetryName": "humidity",
+            "DataType": "float",
+            "RangeValues":[
+              68.8, 
+              71.0,
+              72.3,
+              64.1,
+              89.2,
+              67.3
+            ]
+          },
+          {
+            "DisplayName": "Mixing Ratio",
+            "TelemetryName": "mixratio",
+            "DataType": "float",
+            "RangeValues":[
+              9.6,
+              12.9,
+              13.4,
+              10.2,
+              9.9,
+              13.2
+            ]
+          }
+        ]
+      },
+      {"Name" : "Process",
+        "Parameters":[
+          {
+            "DisplayName": "Temperature",
+            "TelemetryName": "temperature",
+            "DataType": "float",
+            "RangeValues":[
+              112.45,
+              113.23,
+              115.90,
+              121.54,
+              143.28,
+              151.23
+            ]
+          },
+          {
+            "DisplayName": "Pressure",
+            "TelemetryName": "pressure",
+            "DataType": "integer",
+            "RangeValues":[
+              157, 
+              151,
+              223,
+              289,
+              190,
+              201
+            ]
+          },
+          {
+            "DisplayName": "Mixing Ratio",
+            "TelemetryName": "mixratio",
+            "DataType": "float",
+            "RangeValues":[
+              9.6,
+              12.9,
+              13.4,
+              10.2,
+              9.9,
+              13.2
+            ]
+          }
+        ]
+      }
+    ],
+    "ProvisioningScope": "NEW",
+    "GatewayType": "TRANSPARENT"
+}
