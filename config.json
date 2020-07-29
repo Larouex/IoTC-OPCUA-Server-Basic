@@ -1,5 +1,5 @@
 {
-    "UrlPattern": "opc.tcp://192.168.0.{id}:{port}/larouex-industrial-manufacturing/server",
+    "UrlPattern": "opc.tcp://0.0.0.0:{port}/larouex-industrial-manufacturing/server",
     "Name": "LAROUEX_INDUSTRIAL_MANUFACTURING_SERVER_{id}",
     "NameSpace": "larouex-industrial-manufacturing",
     "Nodes": [
