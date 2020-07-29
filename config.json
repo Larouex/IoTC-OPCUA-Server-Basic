@@ -1,13 +1,14 @@
 {
-    "UrlPattern": "opc.tcp://192.168.0.{id}:{port}",
+    "UrlPattern": "opc.tcp://192.168.0.{id}:{port}/larouex-industrial-manufacturing/server",
     "Name": "LAROUEX_INDUSTRIAL_MANUFACTURING_SERVER_{id}",
+    "NameSpace": "larouex-industrial-manufacturing",
     "Nodes": [
       {"Name" : "Ambient",
-        "Parameters":[
+        "Variables":[
           {
             "DisplayName": "Temperature",
             "TelemetryName": "temperature",
-            "DataType": "float",
+            "IoTCDataType": "Float",
             "RangeValues":[
               72.45,
               73.23,
@@ -20,7 +21,7 @@
           {
             "DisplayName": "Humidity",
             "TelemetryName": "humidity",
-            "DataType": "float",
+            "IoTCDataType": "Float",
             "RangeValues":[
               68.8, 
               71.0,
@@ -29,28 +30,15 @@
               89.2,
               67.3
             ]
-          },
-          {
-            "DisplayName": "Mixing Ratio",
-            "TelemetryName": "mixratio",
-            "DataType": "float",
-            "RangeValues":[
-              9.6,
-              12.9,
-              13.4,
-              10.2,
-              9.9,
-              13.2
-            ]
           }
         ]
       },
       {"Name" : "Process",
-        "Parameters":[
+        "Variables":[
           {
             "DisplayName": "Temperature",
             "TelemetryName": "temperature",
-            "DataType": "float",
+            "IoTCDataType": "Float",
             "RangeValues":[
               112.45,
               113.23,
@@ -63,7 +51,7 @@
           {
             "DisplayName": "Pressure",
             "TelemetryName": "pressure",
-            "DataType": "integer",
+            "IoTCDataType": "Integer",
             "RangeValues":[
               157, 
               151,
@@ -76,7 +64,7 @@
           {
             "DisplayName": "Mixing Ratio",
             "TelemetryName": "mixratio",
-            "DataType": "float",
+            "IoTCDataType": "Float",
             "RangeValues":[
               9.6,
               12.9,

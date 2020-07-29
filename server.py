@@ -1,8 +1,7 @@
 # ==================================================================================
-#   File:   gateway.py
+#   File:   server.py
 #   Author: Larry W Jordan Jr (larouex@gmail.com)
-#   Use:    Raspberry Pi Gateway for Azure IoT Central implementing OPC/UA
-#           This is the main application to read from 
+#   Use:    Simple OPC/UA Server for testing Azure IoT Central Scenarios
 #
 #   Online:   www.hackinmakin.com
 #
@@ -12,9 +11,14 @@
 import  getopt, sys, time, string, threading, asyncio, os
 import logging as Log
 
+# opcua
+from asyncua import ua, Server
+from asyncua.common.methods import uamethod
+
 # our classes
-from classes.provisiondevices import ProvisionDevices
-from classes.config import Config
+from Classes.config import Config
+from Classes.varianttype import VariantType
+
 
 # -------------------------------------------------------------------------------
 #   Provision Devices
@@ -27,12 +31,13 @@ async def provision_devices(ProvisioningScope, GatewayType):
 
 async def main(argv):
 
-    # execution state from args
-    provisioning_scope = None
-    gateway_type = None
+    # Nodes
+    nodes = []
+    whatif = False
 
-    short_options = "hvp:g:"
-    long_options = ["help", "verbose", "provisioningscope=", "gatewaytype="]
+    # execution state from args
+    short_options = "hvw"
+    long_options = ["help", "verbose", "whatif"]
     full_cmd_arguments = sys.argv
     argument_list = full_cmd_arguments[1:]
     try:
@@ -42,19 +47,11 @@ async def main(argv):
     
     for current_argument, current_value in arguments:
         if current_argument in ("-h", "--help"):
-            print("HELP for provisiondevices.py")
+            print("HELP for server.py")
             print("------------------------------------------------------------------------------------------------------------------")
             print("-h or --help - Print out this Help Information")
             print("-v or --verbose - Debug Mode with lots of Data will be Output to Assist with Debugging")
-            print("-p or --provisioningscope - Provisioning Scope give you fine grained control over the devices you want to provision.")
-            print("    ALL - Re-Provision Every device listed in the DevicesCache.json file")
-            print("    NEW - Only Provision Devices DevicesCache.json file that have 'LastProvisioned=Null'")
-            print("    device name - Provision a Specifc Device in DevicesCache.json file")
-            print("-g or --gatewaytype - Indicate the Type of Gateway Relationship")
-            print("    OPAQUE - Devices will look like Stand-Alone Devices in IoT Central")
-            print("    TRANSPARENT - Devices will look like Stand-Alone Devices in IoT Central")
-            print("    PROTOCOL - IoT Central will show a Single Gateway and all Data is Associated with the Gateway")
-            print("    PROTOCOLWITHIDENTITY - IoT Central will show a Single Gateway and Leaf Devices")
+            print("-w or --whatif - Combine with Verbose it will Output the Configuration sans starting the Server")
             print("------------------------------------------------------------------------------------------------------------------")
             sys.exit()
         
@@ -63,26 +60,56 @@ async def main(argv):
             Log.info("Verbose mode...")
         else:
             Log.basicConfig(format="%(levelname)s: %(message)s")
-        
-        if current_argument in ("-p", "--provisioningscope"):
-            Log.info("Provisioning Scope Override...%s" % current_value)
-            provisioning_scope = current_value
 
-        if current_argument in ("-g", "--gatewaytype"):
-            Log.info("Gateway Type  Override...%s" % current_value)
-            gateway_type = current_value
+        if current_argument in ("-w", "--whatif"):
+            whatif = True
+            Log.info("Whatif Mode...")
 
     # Load Configuration File
     config = Config(Log)
     config_data = config.data
+
+    # Data Type Mappings
+    variant_type = VariantType(Log)
     
-    if provisioning_scope == None:
-      provisioning_scope = config_data["ProvisioningScope"]
+    # OPCUA Server Setup
+    if not whatif:
+        opc_server = Server()
+        await opc_server.init()
+        opc_url = config_data["UrlPattern"].format(id = 199, port = 4840)
+        Log.info("[URL] OPC Server IP %s" % opc_url)
+        opc_server.set_endpoint(opc_url)
 
-    if gateway_type == None:
-      gateway_type = config_data["GatewayType"]
+    # Our NameSpace
+    namespace = config_data["NameSpace"]
+    Log.info("[NAMESPACE] ID %s" % namespace)
+    if not whatif:
+        id_namespace = await opc_server.register_namespace(namespace)
 
-    await provision_devices(ProvisioningScope=provisioning_scope, GatewayType=gateway_type)
+    # Create our Nodes and Parameters
+    for node in config_data["Nodes"]:
+        name = node["Name"]
+        Log.info("[NODE NAME] %s" % name)
+        
+        # Add Node  and Begin Populating our Address Space
+        #node_obj = await server.nodes.objects.add_object(id_namespace, name)
+        
+        for variable in node["Variables"]:
+            variable_name = variable["DisplayName"]
+            Log.info("[VARIABLE DISPLAY NAME] %s" % variable_name)
+            range_value = variable["RangeValues"][0]
+            Log.info("[RANGE VALUE] %s" % range_value)
+            opc_variant_type = variant_type.map_variant_type(variable["IoTCDataType"])
+            Log.info("[IoTC DATA TYPE] %s" % variable["IoTCDataType"])
+            Log.info("[VARIANT DATA TYPE] %s" % opc_variant_type)
+            Log.info("[DATA TYPE] %s" % opc_variant_type)
+
+            if not whatif:
+                variable_obj = await node_obj.add_variable(id_namespace, variable_name, range_value, varianttype=opc_variant_type, datatype=opc_variant_type)
+                await variable_obj.set_writable()
+                #await server.nodes.objects.add_method(ua.NodeId('ServerMethod', 2), ua.QualifiedName('ServerMethod', 2), func, [ua.VariantType.Int64], [ua.VariantType.Int64])
+                Log.info("[STARTING SERVER] %s" % opc_url)
+    
 
 if __name__ == "__main__":
     asyncio.run(main(sys.argv[1:]))

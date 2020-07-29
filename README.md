@@ -56,3 +56,24 @@ These are a set of tools we will use to develop our apps on the Raspberry Pi. Yo
 
 ![alt text](./Assets/vs-code-docker-sml.png "VS Code Docker")
 
+### Clone this project "Raspberry Pi "Protocol Translation" Gateway for Azure IoT Central"...
+````bash
+git clone https://github.com/Larouex/IoTC-OPCUA-Server-Basic.git
+cd IoTC-OPCUA-Server-Basic
+pip3 install -r requirements.txt
+````
+We are now ready!
+
+## Running the Server Application
+
+### Configuration
+Our OPC/UA Server is designed to be simple and easy to get started with, but we have also focussed on being configuration driven for the OPC/UA Server, Node and Variable options. You can define lots of nodes and many variables for those nodes.
+
+### Startup
+Let's look at the startup options...
+
+* <b>-h or --help</b> - Print out this Help Information
+* <b>-v or --verbose</b> -  Debug Mode with lots of Data will be Output to Assist with Debugging
+* <b>-w or --whatif</b> - Combine with Verbose it will Output the Configuration sans starting the Server
+
+

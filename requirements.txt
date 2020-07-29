@@ -1,0 +1,8 @@
+pip
+wheel
+setuptools 
+virtualenv
+asyncio
+cryptography
+asyncua
+dataclasses
