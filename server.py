@@ -16,23 +16,38 @@ from asyncua import ua, Server
 from asyncua.common.methods import uamethod
 
 # our classes
+from Classes.opcserver import OpcServer
 from Classes.config import Config
 from Classes.varianttype import VariantType
 
 
 # -------------------------------------------------------------------------------
-#   Provision Devices
+#   Start the OPC Server
 # -------------------------------------------------------------------------------
-async def provision_devices(ProvisioningScope, GatewayType):
+async def start_server(WhatIf):
 
-  provisiondevices = ProvisionDevices(Log, ProvisioningScope, GatewayType)
-  await provisiondevices.provision_devices()
-  return True
+  # Start Server
+  opc_server = OpcServer(Log, WhatIf)
+  await opc_server.start()
+
+  return
+
+# -------------------------------------------------------------------------------
+#   OPC Server Loop for Telemetry
+# -------------------------------------------------------------------------------
+async def loop_server(OpcServer):
+
+  # Loop and Send Node->Variable Telemetry
+  opc_server = OpcServer
+
+  async with opc_server:
+    while True:
+        await asyncio.sleep(1)
+        await opc_server.loop()
+
 
 async def main(argv):
 
-    # Nodes
-    nodes = []
     whatif = False
 
     # execution state from args
@@ -65,51 +80,9 @@ async def main(argv):
             whatif = True
             Log.info("Whatif Mode...")
 
-    # Load Configuration File
-    config = Config(Log)
-    config_data = config.data
-
-    # Data Type Mappings
-    variant_type = VariantType(Log)
-    
-    # OPCUA Server Setup
-    if not whatif:
-        opc_server = Server()
-        await opc_server.init()
-        opc_url = config_data["UrlPattern"].format(id = 199, port = 4840)
-        Log.info("[URL] OPC Server IP %s" % opc_url)
-        opc_server.set_endpoint(opc_url)
-
-    # Our NameSpace
-    namespace = config_data["NameSpace"]
-    Log.info("[NAMESPACE] ID %s" % namespace)
-    if not whatif:
-        id_namespace = await opc_server.register_namespace(namespace)
-
-    # Create our Nodes and Parameters
-    for node in config_data["Nodes"]:
-        name = node["Name"]
-        Log.info("[NODE NAME] %s" % name)
-        
-        # Add Node  and Begin Populating our Address Space
-        #node_obj = await server.nodes.objects.add_object(id_namespace, name)
-        
-        for variable in node["Variables"]:
-            variable_name = variable["DisplayName"]
-            Log.info("[VARIABLE DISPLAY NAME] %s" % variable_name)
-            range_value = variable["RangeValues"][0]
-            Log.info("[RANGE VALUE] %s" % range_value)
-            opc_variant_type = variant_type.map_variant_type(variable["IoTCDataType"])
-            Log.info("[IoTC DATA TYPE] %s" % variable["IoTCDataType"])
-            Log.info("[VARIANT DATA TYPE] %s" % opc_variant_type)
-            Log.info("[DATA TYPE] %s" % opc_variant_type)
-
-            if not whatif:
-                variable_obj = await node_obj.add_variable(id_namespace, variable_name, range_value, varianttype=opc_variant_type, datatype=opc_variant_type)
-                await variable_obj.set_writable()
-                #await server.nodes.objects.add_method(ua.NodeId('ServerMethod', 2), ua.QualifiedName('ServerMethod', 2), func, [ua.VariantType.Int64], [ua.VariantType.Int64])
-                Log.info("[STARTING SERVER] %s" % opc_url)
-    
+    # Start Server
+    await start_server(whatif)
+    #await loop_server(opc_server)
 
 if __name__ == "__main__":
     asyncio.run(main(sys.argv[1:]))

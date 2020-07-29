@@ -13,8 +13,8 @@ import logging
 
 class VariantType():
     
-    def __init__(self, logger):
-        self.logger = logger
+    def __init__(self, Log):
+        self.logger = Log
 
     def map_variant_type(self, iotc_data_type):
 
