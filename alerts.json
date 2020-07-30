@@ -19,6 +19,9 @@
       "Secrets":{
         "Loaded": "Loaded Secrets file: {0}",
         "Updated": "Updated Secrets file: {0}"
-      }
-    }
+      },
+      "DcmTemplate":{
+        "Loaded": "Loaded DCM Template file: {0}",
+        "Updated": "Updated DCM Template file: {0}"
+      }    }
 }

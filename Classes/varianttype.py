@@ -19,18 +19,17 @@ class VariantType():
     def map_variant_type(self, iotc_data_type):
 
         data_types = {
-            "Boolean": 1,
-            "Date": 13,
-            "DateTime": 13,
-            "Double": 11,
-            "Duration": 3,
-            "Float": 10,
-            "Geopoint": 3,
-            "Integer": 6,
-            "Long": 8,
-            "String": 12,
-            "Time": 13,
-            "Vector": 3,
+            "doolean": 1,
+            "date": 13,
+            "dateTime": 13,
+            "double": 11,
+            "duration": 3,
+            "float": 10,
+            "geopoint": 3,
+            "integer": 6,
+            "long": 8,
+            "string": 12,
+            "time": 13
         }
         return data_types.get(iotc_data_type, None)
 

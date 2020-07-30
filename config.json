@@ -1,17 +1,22 @@
 {
-    "UrlPattern": "opc.tcp://0.0.0.0:{port}/larouex-industrial-manufacturing/server",
+    "UrlPattern": "opc.tcp://{ip}:{port}/larouex-industrial-manufacturing/server",
     "ApplicationUri": "urn:larouexindustrialmanufacturing:server",
+    "DeviceCapabilityModelId": "urn:larouexindustrialmanufacturing:server:1",
     "ServerDiscoveryName": "Larouex Industrial Manufacturing Server",
+    "Description": "Larouex Industrials LLC. Heavy Equipment and Adhesive Manufacturing Device Template.",
     "Name": "LAROUEX_INDUSTRIAL_MANUFACTURING_SERVER_{id}",
     "NameSpace": "larouex-industrial-manufacturing",
     "CacheAddrSpaceFileName": "cache.opc",
     "Nodes": [
-      {"Name" : "Ambient",
+      {
+        "Name": "Ambient",
+        "InterfacelId": "urn:larouexindustrialmanufacturing:AmbientInterface:1",
+        "InterfaceInstanceName": "AmbientInterface",
         "Variables":[
           {
             "DisplayName": "Temperature",
             "TelemetryName": "temperature",
-            "IoTCDataType": "Float",
+            "IoTCDataType": "float",
             "RangeValues":[
               72.45,
               73.23,
@@ -28,7 +33,7 @@
           {
             "DisplayName": "Humidity",
             "TelemetryName": "humidity",
-            "IoTCDataType": "Float",
+            "IoTCDataType": "float",
             "RangeValues":[
               68.8, 
               71.0,
@@ -40,12 +45,15 @@
           }
         ]
       },
-      {"Name" : "Process",
+      {
+        "Name": "Process",
+        "InterfacelId": "urn:larouexindustrialmanufacturing:ProcessInterface:1",
+        "InterfaceInstanceName": "ProcessInterface",
         "Variables":[
           {
             "DisplayName": "Temperature",
             "TelemetryName": "temperature",
-            "IoTCDataType": "Float",
+            "IoTCDataType": "float",
             "RangeValues":[
               112.45,
               113.23,
@@ -58,20 +66,24 @@
           {
             "DisplayName": "Pressure",
             "TelemetryName": "pressure",
-            "IoTCDataType": "Integer",
+            "IoTCDataType": "integer",
             "RangeValues":[
               157, 
               151,
               223,
               289,
               190,
-              201
+              162,
+              203,
+              209,
+              154,
+              299
             ]
           },
           {
             "DisplayName": "Mixing Ratio",
             "TelemetryName": "mixratio",
-            "IoTCDataType": "Float",
+            "IoTCDataType": "float",
             "RangeValues":[
               9.6,
               12.9,

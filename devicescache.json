@@ -1,0 +1,21 @@
+{
+  "DeviceCapabilityModels": [
+    {
+      "DeviceNamePrefix": "larouex-industrial-manufacturing-",
+      "DCM": "urn:larouexindustrialmanufacturing:server:1"
+    }
+  ],
+  "Devices": [
+    {
+      "DeviceName": "Simulated Device",
+      "Address": "6A:6A:6A:6A:6A:6A",
+      "LastRSSI": "-91 dB",
+      "DCM": "urn:larouexiot:nanoble33:1",
+      "DeviceInfoInterface": "urn:larouexiot:nanoble33sense:NanoBLE33SenseInterface:1",
+      "DeviceInfoInterfaceInstanceName": "DeviceInformationInterface",
+      "NanoBLEInterface": "urn:larouexiot:nanoble33sense:NanoBLE33SenseInterface:1",
+      "NanoBLEInterfaceInstanceName": "NanoBLE33Interface",
+      "LastProvisioned": null
+    }
+  ]
+}

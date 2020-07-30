@@ -51,7 +51,7 @@ class OpcServer():
       try:
 
         # configure the endpoint
-        opc_url = self.config["UrlPattern"].format(port = 4840)
+        opc_url = self.config["UrlPattern"].format(ip ="0.0.0.0", port = 4840)
         
         if not self.whatif:
           
