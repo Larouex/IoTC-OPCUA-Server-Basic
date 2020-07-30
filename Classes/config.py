@@ -21,7 +21,7 @@ class Config():
         with open('config.json', 'r') as config_file:
             self.data = json.load(config_file)
             alerts = self.load_alerts()
-            self.logger.info(alerts["Alerts"]["Config"]["Loaded"].format(self.data))
+            self.logger.debug(alerts["Alerts"]["Config"]["Loaded"].format(self.data))
 
     def load_alerts(self):
         with open('alerts.json', 'r') as alerts_file:

@@ -24,35 +24,22 @@ from Classes.varianttype import VariantType
 # -------------------------------------------------------------------------------
 #   Start the OPC Server
 # -------------------------------------------------------------------------------
-async def start_server(WhatIf):
+async def start_server(WhatIf, CacheAddrSpace):
 
   # Start Server
-  opc_server = OpcServer(Log, WhatIf)
+  opc_server = OpcServer(Log, WhatIf, CacheAddrSpace)
   await opc_server.start()
 
   return
 
-# -------------------------------------------------------------------------------
-#   OPC Server Loop for Telemetry
-# -------------------------------------------------------------------------------
-async def loop_server(OpcServer):
-
-  # Loop and Send Node->Variable Telemetry
-  opc_server = OpcServer
-
-  async with opc_server:
-    while True:
-        await asyncio.sleep(1)
-        await opc_server.loop()
-
-
 async def main(argv):
 
     whatif = False
+    cache_addr_space = None
 
     # execution state from args
-    short_options = "hvw"
-    long_options = ["help", "verbose", "whatif"]
+    short_options = "hvwc:"
+    long_options = ["help", "verbose", "whatif", "cacheaddrspace"]
     full_cmd_arguments = sys.argv
     argument_list = full_cmd_arguments[1:]
     try:
@@ -86,9 +73,16 @@ async def main(argv):
             whatif = True
             Log.info("Whatif Mode...")
 
+        if current_argument in ("-c", "--cacheaddrspace"):
+            cache_addr_space = current_value
+            if cache_addr_space == "dump":
+              Log.info("Cache Address Space Mode [DUMP]...")
+            elif cache_addr_space == "load":
+              Log.info("Cache Address Space Mode [LOAD]...")
+    
+
     # Start Server
-    await start_server(whatif)
-    #await loop_server(opc_server)
+    await start_server(whatif, cache_addr_space)
 
 if __name__ == "__main__":
     asyncio.run(main(sys.argv[1:]))

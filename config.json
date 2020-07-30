@@ -1,7 +1,10 @@
 {
     "UrlPattern": "opc.tcp://0.0.0.0:{port}/larouex-industrial-manufacturing/server",
+    "ApplicationUri": "urn:larouexindustrialmanufacturing:server",
+    "ServerDiscoveryName": "Larouex Industrial Manufacturing Server",
     "Name": "LAROUEX_INDUSTRIAL_MANUFACTURING_SERVER_{id}",
     "NameSpace": "larouex-industrial-manufacturing",
+    "CacheAddrSpaceFileName": "cache.opc",
     "Nodes": [
       {"Name" : "Ambient",
         "Variables":[
