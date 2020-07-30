@@ -71,8 +71,14 @@ async def main(argv):
             sys.exit()
         
         if current_argument in ("-v", "--verbose"):
+            Log.basicConfig(format="%(levelname)s: %(message)s", level=Log.INFO)
+            Log.info("Verbose Logging Mode...")
+        else:
+            Log.basicConfig(format="%(levelname)s: %(message)s")
+
+        if current_argument in ("-d", "--debug"):
             Log.basicConfig(format="%(levelname)s: %(message)s", level=Log.DEBUG)
-            Log.info("Verbose mode...")
+            Log.info("Debug Logging Mode...")
         else:
             Log.basicConfig(format="%(levelname)s: %(message)s")
 

@@ -47,20 +47,20 @@ class OpcServer():
         opc_server = Server()
         await opc_server.init()
         opc_url = self.config["UrlPattern"].format(port = 4840)
-        self.logger.info("[URL] OPC Server IP %s" % opc_url)
+        self.logger.info("[URL] %s" % opc_url)
         opc_server.set_endpoint(opc_url)
 
       # Our NameSpace
       namespace = self.config["NameSpace"]
-      self.logger.info("[NAMESPACE] ID %s" % namespace)
+      self.logger.info("[NAMESPACE] %s" % namespace)
+      
       if not self.whatif:
         id_namespace = await opc_server.register_namespace(namespace)
 
       # Create our Nodes and Parameters
       for node in self.nodes:
         name = node["Name"]
-        self.logger.info("[NODE NAME] %s" % name)
-        
+
         # Add Node and Begin Populating our Address Space
         if not self.whatif:
           node_obj[name] = await opc_server.nodes.objects.add_object(id_namespace, name)
@@ -68,49 +68,45 @@ class OpcServer():
         for variable in node["Variables"]:
           variable_name = variable["DisplayName"]
           telemetry_name = variable["TelemetryName"]
-          self.logger.info("[VARIABLE DISPLAY NAME] %s" % variable_name)
-          self.logger.info("[VARIABLE TELEMETRY NAME] %s" % telemetry_name)
           range_value = variable["RangeValues"][0]
-          self.logger.info("[RANGE VALUE] %s" % range_value)
           opc_variant_type = variant_type.map_variant_type(variable["IoTCDataType"])
-          self.logger.info("[IoTC DATA TYPE] %s" % variable["IoTCDataType"])
-          self.logger.info("[VARIANT DATA TYPE] %s" % opc_variant_type)
-          self.logger.info("[DATA TYPE] %s" % opc_variant_type)
+          log_msg = "[SETUP VARIABLE] NODE NAME: {nn} DISPLAY NAME: {dn} TELEMETRY NAME: {tn} RANGE VALUE: {rv} " \
+            "IoTC TYPE: {it} OPC VARIANT TYPE {ovt} OPC DATA TYPE {odt}"
+          self.logger.info(log_msg.format(nn = name, dn = variable["DisplayName"], vn = variable["TelemetryName"], \
+            tn = variable["TelemetryName"], rv = variable["RangeValues"][0], it = variable["IoTCDataType"], \
+              ovt = opc_variant_type, odt = opc_variant_type))
 
           if not self.whatif:
-            variable_obj[variable_name] = await node_obj[name].add_variable(id_namespace, telemetry_name, range_value, varianttype=opc_variant_type, datatype=opc_variant_type)
+            variable_obj[variable_name] = await node_obj[name].add_variable(id_namespace, \
+              telemetry_name, range_value, varianttype=opc_variant_type, datatype=opc_variant_type)
             await variable_obj[variable_name].set_writable()
-            #await opc_server.nodes.objects.add_method(ua.NodeId('ServerMethod', 2), ua.QualifiedName('ServerMethod', 2), func, [ua.VariantType.Int64], [ua.VariantType.Int64])
+            self.logger.info("[STARTING SERVER] %s" % opc_url)
       
-      self.logger.info("[STARTING SERVER] %s" % opc_url)
-      async with opc_server:
-        while True:
-          await asyncio.sleep(5)
-          for node in self.nodes:
-            temp_dict = self.nodes_dict[node["Name"]]
-            temp_dict_counter = self.nodes_dict_counter[node["Name"]]
-            self.logger.info("[LOOP: TEMP_DICT] %s" % temp_dict)
-            self.logger.info("[LOOP: TEMP_DICT_COUNTER] %s" % temp_dict_counter)
-            
-            for variable in node["Variables"]:
-              variable_name = variable["DisplayName"]
-              telemetry_name = variable["TelemetryName"]
-              sequence_count = temp_dict[telemetry_name]
-              count = temp_dict_counter[telemetry_name]
-              self.logger.info("[LOOP: NODE NAME] %s" % temp_dict)
-              self.logger.info("[LOOP: VARIABLE NAME] %s" % variable_name)
-              self.logger.info("[LOOP: TELEMETRY NAME] %s" % telemetry_name)
-              self.logger.info("[LOOP: SEQUENCE COUNT] %s" % str(sequence_count))
-              self.logger.info("[LOOP: CURRENT COUNT] %s" % str(count))
-              if count > (sequence_count - 1):
-                count = 0
+      if not self.whatif:
+        async with opc_server:
+          while True:
+            await asyncio.sleep(5)
+            for node in self.nodes:
+              temp_dict = self.nodes_dict[node["Name"]]
+              temp_dict_counter = self.nodes_dict_counter[node["Name"]]
               
-              self.nodes_dict_counter[node["Name"]][telemetry_name] = (count + 1)
-              value = variable["RangeValues"][count]
-              self.logger.info("[LOOP: TELEMETRY COUNT] %s" % str(count))
-              self.logger.info("[LOOP: TELEMETRY VALUE] %s" % str(value))
-              await variable_obj[variable_name].write_value(value)
-              self.logger.info("[LOOP: VALUE WRITTEN] %s" % str(value))
+              for variable in node["Variables"]:
+                count = temp_dict_counter[variable["TelemetryName"]]
+                sequence_count = temp_dict[variable["TelemetryName"]]
+                log_msg = "[LOOP] NODE NAME: {nn} DISPLAY NAME: {vn} TELEMETRY NAME: {tn} SEQUENCE COUNT: {sc} CURRENT COUNT {cc}"
+                self.logger.info(log_msg.format(nn = node["Name"], vn = variable["DisplayName"], tn = variable["TelemetryName"], sc = temp_dict[variable["TelemetryName"]], cc = temp_dict_counter[variable["TelemetryName"]]))
+
+                if count > (sequence_count - 1):
+                  count = 0              
+
+                # Choose the next value in the telemetry sequence for the variable
+                self.nodes_dict_counter[node["Name"]][variable["TelemetryName"]] = (count + 1)
+                value = variable["RangeValues"][count]
+                
+                if not self.whatif:
+                  await variable_obj[variable_name].write_value(value)
+                  log_msg = "[LOOP] TELEMETRY COUNT: {tc} VALUE WRITTEN: {vw}"
+                  self.logger.info(log_msg.format(tc = count, vw = value))
 
       return
 
