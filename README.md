@@ -14,13 +14,15 @@ The server expresses two Nodes...
   * Ambient
   * Process
 
-| Node | Variables |
+
+
+| Node | Variables | Data Type | Sequence of Data |
 |---|---|
-| <b>Ambient</b> | Temperature |
-| <b>Ambient</b> | Humidity |
-| <b>Process</b> | Temperature |
-| <b>Process</b> | Pressure |
-| <b>Process</b> | Mixing Ratio |
+| <b>Ambient</b> | Temperature | Float | 72.45,73.23,85.90,91.54,73.28,67.54,69.28,81.54,73.68,81.23 |
+| <b>Ambient</b> | Humidity | Float | 72.45,73.23,85.90,91.54,73.28,67.54,69.28,81.54,73.68,81.23 |
+| <b>Process</b> | Temperature | Float | 72.45,73.23,85.90,91.54,73.28,67.54,69.28,81.54,73.68,81.23 |
+| <b>Process</b> | Pressure | Integer | 72.45,73.23,85.90,91.54,73.28,67.54,69.28,81.54,73.68,81.23 |
+| <b>Process</b> | Mixing Ratio | Float | 72.45,73.23,85.90,91.54,73.28,67.54,69.28,81.54,73.68,81.23 |
 
 ## Setting up Your Development Toolchain
 The code in this repository depends on Visual Studio Code and Python.
