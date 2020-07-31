@@ -14,16 +14,14 @@ The server expresses two Nodes...
   * Ambient
   * Process
 
-The <b>Ambient</b> node emits the following parameters...
-
-  * Temperature
-  * Humidity
+  The <b>Ambient</b> node emits the following parameters...
+    * Temperature
+    * Humidity
   
-The <b>Process</b> node emits the following parameters...
-
-  * Temperature
-  * Pressure
-  * Mixing Ratio
+  The <b>Process</b> node emits the following parameters...
+    * Temperature
+    * Pressure
+    * Mixing Ratio
 
 ## Setting up Your Development Toolchain
 The code in this repository depends on Visual Studio Code and Python.
@@ -66,11 +64,13 @@ pip3 install -r requirements.txt
 
 ## Install the "UaExpert — A Full-Featured OPC UA Client"
 [LINK: OPC UA Client – Overview](https://www.unified-automation.com/products/development-tools/uaexpert.html)
+
 The UaExpert® is a full-featured OPC UA Client demonstrating the capabilities of C++ OPC UA Client SDK/Toolkit. The UaExpert is designed as a general purpose test client supporting OPC UA features like DataAccess, Alarms & Conditions, Historical Access and calling of UA Methods.
 
+Install the Client from here...
 [LINK: OPC UA Clients – Downloads](https://www.unified-automation.com/downloads/opc-ua-clients.html)
 
-# We are now ready!
+<b>We are now ready!</b>
 
 # Getting Started!
 There are set of steps you will want to follow in order to make this project work as intended and give you a good foundation for the basics of <b>OPC UA</b> Server, browse that data with OPC UA Clients and how to send that data to Azure IoT Central.
