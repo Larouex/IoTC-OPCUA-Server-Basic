@@ -14,7 +14,7 @@ One important thing to note as you work through the tutorial here: If you are co
 
 | OPC | Azure IoT | Represented in Azure IoT Central |
 |---|---|---|
-| Node | Device Interface | Interface in the Device Capabiility Model |
+| Node | Device Interface | Interface in the Device Capability Model |
 | Variable | Telemetry | Telemetry Items in the Device Interface  |
 
 The OPC Server expresses two Nodes...
@@ -232,6 +232,31 @@ Let's get started at IoT Central and create an application [LINK: Welcome to IoT
 
   ![alt text](./Assets/azure_iot_central-device-template-7.png "Import Device Template File")
 
+## Let's Create the Visualizations
+
+* Click the "Views" on the left and click on the tile "Visualizing the device"
+
+  ![alt text](./Assets/azure_iot_central-device-template-view-1.png "Visualization Step 1")
+
+* Enter "Main" in the "View Name" and click the "Save" button
+
+  ![alt text](./Assets/azure_iot_central-device-template-view-2.png "Visualization Step 2")
+
+Now we are going to add Telemetry tiles to the view. In the image below, you can see how to diffrentiate between the "Process" and "Ambient" interfaces by hovering over the telemetry item and you see a little tool tip with the instance name of the interface.
+
+  ![alt text](./Assets/azure_iot_central-device-template-view-3.png "Visualization Step 3")
+
+* Select the "AmbientInterface" telemetry items "Temperature" and "Humidity" and click the "Add tile" Button
+
+  ![alt text](./Assets/azure_iot_central-device-template-view-4.png "Visualization Step 4")
+
+* Click the "Left Pointer" on the Device Templete pane to collapse the window and give us a bit more room to edit
+
+  ![alt text](./Assets/azure_iot_central-device-template-view-5.png "Visualization Step 5")
+
+* Click the "Gear" icon on the "Temperature. Humidity" tile and from the "Display range" select "Past 1 Week" for the time range we will show on all of our telemetry visualizations.
+
+  ![alt text](./Assets/azure_iot_central-device-template-view-6.png "Visualization Step 6")
 
 ## Running the "OPC Server" Application
 
