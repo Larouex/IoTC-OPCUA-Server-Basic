@@ -1,15 +1,23 @@
 # IoTC-OPCUA-Server-Basic
-OPC/UA Server for Base Testing Scenarios for Azure IoT Central
+OPC UA Server for demonstration of IIoT Scenarios for Azure IoT Central.
 
 ## Overview
-This repository is part of a training and project series for Azure IoT Central.
+This repository is part of a training and project series for Azure IoT Central. In this respository we have created an "End to End" demonstration of the components that comprise a OPC UA Server that integrates with Azure IoT Central for Telemetry and Visualizations. This is a contrived scenario that teaches the main components and how to translate and act as a Transparent Gateway to IoT Central. 
 
 ## Features
-This is a simple OPC/UA Server written in Python using theopcua-asyncio that is based on the popularFreeOpcUa project/library.
+This is a simple OPC Server written in Python using the opcua-asyncio that is based on the popularFreeOpcUa project/library. We have added implementations using the Azure IoT SDK for Python. I have included the links below for reference (<i>no need to install anything yet</i>)
 
-[LINK: opcua-asyncio](https://github.com/FreeOpcUa/opcua-asyncio)
+* [LINK: Azure IoT SDKs for Python](https://github.com/Azure/azure-iot-sdk-python)
+* [LINK: opcua-asyncio](https://github.com/FreeOpcUa/opcua-asyncio)
 
-The server expresses two Nodes...
+One important thing to note as you work through the tutorial here: If you are coming from the IoT Device world, the descriptions for OPC are diffrent and vice-versa from OPC to Azure IoT Central. I will give simple, high level explanations, but be aware of those differences. The easist way to think about it in the context of this tutorial is...
+
+| OPC | Azure IoT | Represented in Azure IoT Central |
+|---|---|---|
+| Node | Device Interface | Interface in the Device Capabiility Model |
+| Variable | Telemetry | Telemetry Items in the Device Interface  |
+
+The OPC Server expresses two Nodes...
 
   * Ambient
   * Process
@@ -17,11 +25,11 @@ The server expresses two Nodes...
 The table below shows the Variables (Telemetry) per Node and the Sequence of the data that is emitted by the OPC Server.
 | Node | Variables | Data Type | Sequence of Data |
 |---|---|---|---|
-|Ambient | Temperature | Float | 72.45,73.23,85.90,91.54,73.28,67.54,69.28,81.54,73.68,81.23 |
-|Ambient | Humidity | Float | 68.8,71.0,72.3,64.1,89.2,67.3 |
-|Process | Temperature | Float | 112.45,113.23,115.90,121.54,143.28,151.23 |
-|Process | Pressure | Integer | 157,151,223,289,190,162,203,209,154,299 |
-|Process | Mixing Ratio | Float | 9.6,12.9,13.4,10.2,9.9,13.2 |
+| Ambient | Temperature | Float | 72.45,73.23,85.90,91.54,73.28,67.54,69.28,81.54,73.68,81.23 |
+| Ambient | Humidity | Float | 68.8,71.0,72.3,64.1,89.2,67.3 |
+| Process | Temperature | Float | 112.45,113.23,115.90,121.54,143.28,151.23 |
+| Process | Pressure | Integer | 157,151,223,289,190,162,203,209,154,299 |
+| Process | Mixing Ratio | Float | 9.6,12.9,13.4,10.2,9.9,13.2 |
 
 ## Setting up Your Development Toolchain
 The code in this repository depends on Visual Studio Code and Python.
@@ -72,7 +80,7 @@ Install the Client from here...
 We are now ready!
 
 # Getting Started!
-There are set of steps you will want to follow in order to make this project work as intended and give you a good foundation for the basics ofOPC UA Server, browse that data with OPC UA Clients and how to send that data to Azure IoT Central.
+There are set of steps you will want to follow in order to make this project work as intended and give you a good foundation for the basics of an OPC UA Server, browse that data with OPC UA Clients and how to send that data to Azure IoT Central.
 
 Here are the steps we will go through...
 
@@ -106,7 +114,7 @@ Run this...
   python3 ./createiotctemplate.py -v -f larouex_dcm.json
 ````
 
-Open the file created in "./DeviceTemplates/larouex_dcm.json" your favorite editor...
+Open the file created "./DeviceTemplates/larouex_dcm.json" in your favorite editor...
 ````json
 {
   "@id": "urn:LarouexIndustrialManufacturing:Server:1",
