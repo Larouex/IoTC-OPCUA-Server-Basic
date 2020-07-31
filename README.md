@@ -272,7 +272,173 @@ Now we are going to add Telemetry tiles to the view. In the image below, you can
 
   ![alt text](./Assets/azure_iot_central-device-template-view-9.png "Visualization Step 9")
 
-## Congratulations! Azure IoT Central is configured and ready.
+<b>Congratulations! Azure IoT Central is configured and ready.</b>
+
+## SECRETS!!! - Azure Connectivity and Protecting Your Secrets
+<b>NOTE:</b> You can skip this section if you do not plan to use Azure Key Vault to Store and Access secrets.
+
+Azure IoT Central is what we using for capturing Telemetry and Managing out Gateway and Devices. It is a powerful SaaS offering and we will be using the tools and visualizations to build out a rich application for our scenario. In order to connect our devices and gateway to IoT Central, we need to manage a set of secrets and we will store those secrets in Azure Key Vault. I highly recommend that you do this so you do not make a mistake and expose access to your application, gateway or devices.
+
+I am going to assume the following when we work with Azure and Azure Portal...
+
+* That you already have an Azure Account (If you don't, get started here [LINK: Create your Azure free account today](https://azure.microsoft.com/en-us/free/))
+* That you have sufficient permissions in your Azure account to create Resource Groups and Resources
+* That you are familiar creating and using resources with the Azure CLI or the Azure Portal [LINK: Azure Portal](https://portal.azure.com/))
+
+### Create our Connection Secrets...
+| Name | Secret (IoT Central Admin [Device Connection] Page)  | Content Type |
+|---|---|---|
+| raspberry-pi-protocol-translation-gateway-scopeid | Admin, Device Connection, Copy [ID scope] | Client Secret |
+| raspberry-pi-protocol-translation-gateway-saskey-device-primary | Admin, Device Connection, Devices, View Keys, Copy [Primary Key] | Client Secret |
+| raspberry-pi-protocol-translation-gateway-saskey-device-secondary | Admin, Device Connection, Devices, View Keys, Copy [Secondary Key] | Client Secret |
+| raspberry-pi-protocol-translation-gateway-saskey-gateway-primary | Admin, Device Connection, Azure Edge devices, View Keys, Copy [Primary Key] | Client Secret |
+| raspberry-pi-protocol-translation-gateway-saskey-gateway-secondary | Admin, Device Connection, Azure Edge devices, View Keys, Copy [Secondary Key] | Client Secret |
+
+Once these are all created in Key Vault, your list should look like this...
+![alt text](./Assets/azure-portal-key-vault-secrets-list.png "Azure Portal Key Vault Secrets List") 
+
+https://docs.microsoft.com/en-us/azure/key-vault/certificates/quick-create-python
+
+## Get Your Credentials for Azure Login
+<b>NOTE:</b> You can skip this section if you do not plan to use Azure Key Vault to Store and Access secrets.
+
+* Open a Terminal or Powershell session
+* Login to the Azure CLI...
+
+````bash
+az login
+````
+
+* If the CLI can open your default browser, it will do so and load an Azure sign-in page.
+* Otherwise, open a browser page at https://aka.ms/devicelogin and enter the authorization code displayed in your terminal.
+* Sign in with your account credentials in the browser.
+
+````bash
+az ad sp create-for-rbac --name http://raspberry-pi-protocol-translation-gateway --skip-assignment
+````
+
+````json
+{
+  "appId": "<your appID>",
+  "displayName": "raspberry-pi-protocol-translation-gateway",
+  "name": "http://raspberry-pi-protocol-translation-gateway",
+  "password": "<your password>",
+  "tenant": "<your tenant>"
+}
+````
+
+az keyvault set-policy --name larouex-prod-key-vault --spn "9afd63c4-91e2-4054-b068-aeb21dc291eb" --secret-permissions get set list delete backup recover restore purge
+
+````bash
+az keyvault set-policy --name <your key vault url> --spn <your password> --secret-permissions get set list delete backup recover restore purge
+````
+
+## Configure our Secrets for Local Development
+There is a file in the root folder of the project named "secrets_template.json" and this file outlines the shape of Json we use to retreive secrets. It supports Local Secrets and Key Vault usage. Copy the "secrets_template.json" to a new file named "secrets.json" in the root folder of the project. Open this file in Visual Studio Code and let's start configuring the options.
+
+<b>IMPORTANT: Make sure to check your .gitignore to verify that "secrets.json" is in the list so it does not get checked in! The file should be dithered in your Visual Studio Code Explorer window.</b>
+
+
+### I want to use the security and awesomeness of Key Vault!
+See the Json below the bullets for reference...
+
+* Set "UseKeyVault" to true
+* From the Azure Portal, Goto your Key Vault Resource
+* Goto Secrets
+* Click onto your secret for Scope ID that we set up previously
+* Click the copy button next to the "Secret Identifier"
+* Paste it into the "KeyVaultUri" in the "secrets.json" file.
+* Highlight and cut the remainder of url after .../secrets/ 
+* Paste into the ScopeId field
+* Repeat for all the secrets we setup previously and put into the right fields!
+
+<b>Your file should look like this when completed...</b>
+````json
+{
+  "UseKeyVault": true,
+  "ProvisioningHost": "global.azure-devices-provisioning.net",
+  "LocalSecrets": {
+    "ScopeId": "",
+    "DeviceConnect":{
+      "SaSKeys":{
+          "Primary": "",
+          "Secondary": ""
+      }
+    },
+    "GatewayConnect":{
+      "SaSKeys":{
+          "Primary": "",
+          "Secondary": ""
+      }
+    }
+  },
+  "KeyVaultSecrets":{
+    "KeyVaultUri": "<Your Key Vault UIR>",
+    "TenantId":"<Your Tenant ID>",
+    "ClientId":"<Your Client ID>",
+    "ClientSecret":"<Your Client Secret>",
+    "ScopeId": "raspberry-pi-protocol-translation-gateway-scopeid",
+    "DeviceConnect":{
+      "SaSKeys":{
+          "Primary": "raspberry-pi-protocol-translation-gateway-saskey-device-primary",
+          "Secondary": "raspberry-pi-protocol-translation-gateway-saskey-device-secondary"
+      }
+    },
+    "GatewayConnect":{
+      "SaSKeys":{
+          "Primary": "raspberry-pi-protocol-translation-gateway-saskey-gateway-primary",
+          "Secondary": "raspberry-pi-protocol-translation-gateway-saskey-gateway-secondary"
+      }
+    }
+  }
+}
+````
+Save the file and you can ignore the "LocalSecrets" section.
+
+### I don't want to use Key Vault!
+If you are working locally and do not want to implement the security and awesomeness of Key Vault, then go ahead and set "UseKeyVault" to false. Copy all our your SaS key values from the Admin, Device Connection page in IoT Central...
+
+````json
+{
+  "UseKeyVault": false,
+  "ProvisioningHost": "global.azure-devices-provisioning.net",
+  "LocalSecrets": {
+    "ScopeId": "<Your Scope ID from IoT Central Device Connect Page>",
+    "DeviceConnect":{
+      "SaSKeys":{
+          "Primary": "<Your Primary Key from IoT Central Device Connect Page>",
+          "Secondary": "<Your Secondary Key from IoT Central Device Connect Page>"
+      }
+    },
+    "GatewayConnect":{
+      "SaSKeys":{
+          "Primary": "<Your Gateway Primary Key from IoT Central Device Connect Page>",
+          "Secondary": "<Your Gateway Secondary Key from IoT Central Device Connect Page>"
+      }
+    }
+  },
+  "KeyVaultSecrets":{
+    "KeyVaultUri": "",
+    "TenantId":"",
+    "ClientId":"",
+    "ClientSecret":"",
+    "ScopeId": "",
+    "DeviceConnect":{
+      "SaSKeys":{
+          "Primary": "",
+          "Secondary": ""
+      }
+    },
+    "GatewayConnect":{
+      "SaSKeys":{
+          "Primary": "",
+          "Secondary": ""
+      }
+    }
+  }
+}
+````
+Save the file and you can ignore the "KeyVaultSecrets" section.
  
 ## Running the "OPC Server" Application
 
