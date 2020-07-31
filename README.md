@@ -5,7 +5,9 @@ OPC UA Server for demonstration of IIoT Scenarios for Azure IoT Central.
 This repository is part of a training and project series for Azure IoT Central. In this respository we have created an "End to End" demonstration of the components that comprise a OPC UA Server that integrates with Azure IoT Central for Telemetry and Visualizations. This is a contrived scenario that teaches the main components and how to translate and act as a Transparent Gateway to IoT Central. 
 
 ## Features
-This is a simple OPC Server written in Python using the opcua-asyncio that is based on the popular FreeOpcUa project/library. We have added implementations using the Azure IoT SDK for Python. I have included the links below for reference (<i>no need to install anything yet</i>)
+This is a simple OPC Server written in Python using the opcua-asyncio that is based on the popular FreeOpcUa project/library. We have added implementations using the Azure IoT SDK for Python. 
+
+Here are links for reference (<i>no need to install anything yet</i>)
 
 * [LINK: Azure IoT SDKs for Python](https://github.com/Azure/azure-iot-sdk-python)
 * [LINK: opcua-asyncio](https://github.com/FreeOpcUa/opcua-asyncio)
@@ -18,6 +20,7 @@ One important thing to note as you work through the tutorial here: If you are co
 | Variable | Telemetry | Telemetry Items in the Device Interface  |
 | OPC Server | Device | We treat the OPC Server as a Device in IoT Central  |
 
+### OPC Server Overview
 The OPC Server expresses two Nodes...
 
   * Ambient
