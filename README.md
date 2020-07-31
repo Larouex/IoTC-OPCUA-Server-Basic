@@ -5,7 +5,7 @@ OPC/UA Server for Base Testing Scenarios for Azure IoT Central
 This repository is part of a training and project series for Azure IoT Central.
 
 ## Features
-This is a simple OPC/UA Server written in Python using the <b>opcua-asyncio</b> that is based on the popular <b>FreeOpcUa</b> project/library.
+This is a simple OPC/UA Server written in Python using theopcua-asyncio that is based on the popularFreeOpcUa project/library.
 
 [LINK: opcua-asyncio](https://github.com/FreeOpcUa/opcua-asyncio)
 
@@ -17,11 +17,11 @@ The server expresses two Nodes...
 The table below shows the Variables (Telemetry) per Node and the Sequence of the data that is emitted by the OPC Server.
 | Node | Variables | Data Type | Sequence of Data |
 |---|---|---|---|
-| <b>Ambient</b> | Temperature | Float | 72.45,73.23,85.90,91.54,73.28,67.54,69.28,81.54,73.68,81.23 |
-| <b>Ambient</b> | Humidity | Float | 68.8,71.0,72.3,64.1,89.2,67.3 |
-| <b>Process</b> | Temperature | Float | 112.45,113.23,115.90,121.54,143.28,151.23 |
-| <b>Process</b> | Pressure | Integer | 157,151,223,289,190,162,203,209,154,299 |
-| <b>Process</b> | Mixing Ratio | Float | 9.6,12.9,13.4,10.2,9.9,13.2 |
+|Ambient | Temperature | Float | 72.45,73.23,85.90,91.54,73.28,67.54,69.28,81.54,73.68,81.23 |
+|Ambient | Humidity | Float | 68.8,71.0,72.3,64.1,89.2,67.3 |
+|Process | Temperature | Float | 112.45,113.23,115.90,121.54,143.28,151.23 |
+|Process | Pressure | Integer | 157,151,223,289,190,162,203,209,154,299 |
+|Process | Mixing Ratio | Float | 9.6,12.9,13.4,10.2,9.9,13.2 |
 
 ## Setting up Your Development Toolchain
 The code in this repository depends on Visual Studio Code and Python.
@@ -69,11 +69,10 @@ The UaExpert® is a full-featured OPC UA Client demonstrating the capabilities o
 
 Install the Client from here...
 [LINK: OPC UA Clients – Downloads](https://www.unified-automation.com/downloads/opc-ua-clients.html)
-
-<b>We are now ready!</b>
+We are now ready!
 
 # Getting Started!
-There are set of steps you will want to follow in order to make this project work as intended and give you a good foundation for the basics of <b>OPC UA</b> Server, browse that data with OPC UA Clients and how to send that data to Azure IoT Central.
+There are set of steps you will want to follow in order to make this project work as intended and give you a good foundation for the basics ofOPC UA Server, browse that data with OPC UA Clients and how to send that data to Azure IoT Central.
 
 Here are the steps we will go through...
 
@@ -84,19 +83,103 @@ Here are the steps we will go through...
   * Send Telemetry to Azure IoT Central and Visualize that Data
 
 ## Running the "Create IoT Central Template" Application
+This is a nifty little helper application that interrogates your configuration of the Nodes and Variables that you defined in the <b>config.json</b> in the previous section.
 
 Run the command below and you will see the help details.
 ````bash
-    python3 ./createiotctemplate.py -h
+  python3 ./createiotctemplate.py -h
 ````
+<b>Output</b>
 ````bash
-  * <b>HELP for createiotctemplate.py</b>
-  * <b>------------------------------------------------------------------------------------------------------------------</b>
-  * <b>-h or --help - Print out this Help Information</b>
-  * <b>-v or --verbose - Verbose Mode with lots of INFO will be Output to Assist with Tracing and Debugging</b>
-  * <b>-d or --debug - Debug Mode with lots of DEBUG Data will be Output to Assist with Tracing and Debugging</b>
-  * <b>-f or --filename - Name of the DCM File that will be output into ./DeviceTemplates Folder</b>
-  * <b>------------------------------------------------------------------------------------------------------------------)
+  HELP for createiotctemplate.py
+  ------------------------------------------------------------------------------------------------------------------
+  -h or --help - Print out this Help Information
+  -v or --verbose - Verbose Mode with lots of INFO will be Output to Assist with Tracing and Debugging
+  -d or --debug - Debug Mode with lots of DEBUG Data will be Output to Assist with Tracing and Debugging
+  -f or --filename - Name of the DCM File that will be output into ./DeviceTemplates Folder
+  ------------------------------------------------------------------------------------------------------------------
+````
+Based on the default Nodes and Variables that were defined in the Config file (<i>your results will be diffrent if you customized the confg file</i>), when we run this command...
+
+````bash
+  python3 ./createiotctemplate.py -v -f larouex_dcm.json
+````
+
+Open the file created in "./DeviceTemplates/larouex_dcm.json" your favorite editor...
+````json
+{
+  "@id": "urn:LarouexIndustrialManufacturing:Server:1",
+  "@type": "CapabilityModel",
+  "displayName": "Larouex Industrial Manufacturing Server",
+  "description": "Larouex Industrials LLC. Heavy Equipment and Adhesive Manufacturing Device Template.",
+  "@context": [
+    "http://azureiot.com/v1/contexts/IoTModel.json"
+  ],
+  "implements": [
+    {
+      "@type": "InterfaceInstance",
+      "name": "AmbientInterface",
+      "schema": {
+        "@id": "urn:larouexindustrialmanufacturing:AmbientInterface:1",
+        "@type": "Interface",
+        "displayName": "Ambient",
+        "contents": [
+          {
+            "@type": "Telemetry",
+            "displayName": {
+              "en": "Temperature"
+            },
+            "name": "temperature",
+            "schema": "float"
+          },
+          {
+            "@type": "Telemetry",
+            "displayName": {
+              "en": "Humidity"
+            },
+            "name": "humidity",
+            "schema": "float"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "InterfaceInstance",
+      "name": "ProcessInterface",
+      "schema": {
+        "@id": "urn:larouexindustrialmanufacturing:ProcessInterface:1",
+        "@type": "Interface",
+        "displayName": "Process",
+        "contents": [
+          {
+            "@type": "Telemetry",
+            "displayName": {
+              "en": "Temperature"
+            },
+            "name": "temperature",
+            "schema": "float"
+          },
+          {
+            "@type": "Telemetry",
+            "displayName": {
+              "en": "Pressure"
+            },
+            "name": "pressure",
+            "schema": "integer"
+          },
+          {
+            "@type": "Telemetry",
+            "displayName": {
+              "en": "Mixing Ratio"
+            },
+            "name": "mixratio",
+            "schema": "float"
+          }
+        ]
+      }
+    }
+  ]
+}
 ````
 
 ## Running the "OPC Server" Application
@@ -107,8 +190,8 @@ Our OPC/UA Server is designed to be simple and easy to get started with, but we 
 ### Startup
 Let's look at the startup options...
 
-* <b>-h or --help</b> - Print out this Help Information
-* <b>-v or --verbose</b> -  Debug Mode with lots of Data will be Output to Assist with Debugging
-* <b>-w or --whatif</b> - Combine with Verbose it will Output the Configuration sans starting the Server
+*-h or --help - Print out this Help Information
+*-v or --verbose -  Debug Mode with lots of Data will be Output to Assist with Debugging
+*-w or --whatif - Combine with Verbose it will Output the Configuration sans starting the Server
 
 

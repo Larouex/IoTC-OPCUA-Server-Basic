@@ -33,5 +33,3 @@ class DcmTemplate():
     def load_alerts(self):
         with open('alerts.json', 'r') as alerts_file:
             return json.load(alerts_file)
-
-            son.dumps(data, indent=4)

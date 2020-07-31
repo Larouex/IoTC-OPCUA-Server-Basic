@@ -1,0 +1,73 @@
+{
+  "@id": "urn:LarouexIndustrialManufacturing:Server:1",
+  "@type": "CapabilityModel",
+  "displayName": "Larouex Industrial Manufacturing Server",
+  "description": "Larouex Industrials LLC. Heavy Equipment and Adhesive Manufacturing Device Template.",
+  "@context": [
+    "http://azureiot.com/v1/contexts/IoTModel.json"
+  ],
+  "implements": [
+    {
+      "@type": "InterfaceInstance",
+      "name": "AmbientInterface",
+      "schema": {
+        "@id": "urn:larouexindustrialmanufacturing:AmbientInterface:1",
+        "@type": "Interface",
+        "displayName": "Ambient",
+        "contents": [
+          {
+            "@type": "Telemetry",
+            "displayName": {
+              "en": "Temperature"
+            },
+            "name": "temperature",
+            "schema": "float"
+          },
+          {
+            "@type": "Telemetry",
+            "displayName": {
+              "en": "Humidity"
+            },
+            "name": "humidity",
+            "schema": "float"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "InterfaceInstance",
+      "name": "ProcessInterface",
+      "schema": {
+        "@id": "urn:larouexindustrialmanufacturing:ProcessInterface:1",
+        "@type": "Interface",
+        "displayName": "Process",
+        "contents": [
+          {
+            "@type": "Telemetry",
+            "displayName": {
+              "en": "Temperature"
+            },
+            "name": "temperature",
+            "schema": "float"
+          },
+          {
+            "@type": "Telemetry",
+            "displayName": {
+              "en": "Pressure"
+            },
+            "name": "pressure",
+            "schema": "integer"
+          },
+          {
+            "@type": "Telemetry",
+            "displayName": {
+              "en": "Mixing Ratio"
+            },
+            "name": "mixratio",
+            "schema": "float"
+          }
+        ]
+      }
+    }
+  ]
+}
