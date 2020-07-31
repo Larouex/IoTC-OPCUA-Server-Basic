@@ -14,15 +14,13 @@ The server expresses two Nodes...
   * Ambient
   * Process
 
-
-
-| Node | Variables | Data Type | Sequence of Data |
-|---|---|---|---|
-| <b>Ambient</b> | Temperature | Float | 72.45,73.23,85.90,91.54,73.28,67.54,69.28,81.54,73.68,81.23 |
-| <b>Ambient</b> | Humidity | Float | 72.45,73.23,85.90,91.54,73.28,67.54,69.28,81.54,73.68,81.23 |
-| <b>Process</b> | Temperature | Float | 72.45,73.23,85.90,91.54,73.28,67.54,69.28,81.54,73.68,81.23 |
-| <b>Process</b> | Pressure | Integer | 72.45,73.23,85.90,91.54,73.28,67.54,69.28,81.54,73.68,81.23 |
-| <b>Process</b> | Mixing Ratio | Float | 72.45,73.23,85.90,91.54,73.28,67.54,69.28,81.54,73.68,81.23 |
+  | Node | Variables | Data Type | Sequence of Data |
+  |---|---|---|---|
+  | <b>Ambient</b> | Temperature | Float | 72.45,73.23,85.90,91.54,73.28,67.54,69.28,81.54,73.68,81.23 |
+  | <b>Ambient</b> | Humidity | Float | 68.8,71.0,72.3,64.1,89.2,67.3 |
+  | <b>Process</b> | Temperature | Float | 112.45,113.23,115.90,121.54,143.28,151.23 |
+  | <b>Process</b> | Pressure | Integer | 157,151,223,289,190,162,203,209,154,299 |
+  | <b>Process</b> | Mixing Ratio | Float | 9.6,12.9,13.4,10.2,9.9,13.2 |
 
 ## Setting up Your Development Toolchain
 The code in this repository depends on Visual Studio Code and Python.
