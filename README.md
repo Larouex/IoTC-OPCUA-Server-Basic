@@ -4,7 +4,7 @@ OPC UA Server for demonstration of IIoT Scenarios for Azure IoT Central.
 ## Overview
 This repository is part of a training and project series for Azure IoT Central. In this respository we have created an "End to End" demonstration of the components that comprise a OPC UA Server that integrates with Azure IoT Central for Telemetry and Visualizations. This is a contrived scenario that teaches the main components and how to translate and act as a Transparent Gateway to IoT Central. 
 
-## Features
+## OPC Server Overview and Features
 This is a simple OPC Server written in Python using the opcua-asyncio that is based on the popular FreeOpcUa project/library. We have added implementations using the Azure IoT SDK for Python. 
 
 Here are links for reference (<i>no need to install anything yet</i>)
@@ -20,7 +20,6 @@ One important thing to note as you work through the tutorial here: If you are co
 | Variable | Telemetry | Telemetry Items in the Device Interface  |
 | OPC Server | Device | We treat the OPC Server as a Device in IoT Central  |
 
-### OPC Server Overview
 The OPC Server expresses two Nodes...
 
   * Ambient
@@ -41,30 +40,19 @@ The code in this repository depends on Visual Studio Code and Python.
 ### Your Local Machine
 The development "toolchain" refers to all of the various tools, SDK's and bits we need to install on your machine to facilitate a smooth experience developing our project. Our main development tool will be Visual Studio code. 
 
+This project was developed on Python version 3.8.5 and you should be using the latest version of Python as certain libraries like asyncio may not work in older versions.
+
+
 | - | Install These Tools |
 |---|---|
-| ![Python](./Assets/python-icon-100.png) | [LINK: Python 3 Installation Page](https://www.python.org/downloads/) - Pyhon is the programming language we will use to build applications for the Raspberry Pi. |
+| ![Python](./Assets/python-icon-100.png) | [LINK: Python 3 Installation Page](https://www.python.org/downloads/) - Pyhon is the programming language we will use to build our applications. |
 | ![Visual Studio Code](./Assets/vs-code-icon-100.png) | [LINK: Visual Studio Code Installation Page](https://code.visualstudio.com/download) - Visual Studio Code is a lightweight but powerful source code editor which runs on your desktop and is available for Windows, macOS and Linux. This is the IDE we will use to write code and deploy to the our BLE Devices and the Raspberry Pi Gateway.  |
-| ![Docker](./Assets/docker-icon-100.png) | [LINK: Docker Desktop Install](https://www.docker.com/products/docker-desktop) - Docker Desktop is an application for MacOS and Windows machines for the building and sharing of containerized applications. |
-
-### Upgrading pip
-Pip is the package manager we will use to download packages
-
-On Linux or macOS (Open Terminal):
-````bash
-    pip install -U pip
-````
-On Windows (from a CMD window or Powershell):
-````bash
-    python -m pip install -U pip
-````
 
 ### Install all the Tools for Visual Studio Code
 These are a set of tools we will use to develop our apps on the Raspberry Pi. You can open the Extensions sidebar with "Shift+Ctrl+X) or click the icon in the side navigator bar.
 
 ![alt text](./Assets/vs-code-python-sml.png "VS Code Python")
 
-![alt text](./Assets/vs-code-docker-sml.png "VS Code Docker")
 
 ### Clone this project "IoTC-OPCUA-Server-Basic"...
 Find a working folder for this project on your machine...
@@ -88,11 +76,13 @@ There are set of steps you will want to follow in order to make this project wor
 
 Here are the steps we will go through...
 
-  * Define our Nodes and Variables for our OPC UA Server
-  * Create our Application in Azure IoT Central
-  * Create our Device Template for Azure IoT Central that defines our Telemetry using the DTDL Specification
-  * Run Our OPC UA Server and Browse the Data via the "UaExpert — A Full-Featured OPC UA Client"
-  * Send Telemetry to Azure IoT Central and Visualize that Data
+  * Define and Configure Nodes and Variables for our OPC UA Server.
+  * Create our Device Template for Import into Azure IoT Central.
+  * Create our Application in Azure IoT Central.
+  * Create our Device Template for Azure IoT Central that defines our Telemetry using the DTDL Specification.
+  * Create our Visualizations for Azure IoT Central that displays our Telemetry data.
+  * Run Our OPC UA Server and Browse the Data via the "UaExpert — A Full-Featured OPC UA Client".
+  * Send Telemetry to Azure IoT Central and Visualize that Data.
 
 ## Running the "Create IoT Central Template" Application
 This is a nifty little helper application that interrogates your configuration of the Nodes and Variables that you defined in the <b>config.json</b> in the previous section.
