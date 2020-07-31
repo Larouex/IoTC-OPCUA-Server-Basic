@@ -14,14 +14,13 @@ The server expresses two Nodes...
   * Ambient
   * Process
 
-  The <b>Ambient</b> node emits the following parameters...
-    * Temperature
-    * Humidity
-  
-  The <b>Process</b> node emits the following parameters...
-    * Temperature
-    * Pressure
-    * Mixing Ratio
+| Node | Variables |
+|---|---|
+| <b>Ambient</b> | Temperature |
+| <b>Ambient</b> | Humidity |
+| <b>Process</b> | Temperature |
+| <b>Process</b> | Pressure |
+| <b>Process</b> | Mixing Ratio |
 
 ## Setting up Your Development Toolchain
 The code in this repository depends on Visual Studio Code and Python.
