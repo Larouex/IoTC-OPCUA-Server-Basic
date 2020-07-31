@@ -62,6 +62,8 @@ cd IoTC-OPCUA-Server-Basic
 pip3 install -r requirements.txt
 ````
 
+Open the "IoTC-OPCUA-Server-Basic" folder in Visual Studio Code.
+
 ## Install the "UaExpert — A Full-Featured OPC UA Client"
 [LINK: OPC UA Client – Overview](https://www.unified-automation.com/products/development-tools/uaexpert.html)
 
@@ -84,6 +86,115 @@ Here are the steps we will go through...
   * OPTIONAL: Create Key Vault in Azure for Storing Connecting Secrets for Azure IoT Central
   * Run Our OPC UA Server and Browse the Data via the "UaExpert — A Full-Featured OPC UA Client".
   * Send Telemetry to Azure IoT Central and Visualize that Data.
+
+## Define and Configure Nodes and Variables for our OPC UA Server.
+The defintion of our Nodes and Variables (<i>and Device Interfaces and Telemetry in Azure IoT Central</i>) is contained in the "config.json" file in the root of the project.
+
+Here are the default contents of the file...
+
+````json
+{
+    "UrlPattern": "opc.tcp://{ip}:{port}/Larouex-Industrial-Manufacturing/Server",
+    "ApplicationUri": "urn:LarouexIndustrialManufacturing:Server",
+    "DeviceCapabilityModelId": "urn:LarouexIndustrialManufacturing:Server:1",
+    "ServerDiscoveryName": "Larouex Industrial Manufacturing Server",
+    "Description": "Larouex Industrials LLC. Heavy Equipment and Adhesive Manufacturing Device Template.",
+    "Name": "LAROUEX_INDUSTRIAL_MANUFACTURING_SERVER_{id}",
+    "NameSpace": "Larouex-Industrial-Manufacturing",
+    "CacheAddrSpaceFileName": "cache.opc",
+    "Nodes": [
+      {
+        "Name": "Ambient",
+        "InterfacelId": "urn:larouexindustrialmanufacturing:AmbientInterface:1",
+        "InterfaceInstanceName": "AmbientInterface",
+        "Variables":[
+          {
+            "DisplayName": "Temperature",
+            "TelemetryName": "temperature",
+            "IoTCDataType": "float",
+            "RangeValues":[
+              72.45,
+              73.23,
+              85.90,
+              91.54,
+              73.28,
+              67.54,
+              69.28,
+              81.54,
+              73.68,
+              81.23
+            ]
+          },
+          {
+            "DisplayName": "Humidity",
+            "TelemetryName": "humidity",
+            "IoTCDataType": "float",
+            "RangeValues":[
+              68.8, 
+              71.0,
+              72.3,
+              64.1,
+              89.2,
+              67.3
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Process",
+        "InterfacelId": "urn:larouexindustrialmanufacturing:ProcessInterface:1",
+        "InterfaceInstanceName": "ProcessInterface",
+        "Variables":[
+          {
+            "DisplayName": "Temperature",
+            "TelemetryName": "temperature",
+            "IoTCDataType": "float",
+            "RangeValues":[
+              112.45,
+              113.23,
+              115.90,
+              121.54,
+              143.28,
+              151.23
+            ]
+          },
+          {
+            "DisplayName": "Pressure",
+            "TelemetryName": "pressure",
+            "IoTCDataType": "integer",
+            "RangeValues":[
+              157, 
+              151,
+              223,
+              289,
+              190,
+              162,
+              203,
+              209,
+              154,
+              299
+            ]
+          },
+          {
+            "DisplayName": "Mixing Ratio",
+            "TelemetryName": "mixratio",
+            "IoTCDataType": "float",
+            "RangeValues":[
+              9.6,
+              12.9,
+              13.4,
+              10.2,
+              9.9,
+              13.2
+            ]
+          }
+        ]
+      }
+    ],
+    "ProvisioningScope": "NEW",
+    "GatewayType": "TRANSPARENT"
+}
+````
 
 ## Running the "Create IoT Central Template" Application
 This is a nifty little helper application that interrogates your configuration of the Nodes and Variables that you defined in the <b>config.json</b> in the previous section.
