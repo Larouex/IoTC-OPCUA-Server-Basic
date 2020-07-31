@@ -323,8 +323,6 @@ az ad sp create-for-rbac --name http://larouex-industrial-manufacturing --skip-a
 }
 ````
 
-az keyvault set-policy --name larouex-prod-key-vault --spn "9afd63c4-91e2-4054-b068-aeb21dc291eb" --secret-permissions get set list delete backup recover restore purge
-
 ````bash
 az keyvault set-policy --name <your key vault url> --spn <your password> --secret-permissions get set list delete backup recover restore purge
 ````
