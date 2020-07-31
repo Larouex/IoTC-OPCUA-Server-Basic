@@ -114,7 +114,7 @@ Run this...
   python3 ./createiotctemplate.py -v -f larouex_dcm.json
 ````
 
-Open the file created "./DeviceTemplates/larouex_dcm.json" in your favorite editor...
+Open the file created "./DeviceTemplates/larouex_dcm.json" in your favorite editor if yhou want to view the contents...
 ````json
 {
   "@id": "urn:LarouexIndustrialManufacturing:Server:1",
@@ -193,7 +193,7 @@ Open the file created "./DeviceTemplates/larouex_dcm.json" in your favorite edit
 This file in a minimal representation of Device Template file for import into Azure IoT Central. 
 
 ## Create our Application in Azure IoT Central
-The next thing we get to do is work on our Application and Device Template in Azure IoT Central. 
+Let's create our Application, Device Template and Visualizations in Azure IoT Central. 
 
 Let's get started at IoT Central and create an application [LINK: Welcome to IoT Central](http://apps.azureiotcentral.com/)
 
@@ -275,7 +275,8 @@ Now we are going to add Telemetry tiles to the view. In the image below, you can
 <b>Congratulations! Azure IoT Central is configured and ready.</b>
 
 ## SECRETS!!! - Azure Connectivity and Protecting Your Secrets
-<b>NOTE:</b> You can skip this section if you do not plan to use Azure Key Vault to Store and Access secrets.
+### THIS SECTION IS OLPTIONAL AND INCLUDED AS A BEST PRACTICE FOR HANDLING SECRETS FOPR AZURE IOT CENTRAL CONNECTIONS
+<b>NOTE:</b> You can skip this section if you do not plan to use Azure Key Vault to Store and Access secrets. [Click here to jump to the section: I don't want to use Key Vault!](### I don't want to use Key Vault!)
 
 Azure IoT Central is what we using for capturing Telemetry and Managing out Gateway and Devices. It is a powerful SaaS offering and we will be using the tools and visualizations to build out a rich application for our scenario. In order to connect our devices and gateway to IoT Central, we need to manage a set of secrets and we will store those secrets in Azure Key Vault. I highly recommend that you do this so you do not make a mistake and expose access to your application, gateway or devices.
 
