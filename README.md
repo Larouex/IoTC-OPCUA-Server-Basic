@@ -81,6 +81,7 @@ Here are the steps we will go through...
   * Create our Application in Azure IoT Central.
   * Create our Device Template for Azure IoT Central that defines our Telemetry using the DTDL Specification.
   * Create our Visualizations for Azure IoT Central that displays our Telemetry data.
+  * OPTIONAL: Create Key Vault in Azure for Storing Connecting Secrets for Azure IoT Central
   * Run Our OPC UA Server and Browse the Data via the "UaExpert — A Full-Featured OPC UA Client".
   * Send Telemetry to Azure IoT Central and Visualize that Data.
 
@@ -236,7 +237,7 @@ Let's get started at IoT Central and create an application [LINK: Welcome to IoT
 
   ![alt text](./Assets/azure_iot_central-device-template-view-2.png "Visualization Step 2")
 
-Now we are going to add Telemetry tiles to the view. In the image below, you can see how to diffrentiate between the "Process" and "Ambient" interfaces by hovering over the telemetry item and you see a little tool tip with the instance name of the interface.
+* Now we are going to add Telemetry tiles to the view. In the image below, you can see how to diffrentiate between the "Process" and "Ambient" interfaces by hovering over the telemetry item and you see a little tool tip with the instance name of the interface.
 
   ![alt text](./Assets/azure_iot_central-device-template-view-3.png "Visualization Step 3")
 
@@ -269,8 +270,8 @@ Now we are going to add Telemetry tiles to the view. In the image below, you can
 <b>Congratulations! Azure IoT Central is configured and ready.</b>
 
 ## SECRETS!!! - Azure Connectivity and Protecting Your Secrets
-### THIS SECTION IS OLPTIONAL AND INCLUDED AS A BEST PRACTICE FOR HANDLING SECRETS FOPR AZURE IOT CENTRAL CONNECTIONS
-<b>NOTE:</b> You can skip this section if you do not plan to use Azure Key Vault to Store and Access secrets. [Click here to jump to the section: I don't want to use Key Vault](#i-dont-want-to-use-key-vault)
+### THIS SECTION IS OPTIONAL AND IS INCLUDED AS A "BEST PRACTICE" FOR HANDLING SECRETS FOR AZURE IOT CENTRAL CONNECTIONS
+<b>NOTE:</b> You can skip this section if you do not plan to use Azure Key Vault to store and retrieve connection secrets. [Click here to jump to the section: I don't want to use Key Vault](#i-dont-want-to-use-key-vault)
 
 Azure IoT Central is what we using for capturing Telemetry and Managing out Gateway and Devices. It is a powerful SaaS offering and we will be using the tools and visualizations to build out a rich application for our scenario. In order to connect our devices and gateway to IoT Central, we need to manage a set of secrets and we will store those secrets in Azure Key Vault. I highly recommend that you do this so you do not make a mistake and expose access to your application, gateway or devices.
 
