@@ -63,7 +63,14 @@ git clone https://github.com/Larouex/IoTC-OPCUA-Server-Basic.git
 cd IoTC-OPCUA-Server-Basic
 pip3 install -r requirements.txt
 ````
-We are now ready!
+
+## Install the "UaExpert — A Full-Featured OPC UA Client"
+[LINK: OPC UA Client – Overview](https://www.unified-automation.com/products/development-tools/uaexpert.html)
+The UaExpert® is a full-featured OPC UA Client demonstrating the capabilities of C++ OPC UA Client SDK/Toolkit. The UaExpert is designed as a general purpose test client supporting OPC UA features like DataAccess, Alarms & Conditions, Historical Access and calling of UA Methods.
+
+[LINK: OPC UA Clients – Downloads](https://www.unified-automation.com/downloads/opc-ua-clients.html)
+
+# We are now ready!
 
 # Getting Started!
 There are set of steps you will want to follow in order to make this project work as intended and give you a good foundation for the basics of <b>OPC UA</b> Server, browse that data with OPC UA Clients and how to send that data to Azure IoT Central.
