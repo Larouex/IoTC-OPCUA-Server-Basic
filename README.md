@@ -99,8 +99,9 @@ Run the command below and you will see the help details.
   -f or --filename - Name of the DCM File that will be output into ./DeviceTemplates Folder
   ------------------------------------------------------------------------------------------------------------------
 ````
-Based on the default Nodes and Variables that were defined in the Config file (<i>your results will be diffrent if you customized the confg file</i>), when we run this command...
+Based on the default Nodes and Variables that were defined in the Config file (<i>of course your results will be different if you customized the confg file</i>).
 
+Run this...
 ````bash
   python3 ./createiotctemplate.py -v -f larouex_dcm.json
 ````
@@ -181,6 +182,48 @@ Open the file created in "./DeviceTemplates/larouex_dcm.json" your favorite edit
   ]
 }
 ````
+This file in a minimal representation of Device Template file for import into Azure IoT Central. 
+
+## Create our Application in Azure IoT Central
+The next thing we get to do is work on our Application and Device Template in Azure IoT Central. 
+
+Let's get started at IoT Central and create an application [LINK: Welcome to IoT Central](http://apps.azureiotcentral.com/)
+
+* Click the "My Apps" on the sidebar
+* Select "+ New Application" from the main bar at the top
+* Click on the icon for "Custom apps"
+* Fill out the form with your application name and details and click the "Create" button when done.
+
+## Create our Device Template in Azure IoT Central
+
+* Next up, let's choose "Device templates" from the sidebar and Select "+ New" from the main bar at the top and you will be in the following page...
+
+* Click "IoT device" Icon and click "Next: Customize" button
+
+  ![alt text](./Assets/azure_iot_central-device-template-1.png "Create a Device Template") 
+
+* Enter "Larouex Industrial Manufacturing Server" in the "Device template name" field click "Next: Review" button
+  
+  ![alt text](./Assets/azure_iot_central-device-template-2.png "Name the Device Template")     
+
+* Click "Create" button
+ 
+  ![alt text](./Assets/azure_iot_central-device-template-3.png "Save Device Template")     
+ 
+* Click the "Import capability model" Icon
+
+  ![alt text](./Assets/azure_iot_central-device-template-4.png "Import DCM")     
+ 
+* Select the file named "larouex_dcm.json" from the location you cloned the project onto your desktop machine (i.e. IoTC-OPCUA-Server-Basic/DeviceTemplates)
+
+  ![alt text](./Assets/azure_iot_central-device-template-5.png "Import Device Template File")
+  ![alt text](./Assets/azure_iot_central-device-template-6.png "Import Device Template File")
+ 
+
+* Now we have a full fidelity "Device Template" for our OPC "Larouex Industrial Manufacturing Server".
+
+ ![alt text](./Assets/azure_iot_central-device-template-7.png "Import Device Template File")
+
 
 ## Running the "OPC Server" Application
 
