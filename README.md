@@ -14,7 +14,7 @@ The server expresses two Nodes...
   * Ambient
   * Process
 
-The table below shows the Variables (Telemetry) per Node and the Sequence of the data that is emitted by the OPC Server
+The table below shows the Variables (Telemetry) per Node and the Sequence of the data that is emitted by the OPC Server.
 | Node | Variables | Data Type | Sequence of Data |
 |---|---|---|---|
 | <b>Ambient</b> | Temperature | Float | 72.45,73.23,85.90,91.54,73.28,67.54,69.28,81.54,73.68,81.23 |
@@ -39,13 +39,13 @@ The development "toolchain" refers to all of the various tools, SDK's and bits w
 Pip is the package manager we will use to download packages
 
 On Linux or macOS (Open Terminal):
-```
+````bash
     pip install -U pip
-```
+````
 On Windows (from a CMD window or Powershell):
-```
+````bash
     python -m pip install -U pip
-```
+````
 
 ### Install all the Tools for Visual Studio Code
 These are a set of tools we will use to develop our apps on the Raspberry Pi. You can open the Extensions sidebar with "Shift+Ctrl+X) or click the icon in the side navigator bar.
@@ -85,6 +85,11 @@ Here are the steps we will go through...
 
 ## Running the "Create IoT Central Template" Application
 
+Run the command below and you will see the help details.
+````bash
+    python3 ./createiotctemplate.py -h
+````
+````bash
   * <b>HELP for createiotctemplate.py</b>
   * <b>------------------------------------------------------------------------------------------------------------------</b>
   * <b>-h or --help - Print out this Help Information</b>
@@ -92,6 +97,7 @@ Here are the steps we will go through...
   * <b>-d or --debug - Debug Mode with lots of DEBUG Data will be Output to Assist with Tracing and Debugging</b>
   * <b>-f or --filename - Name of the DCM File that will be output into ./DeviceTemplates Folder</b>
   * <b>------------------------------------------------------------------------------------------------------------------)
+````
 
 ## Running the "OPC Server" Application
 
