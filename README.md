@@ -17,7 +17,7 @@ The server expresses two Nodes...
 
 
 | Node | Variables | Data Type | Sequence of Data |
-|---|---|
+|---|---|---|---|
 | <b>Ambient</b> | Temperature | Float | 72.45,73.23,85.90,91.54,73.28,67.54,69.28,81.54,73.68,81.23 |
 | <b>Ambient</b> | Humidity | Float | 72.45,73.23,85.90,91.54,73.28,67.54,69.28,81.54,73.68,81.23 |
 | <b>Process</b> | Temperature | Float | 72.45,73.23,85.90,91.54,73.28,67.54,69.28,81.54,73.68,81.23 |
