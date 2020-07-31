@@ -29,7 +29,8 @@ class CreateIoTCTemplate():
     def __init__(self, Log):
       self.logger = Log
       self.config = []
-      self.dcm_template = []
+      self.dcm_template = None
+      self.dcm_template_data = []
       self.nodes = []
       self.load_config()
       self.load_dcm_template()
@@ -38,7 +39,7 @@ class CreateIoTCTemplate():
     #   Function:   create
     #   Usage:      The start function loads configuration and starts the OPC Server
     # -------------------------------------------------------------------------------
-    async def create(self):
+    async def create(self, fileName):
 
       self.prep_dcm()
       
@@ -52,9 +53,13 @@ class CreateIoTCTemplate():
             self.logger.info("[TELEMETRY] %s" % telemetry)
             interface["schema"]["contents"].append(telemetry)
         
-        self.dcm_template["implements"].append(interface)
+        self.dcm_template_data["implements"].append(interface)
       
-      self.logger.info("[DCM] %s" % self.dcm_template)
+      # Write the file to the ./DeviceTemplates folder
+      if fileName == None:
+        fileName = self.config["NameSpace"] + ".json"
+      self.dcm_template.update_file(fileName, self.dcm_template_data)
+      self.logger.info("[DCM] %s" % self.dcm_template_data)
 
       return
 
@@ -77,13 +82,13 @@ class CreateIoTCTemplate():
     def load_dcm_template(self):
       
       # Load the template file
-      dcm_template = DcmTemplate(self.logger)
-      self.dcm_template = dcm_template.data
+      self.dcm_template = DcmTemplate(self.logger)
+      self.dcm_template_data = self.dcm_template.data
 
     def prep_dcm(self):
-      self.dcm_template["@id"] = self.dcm_template["@id"].format(id = self.config["DeviceCapabilityModelId"])
-      self.dcm_template["displayName"] = self.dcm_template["displayName"].format(displayName = self.config["ServerDiscoveryName"])
-      self.dcm_template["description"] = self.dcm_template["description"].format(description = self.config["Description"])
+      self.dcm_template_data["@id"] = self.dcm_template_data["@id"].format(id = self.config["DeviceCapabilityModelId"])
+      self.dcm_template_data["displayName"] = self.dcm_template_data["displayName"].format(displayName = self.config["ServerDiscoveryName"])
+      self.dcm_template_data["description"] = self.dcm_template_data["description"].format(description = self.config["Description"])
 
 
     def create_interface(self, name, id, displayName):

@@ -1,11 +1,11 @@
 {
-    "UrlPattern": "opc.tcp://{ip}:{port}/larouex-industrial-manufacturing/server",
-    "ApplicationUri": "urn:larouexindustrialmanufacturing:server",
-    "DeviceCapabilityModelId": "urn:larouexindustrialmanufacturing:server:1",
+    "UrlPattern": "opc.tcp://{ip}:{port}/Larouex-Industrial-Manufacturing/Server",
+    "ApplicationUri": "urn:LarouexIndustrialManufacturing:Server",
+    "DeviceCapabilityModelId": "urn:LarouexIndustrialManufacturing:Server:1",
     "ServerDiscoveryName": "Larouex Industrial Manufacturing Server",
     "Description": "Larouex Industrials LLC. Heavy Equipment and Adhesive Manufacturing Device Template.",
     "Name": "LAROUEX_INDUSTRIAL_MANUFACTURING_SERVER_{id}",
-    "NameSpace": "larouex-industrial-manufacturing",
+    "NameSpace": "Larouex-Industrial-Manufacturing",
     "CacheAddrSpaceFileName": "cache.opc",
     "Nodes": [
       {

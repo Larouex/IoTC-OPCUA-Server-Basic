@@ -65,7 +65,28 @@ pip3 install -r requirements.txt
 ````
 We are now ready!
 
-## Running the Server Application
+# Getting Started!
+There are set of steps you will want to follow in order to make this project work as intended and give you a good foundation for the basics of <b>OPC UA</b> Server, browse that data with OPC UA Clients and how to send that data to Azure IoT Central.
+
+Here are the steps we will go through...
+
+  * Define our Nodes and Variables for our OPC UA Server
+  * Create our Application in Azure IoT Central
+  * Create our Device Template for Azure IoT Central that defines our Telemetry using the DTDL Specification
+  * Run Our OPC UA Server and Browse the Data via the "UaExpert — A Full-Featured OPC UA Client"
+  * Send Telemetry to Azure IoT Central and Visualize that Data
+
+## Running the "Create IoT Central Template" Application
+
+  * <b>HELP for createiotctemplate.py</b>
+  * <b>------------------------------------------------------------------------------------------------------------------</b>
+  * <b>-h or --help - Print out this Help Information</b>
+  * <b>-v or --verbose - Verbose Mode with lots of INFO will be Output to Assist with Tracing and Debugging</b>
+  * <b>-d or --debug - Debug Mode with lots of DEBUG Data will be Output to Assist with Tracing and Debugging</b>
+  * <b>-f or --filename - Name of the DCM File that will be output into ./DeviceTemplates Folder</b>
+  * <b>------------------------------------------------------------------------------------------------------------------)
+
+## Running the "OPC Server" Application
 
 ### Configuration
 Our OPC/UA Server is designed to be simple and easy to get started with, but we have also focussed on being configuration driven for the OPC/UA Server, Node and Variable options. You can define lots of nodes and many variables for those nodes.
