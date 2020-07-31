@@ -196,33 +196,33 @@ Let's get started at IoT Central and create an application [LINK: Welcome to IoT
 
 ## Create our Device Template in Azure IoT Central
 
-* Next up, let's choose "Device templates" from the sidebar and Select "+ New" from the main bar at the top and you will be in the following page...
-
-* Click "IoT device" Icon and click "Next: Customize" button
+* Next up, let's choose "Device templates" from the sidebar and Click "+ New" from the main bar at the top...
 
   ![alt text](./Assets/azure_iot_central-device-template-1.png "Create a Device Template") 
 
-* Enter "Larouex Industrial Manufacturing Server" in the "Device template name" field click "Next: Review" button
-  
-  ![alt text](./Assets/azure_iot_central-device-template-2.png "Name the Device Template")     
+* Click "IoT device" Icon and click "Next: Customize" button
 
-* Click "Create" button
- 
+  ![alt text](./Assets/azure_iot_central-device-template-2.png "Select Device Template Type")     
+
+* Enter "Larouex Industrial Manufacturing Server" in the "Device template name" field click the "Next: Review" button
+  
   ![alt text](./Assets/azure_iot_central-device-template-3.png "Save Device Template")     
+
+* Click the "Create" button from the "Review" page
+ 
+  ![alt text](./Assets/azure_iot_central-device-template-4.png "Review")     
  
 * Click the "Import capability model" Icon
 
-  ![alt text](./Assets/azure_iot_central-device-template-4.png "Import DCM")     
+  ![alt text](./Assets/azure_iot_central-device-template-5.png "Import Device Template File")
  
 * Select the file named "larouex_dcm.json" from the location you cloned the project onto your desktop machine (i.e. IoTC-OPCUA-Server-Basic/DeviceTemplates)
-
-  ![alt text](./Assets/azure_iot_central-device-template-5.png "Import Device Template File")
-  ![alt text](./Assets/azure_iot_central-device-template-6.png "Import Device Template File")
  
+  ![alt text](./Assets/azure_iot_central-device-template-6.png "Select File")
 
 * Now we have a full fidelity "Device Template" for our OPC "Larouex Industrial Manufacturing Server".
 
- ![alt text](./Assets/azure_iot_central-device-template-7.png "Import Device Template File")
+  ![alt text](./Assets/azure_iot_central-device-template-7.png "Import Device Template File")
 
 
 ## Running the "OPC Server" Application
