@@ -234,11 +234,11 @@ Let's get started at IoT Central and create an application [LINK: Welcome to IoT
 
 ## Let's Create the Visualizations
 
-* Click the "Views" on the left and click on the tile "Visualizing the device"
+* Click the "Views" on the left and click on the tile "Visualizing the device".
 
   ![alt text](./Assets/azure_iot_central-device-template-view-1.png "Visualization Step 1")
 
-* Enter "Main" in the "View Name" and click the "Save" button
+* Enter "Main" in the "View Name" and click the "Save" button.
 
   ![alt text](./Assets/azure_iot_central-device-template-view-2.png "Visualization Step 2")
 
@@ -246,18 +246,34 @@ Now we are going to add Telemetry tiles to the view. In the image below, you can
 
   ![alt text](./Assets/azure_iot_central-device-template-view-3.png "Visualization Step 3")
 
-* Select the "AmbientInterface" telemetry items "Temperature" and "Humidity" and click the "Add tile" Button
+* Select the "AmbientInterface" telemetry items "Temperature" and "Humidity" and click the "Add tile" Button.
 
   ![alt text](./Assets/azure_iot_central-device-template-view-4.png "Visualization Step 4")
 
-* Click the "Left Pointer" on the Device Templete pane to collapse the window and give us a bit more room to edit
+* Click the "Left Pointer" on the Device Templete pane to collapse the window and give us a bit more room to edit.
 
   ![alt text](./Assets/azure_iot_central-device-template-view-5.png "Visualization Step 5")
 
-* Click the "Gear" icon on the "Temperature. Humidity" tile and from the "Display range" select "Past 1 Week" for the time range we will show on all of our telemetry visualizations.
+* Click the "Gear" icon on the "Temperature. Humidity" tile and from the "Display range" select "Past 1 Week" for the time range we will show on all of our telemetry visualizations. Click on the "Update" button to save your edits.
 
   ![alt text](./Assets/azure_iot_central-device-template-view-6.png "Visualization Step 6")
 
+* Select the "ProcessInterface" telemetry items "Mixing Ratio", "Pressure" and "Temperature" and click the "Add tile" Button.
+
+  ![alt text](./Assets/azure_iot_central-device-template-view-7.png "Visualization Step 7")
+
+* Click the "Gear" icon on the "Temperature, Mixing Ratio, Pressure" tile and from the "Display range" select "Past 1 Week" for the time range. Click on the "Update" button to save your edits.
+
+  ![alt text](./Assets/azure_iot_central-device-template-view-8.png "Visualization Step 8")
+
+* Click the "Save" icon to save our view.
+
+* Click the "Publish" icon on the main toolbar at the top of the application and click the "Publisf" button on the review dialog.
+
+  ![alt text](./Assets/azure_iot_central-device-template-view-9.png "Visualization Step 9")
+
+## Congratulations! Azure IoT Central is configured and ready.
+ 
 ## Running the "OPC Server" Application
 
 ### Configuration
