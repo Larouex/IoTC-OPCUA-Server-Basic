@@ -196,6 +196,19 @@ Here are the default contents of the file...
 }
 ````
 
+The table below defines and explains the configuration options...
+| Item | Explanation |
+|---|---|
+| UrlPattern | The URL that the OPC Server advertises as its endpoint. The ip and port are assigned in the code. |
+| ApplicationUri | urn for the Application Namespace |
+| DeviceCapabilityModelId | This urn is used when generating the Device Template as the DCM @id |
+| ServerDiscoveryName | The name that is advertised when discovering the OPC Server |
+| Description | This is a decsrtiption that is added to the Device Template when generating |
+| DeviceName | The name used for the OPC Server when provisioned as a Device in Azure IoT Central |
+| NameSpace | OPC Server Namsspace |
+| CacheAddrSpaceFileName | File name for caching the OPC Sever Address Space |
+
+
 ## Running the "Create IoT Central Template" Application
 This is a nifty little helper application that interrogates your configuration of the Nodes and Variables that you defined in the <b>config.json</b> in the previous section.
 

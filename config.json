@@ -4,7 +4,7 @@
     "DeviceCapabilityModelId": "urn:LarouexIndustrialManufacturing:Server:1",
     "ServerDiscoveryName": "Larouex Industrial Manufacturing Server",
     "Description": "Larouex Industrials LLC. Heavy Equipment and Adhesive Manufacturing Device Template.",
-    "Name": "LAROUEX_INDUSTRIAL_MANUFACTURING_SERVER_{id}",
+    "DeviceName": "larouex-industrial-manufacturing-{id}",
     "NameSpace": "Larouex-Industrial-Manufacturing",
     "CacheAddrSpaceFileName": "cache.opc",
     "Nodes": [
