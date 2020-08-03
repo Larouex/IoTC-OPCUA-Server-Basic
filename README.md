@@ -84,7 +84,8 @@ Here are the steps we will go through...
   * [OPTIONAL: Create Key Vault in Azure for Storing Connecting Secrets for Azure IoT Central](secrets---azure-connectivity-and-protecting-your-secrets)
   * [SETUP SECRETS: Configure our Secrets for Local Development](configure-our-secrets-for-local-development)
   * [Running the "OPC Server" Application](running-the-opc-server-application)
-  * [Provision the OPC Server as a Device in Azure IoT Central]()
+  * [Using the UaExpert Client Application to Browse the OPC Server](using-the-uaexpert-client-application-to-browse-the-opc-server)
+  * [Provisioning our OPC Server as a Device in Azure IoT Central](running-the-opc-server-application)
   * [Send Telemetry to Azure IoT Central and Visualize that Data]()
 
 
@@ -660,3 +661,50 @@ You can see that the UaExpert tool is now displaying the changing values for our
 | Process | Pressure | Integer | 157,151,223,289,190,162,203,209,154,299 |
 | Process | Mixing Ratio | Float | 9.6,12.9,13.4,10.2,9.9,13.2 |
 
+## Provisioning our OPC Server as a Device in Azure IoT Central
+Provisioning follows the same pattern as ScanDevices in that we have separated this script into a "stand-alone" operation. 
+
+There are excellent tutorials on connecting devices to IoT Central and using Device Provisioning Services online and we won't try to repeat that here. If you are not familar, take a break and visit these topics...
+
+* [LINK: Get connected to Azure IoT Central](https://docs.microsoft.com/en-us/azure/iot-central/core/concepts-get-connected)
+* [LINK: Tutorial: Create and connect a client application to your Azure IoT Central application (Python)](https://docs.microsoft.com/en-us/azure/iot-central/core/tutorial-connect-device-python)
+
+Provisioning in our Gateway project is one of key pillars of capabilities we have created and we have lots of options so you can try the various Gateway scenarios. Let's look at the options...
+
+* <b>-h or --help</b> - Print out this Help Information
+* <b>-v or --verbose</b> -  Debug Mode with lots of Data will be Output to Assist with Debugging
+* <b>-p or --provisioningscope</b> - Provisioning Scope give you fine grained control over the devices you want to provision. 
+  * <b>ALL</b> - Re-Provision Every device listed in the DevicesCache.json file
+  * <b>NEW</b> - Only Provision Devices DevicesCache.json file that have "LastProvisioned=Null"
+  * <b>device name</b> - Provision a Specifc Device in DevicesCache.json file
+* <b>-g or --gatewaytype</b> - Indicate the Type of Gateway Relationship
+  * <b>OPAQUE</b> - Devices will look like Stand-Alone Devices in IoT Central
+  * <b>TRANSPARENT</b> - Devices will look like Stand-Alone Devices in IoT Central
+  * <b>PROTOCOL</b> - IoT Central will show a Single Gateway and all Data is Associated with the Gateway
+  * <b>PROTOCOLWITHIDENTITY</b> - IoT Central will show a Single Gateway and Leaf Devices
+
+Let's provision a specific device from our devicescache.json...
+````json
+...
+    {
+      "DeviceName": "larouex-ble-sense-0001",
+      "Address": "c7:94:90:1c:8f:3c",
+      "LastRSSI": "-64 dB",
+      "DCM": "urn:larouexiot:nanoble33sense:1",
+      "DeviceInfoInterface": "urn:azureiot:DeviceManagement:DeviceInformation:1",
+      "DeviceInfoInterfaceInstanceName": "DeviceInformationInterface",
+      "NanoBLEInterface": "urn:larouexiot:nanoble33sense:NanoBLE33SenseInterface:1",
+      "NanoBLEInterfaceInstanceName": "NanoBLE33SenseInterface",
+      "LastProvisioned": null
+    },
+...
+````
+
+Here is the command we are going to execute on our Raspberry Pi terminal...
+````bash
+python3 ./provisiondevices.py -v -p "larouex-ble-sense-0001" -g "TRANSPARENT"
+````
+
+The Device is Registered!
+
+![alt text](./Assets/transparent-gateway-iotc-single-device-provisioned.png "Device Provisioned")

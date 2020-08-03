@@ -15,8 +15,8 @@ import  getopt, sys, time, string, threading, asyncio, os
 import logging as Log
 
 # our classes
-from classes.provisiondevices import ProvisionDevices
-from classes.config import Config
+from Classes.provisiondevices import ProvisionDevices
+from Classes.config import Config
 
 # -------------------------------------------------------------------------------
 #   Provision Devices
