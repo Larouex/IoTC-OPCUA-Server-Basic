@@ -78,10 +78,10 @@ There are set of steps you will want to follow in order to make this project wor
 
 Here are the steps we will go through...
 
-  * Define and Configure Nodes and Variables for our OPC UA Server.[Goto section](#define-and-configure-nodes-and-variables-for-our-opc-ua-server)
-  * Create our Device Template for Import into Azure IoT Central.[Goto section]()
-  * Create our Application in Azure IoT Central.[Goto section]()
-  * Create our Device Template for Azure IoT Central that defines our Telemetry using the DTDL Specification.[Goto section]()
+  * [Define and Configure Nodes and Variables for our OPC UA Server](#define-and-configure-nodes-and-variables-for-our-opc-ua-server)
+  * [Create our Device Template for Import into Azure IoT Central.](create-our-device-template-for-import-into-azure-iot-central)
+  * [Create our Application in Azure IoT Central](create-our-application-in-azure-iot-central)
+  * [Create our Device Template for Azure IoT Central that defines our Telemetry using the DTDL Specification]()
   * Create our Visualizations for Azure IoT Central that displays our Telemetry data.[Goto section]()
   * OPTIONAL: Create Key Vault in Azure for Storing Connecting Secrets for Azure IoT Central[Goto section]()
   * Run Our OPC UA Server and Browse the Data via the "UaExpert — A Full-Featured OPC UA Client".[Goto section]()
@@ -313,7 +313,7 @@ Open the file created "./DeviceTemplates/larouex_dcm.json" in your favorite edit
 ````
 This file in a minimal representation of Device Template file for import into Azure IoT Central. 
 
-## Create our Application in Azure IoT Central
+## Create our Device Template for Azure IoT Central that defines our Telemetry using the DTDL Specification
 Let's create our Application, Device Template and Visualizations in Azure IoT Central. 
 
 Let's get started at IoT Central and create an application [LINK: Welcome to IoT Central](http://apps.azureiotcentral.com/)
