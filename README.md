@@ -570,4 +570,27 @@ Let's look at the startup options...
 *-v or --verbose -  Debug Mode with lots of Data will be Output to Assist with Debugging
 *-w or --whatif - Combine with Verbose it will Output the Configuration sans starting the Server
 
+## Using the UaExpert Client Application to Browse the OPC Server
+
+* Select the menu item "Server" and choose "Add". This dialog will pop into view, expand the conection option by clicking on the "Larouex Industrial Manufacturing Server" amd select the item below (shown by the arrow) and click the "OK" button...
+
+  ![alt text](./Assets/uaexpert1.png "UaExpert Step 1")
+
+* Right click the "Larouex Industrial Manufacturing Server" in the "Project" pane and click "Connect", once connected you will see the namespace and Nodes in our "Address Space" pane...
+
+  ![alt text](./Assets/uaexpert2.png "UaExpert Step 2")
+
+* Drag our Ambient and Process Nodes in our "Address Space" pane to the "Data Access View" pane (click OK to accept if you get a confirm dialog)...
+
+  ![alt text](./Assets/uaexpert3.png "UaExpert Step 3")
+
+  You can see that the UaExpert tool is now displaying the changing variable values for our Nodes and Variables with the sequence oof data as shown in the table below...
+
+| Node | Variables | Data Type | Sequence of Data |
+|---|---|---|---|
+| Ambient | Temperature | Float | 72.45,73.23,85.90,91.54,73.28,67.54,69.28,81.54,73.68,81.23 |
+| Ambient | Humidity | Float | 68.8,71.0,72.3,64.1,89.2,67.3 |
+| Process | Temperature | Float | 112.45,113.23,115.90,121.54,143.28,151.23 |
+| Process | Pressure | Integer | 157,151,223,289,190,162,203,209,154,299 |
+| Process | Mixing Ratio | Float | 9.6,12.9,13.4,10.2,9.9,13.2 |
 
