@@ -566,9 +566,21 @@ Our OPC/UA Server is designed to be simple and easy to get started with, but we 
 ### Startup
 Let's look at the startup options...
 
-*-h or --help - Print out this Help Information
-*-v or --verbose -  Debug Mode with lots of Data will be Output to Assist with Debugging
-*-w or --whatif - Combine with Verbose it will Output the Configuration sans starting the Server
+<b>Output</b>
+````bash
+  HELP for server.py
+  ------------------------------------------------------------------------------------------------------------------
+  -h or --help - Print out this Help Information
+  -v or --verbose - Verbose Mode with lots of INFO will be Output to Assist with Tracing and Debugging
+  -d or --debug - Debug Mode with lots of DEBUG Data will be Output to Assist with Tracing and Debugging
+  -w or --whatif - Combine with Verbose it will Output the Configuration sans starting the Server
+  ------------------------------------------------------------------------------------------------------------------
+````
+````bash
+python ./server.py -v
+````
+
+![alt text](./Assets/ops-server-terminal-1.png "Opc Server Terminal 1")
 
 ## Using the UaExpert Client Application to Browse the OPC Server
 
@@ -584,7 +596,7 @@ Let's look at the startup options...
 
   ![alt text](./Assets/uaexpert3.png "UaExpert Step 3")
 
-You can see that the UaExpert tool is now displaying the changing variable values for our Nodes and Variables with the sequence oof data as shown in the table below...
+You can see that the UaExpert tool is now displaying the changing values for our Nodes and Variables with the sequence of data as shown in the table below...
 
 | Node | Variables | Data Type | Sequence of Data |
 |---|---|---|---|
