@@ -80,12 +80,12 @@ Here are the steps we will go through...
 
   * [Define and Configure Nodes and Variables for our OPC UA Server](#define-and-configure-nodes-and-variables-for-our-opc-ua-server)
   * [Create our Device Template for Import into Azure IoT Central.](create-our-device-template-for-import-into-azure-iot-central)
-  * [Create our Application in Azure IoT Central](create-our-application-in-azure-iot-central)
-  * [Create our Device Template for Azure IoT Central that defines our Telemetry using the DTDL Specification]()
-  * Create our Visualizations for Azure IoT Central that displays our Telemetry data.[Goto section]()
-  * OPTIONAL: Create Key Vault in Azure for Storing Connecting Secrets for Azure IoT Central[Goto section]()
-  * Run Our OPC UA Server and Browse the Data via the "UaExpert — A Full-Featured OPC UA Client".[Goto section]()
-  * Send Telemetry to Azure IoT Central and Visualize that Data.[Goto section]()
+  * [Create our Application, Device Template and Visualization for Azure IoT Central](create-our-device-template-for-azure-iot-central-that-defines-our-telemetry-using-the-dtdl-specification)
+  * [OPTIONAL: Create Key Vault in Azure for Storing Connecting Secrets for Azure IoT Central](secrets---azure-connectivity-and-protecting-your-secrets)
+  * [SETUP SECRETS: Configure our Secrets for Local Development](configure-our-secrets-for-local-development)
+  * [Running the "OPC Server" Application](running-the-opc-server-application)
+  * [Provision the OPC Server as a Device in Azure IoT Central]()
+  * [Send Telemetry to Azure IoT Central and Visualize that Data]()
 
 
 ## Define and Configure Nodes and Variables for our OPC UA Server.
