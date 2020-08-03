@@ -209,6 +209,58 @@ The table below defines and explains the configuration options...
 | NameSpace | OPC Server Namsspace |
 | CacheAddrSpaceFileName | File name for caching the OPC Sever Address Space |
 
+Next we have the "Nodew" array and this is where all of the configuration for your OPC Server and the Telemetry for Azure IoT Central happens. Let's look at the simple scenario of an Ambient Node that expresses two Variables; Temeperature and Humidity...
+
+````json
+    "Nodes": [
+      {
+        "Name": "Ambient",
+        "InterfacelId": "urn:larouexindustrialmanufacturing:AmbientInterface:1",
+        "InterfaceInstanceName": "AmbientInterface",
+        "Variables":[
+          {
+            "DisplayName": "Temperature",
+            "TelemetryName": "temperature",
+            "IoTCDataType": "float",
+            "RangeValues":[
+              72.45,
+              73.23,
+              85.90,
+              91.54,
+              73.28,
+              67.54,
+              69.28,
+              81.54,
+              73.68,
+              81.23
+            ]
+          },
+          {
+            "DisplayName": "Humidity",
+            "TelemetryName": "humidity",
+            "IoTCDataType": "float",
+            "RangeValues":[
+              68.8, 
+              71.0,
+              72.3,
+              64.1,
+              89.2,
+              67.3
+            ]
+          }
+        ]
+      },
+
+````
+| Item | Explanation |
+|---|---|
+| DisplayName | The Name that will be displayed in the OPC Server when browsing and the Dsiplay Name in IoT Central.  |
+| TelemetryName | The Telemetry name that will be sent in the payload to IOT Central for mapping to the Device Template. |
+| IoTCDataType | The datatype as it is selected in Azure IoT Central. |
+| RangeValues | This is a Array of values mapping to the datatype that will be sent in sequence when cycling throught the item. |
+
+You can  have many Nodes and many Variable in your configuration file. It represents your address space in teh OPC server ant the interfaces and telemtery values in Azure Iot Central.
+
 
 ## Create our Device Template for Import into Azure IoT Central
 ### Running the "Create IoT Central Template" Application
