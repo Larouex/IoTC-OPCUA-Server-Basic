@@ -11,33 +11,22 @@
 #   This code is licensed under MIT license (see LICENSE.txt for details)    
 # ==================================================================================
 import time, logging, string, json, os, binascii, struct, threading, asyncio, datetime
-from bluepy.btle import Scanner, DefaultDelegate, Peripheral
-from classes.devicescache import DevicesCache
-from classes.secrets import Secrets
-from classes.nanobleservices import NanoBLEServices
+
+# Sur classes
+from Classes.devicescache import DevicesCache
+from Classes.secrets import Secrets
+from Classes.symmetrickey import SymmetricKey
+
+# Azure IoT Libraries
 from azure.keyvault.certificates import CertificateClient, CertificatePolicy,CertificateContentType, WellKnownIssuerNames 
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 from azure.keyvault.keys import KeyClient
 from azure.identity import ClientSecretCredential
-from classes.symmetrickey import SymmetricKey
+
 
 # uses the Azure IoT Device SDK for Python (Native Python libraries)
 from azure.iot.device.aio import ProvisioningDeviceClient
-
-# -------------------------------------------------------------------------------
-#   Delegate Class to Handle Discovered Devices
-# -------------------------------------------------------------------------------
-class ScanDelegate(DefaultDelegate):
-    
-    def __init__(self):
-        DefaultDelegate.__init__(self)
-
-    def HandleDiscovery(self,dev,new_dev,new_dat):
-        if new_dev:
-            pass
-        if new_dat:
-            pass
 
 # -------------------------------------------------------------------------------
 #   ProvisionDevices Class
@@ -50,6 +39,7 @@ class ProvisionDevices():
 
     def __init__(self, Log, ProvisioningScope, GatewayType):
         self.logger = Log
+        self.config = {}
         self.data = []
         self.devices_provision = []
         self.new_devices = []
@@ -192,3 +182,13 @@ class ProvisionDevices():
         # Update the Cache
         devicescache.update_file(self.data)
         return
+
+    # -------------------------------------------------------------------------------
+    #   Function:   load_config
+    #   Usage:      Loads the configuration
+    # -------------------------------------------------------------------------------
+    def load_config(self):
+      
+      # Load all the configuration
+      config = Config(self.logger)
+      self.config = config.data

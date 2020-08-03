@@ -1,7 +1,7 @@
 # ==================================================================================
 #   File:   provisiondevices.py
 #   Author: Larry W Jordan Jr (larouex@gmail.com)
-#   Use:    Raspberry Pi "Protocol Translation" Gateway for Azure IoT Central
+#   Use:    Simple OPC/UA Server for testing Azure IoT Central Scenarios.
 #           This module provisions devices and updates the devicescache. 
 #           It either re-provisions all devices or just those that have null in
 #           LastProvisioned option in the file i.e "LastProvisioned": null

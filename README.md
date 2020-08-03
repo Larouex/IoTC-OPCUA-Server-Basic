@@ -78,14 +78,15 @@ There are set of steps you will want to follow in order to make this project wor
 
 Here are the steps we will go through...
 
-  * Define and Configure Nodes and Variables for our OPC UA Server.
-  * Create our Device Template for Import into Azure IoT Central.
-  * Create our Application in Azure IoT Central.
-  * Create our Device Template for Azure IoT Central that defines our Telemetry using the DTDL Specification.
-  * Create our Visualizations for Azure IoT Central that displays our Telemetry data.
-  * OPTIONAL: Create Key Vault in Azure for Storing Connecting Secrets for Azure IoT Central
-  * Run Our OPC UA Server and Browse the Data via the "UaExpert — A Full-Featured OPC UA Client".
-  * Send Telemetry to Azure IoT Central and Visualize that Data.
+  * Define and Configure Nodes and Variables for our OPC UA Server.[Goto section](#define-and-configure-nodes-and-variables-for-our-opc-ua-server)
+  * Create our Device Template for Import into Azure IoT Central.[Goto section]()
+  * Create our Application in Azure IoT Central.[Goto section]()
+  * Create our Device Template for Azure IoT Central that defines our Telemetry using the DTDL Specification.[Goto section]()
+  * Create our Visualizations for Azure IoT Central that displays our Telemetry data.[Goto section]()
+  * OPTIONAL: Create Key Vault in Azure for Storing Connecting Secrets for Azure IoT Central[Goto section]()
+  * Run Our OPC UA Server and Browse the Data via the "UaExpert — A Full-Featured OPC UA Client".[Goto section]()
+  * Send Telemetry to Azure IoT Central and Visualize that Data.[Goto section]()
+
 
 ## Define and Configure Nodes and Variables for our OPC UA Server.
 The defintion of our Nodes and Variables (<i>and Device Interfaces and Telemetry in Azure IoT Central</i>) is contained in the "config.json" file in the root of the project.
@@ -209,7 +210,8 @@ The table below defines and explains the configuration options...
 | CacheAddrSpaceFileName | File name for caching the OPC Sever Address Space |
 
 
-## Running the "Create IoT Central Template" Application
+## Create our Device Template for Import into Azure IoT Central
+### Running the "Create IoT Central Template" Application
 This is a nifty little helper application that interrogates your configuration of the Nodes and Variables that you defined in the <b>config.json</b> in the previous section.
 
 Run the command below and you will see the help details.

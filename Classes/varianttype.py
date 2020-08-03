@@ -19,7 +19,7 @@ class VariantType():
     def map_variant_type(self, iotc_data_type):
 
         data_types = {
-            "doolean": 1,
+            "boolean": 1,
             "date": 13,
             "dateTime": 13,
             "double": 11,

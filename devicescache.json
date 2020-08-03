@@ -8,13 +8,19 @@
   "Devices": [
     {
       "DeviceName": "Simulated Device",
-      "Address": "6A:6A:6A:6A:6A:6A",
-      "LastRSSI": "-91 dB",
-      "DCM": "urn:larouexiot:nanoble33:1",
-      "DeviceInfoInterface": "urn:larouexiot:nanoble33sense:NanoBLE33SenseInterface:1",
-      "DeviceInfoInterfaceInstanceName": "DeviceInformationInterface",
-      "NanoBLEInterface": "urn:larouexiot:nanoble33sense:NanoBLE33SenseInterface:1",
-      "NanoBLEInterfaceInstanceName": "NanoBLE33Interface",
+      "DeviceCapabilityModelId": "urn:LarouexIndustrialManufacturing:Server:1",
+      "Interfaces": [
+        {
+          "Name": "Ambient",
+          "InterfacelId": "urn:larouexindustrialmanufacturing:AmbientInterface:1",
+          "InterfaceInstanceName": "AmbientInterface"
+        },
+        {
+          "Name": "Process",
+          "InterfacelId": "urn:larouexindustrialmanufacturing:ProcessInterface:1",
+          "InterfaceInstanceName": "ProcessInterface"
+        }
+      ],
       "LastProvisioned": null
     }
   ]
