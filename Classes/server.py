@@ -1,5 +1,5 @@
 # ==================================================================================
-#   File:   opcserver.py
+#   File:   server.py
 #   Author: Larry W Jordan Jr (larouex@gmail.com)
 #   Use:    This is the class that handles config and creation of the OPC Server
 #
@@ -22,7 +22,7 @@ from asyncua.common.methods import uamethod
 from Classes.config import Config
 from Classes.varianttype import VariantType
 
-class OpcServer():
+class Server():
     
     def __init__(self, Log, WhatIf, CacheAddrSpace):
       self.logger = Log

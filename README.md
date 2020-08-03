@@ -85,7 +85,7 @@ Here are the steps we will go through...
   * [SETUP SECRETS: Configure our Secrets for Local Development](configure-our-secrets-for-local-development)
   * [Running the "OPC Server" Application](running-the-opc-server-application)
   * [Using the UaExpert Client Application to Browse the OPC Server](using-the-uaexpert-client-application-to-browse-the-opc-server)
-  * [Provisioning our OPC Server as a Device in Azure IoT Central](running-the-opc-server-application)
+  * [Provisioning our OPC Server as a Device in Azure IoT Central](provisioning-our-opc-server-as-a-device-in-azure-iot-central)
   * [Send Telemetry to Azure IoT Central and Visualize that Data]()
 
 
@@ -669,21 +669,29 @@ There are excellent tutorials on connecting devices to IoT Central and using Dev
 * [LINK: Get connected to Azure IoT Central](https://docs.microsoft.com/en-us/azure/iot-central/core/concepts-get-connected)
 * [LINK: Tutorial: Create and connect a client application to your Azure IoT Central application (Python)](https://docs.microsoft.com/en-us/azure/iot-central/core/tutorial-connect-device-python)
 
-Provisioning in our Gateway project is one of key pillars of capabilities we have created and we have lots of options so you can try the various Gateway scenarios. Let's look at the options...
+Provisioning in our Gateway project is one of key pillars of capabilities we have created and we have lots of options so you can try the various Gateway scenarios. Let's look at all the options by runnning with --help...
 
-* <b>-h or --help</b> - Print out this Help Information
-* <b>-v or --verbose</b> -  Debug Mode with lots of Data will be Output to Assist with Debugging
-* <b>-p or --provisioningscope</b> - Provisioning Scope give you fine grained control over the devices you want to provision. 
-  * <b>ALL</b> - Re-Provision Every device listed in the DevicesCache.json file
-  * <b>NEW</b> - Only Provision Devices DevicesCache.json file that have "LastProvisioned=Null"
-  * <b>device name</b> - Provision a Specifc Device in DevicesCache.json file
-* <b>-g or --gatewaytype</b> - Indicate the Type of Gateway Relationship
-  * <b>OPAQUE</b> - Devices will look like Stand-Alone Devices in IoT Central
-  * <b>TRANSPARENT</b> - Devices will look like Stand-Alone Devices in IoT Central
-  * <b>PROTOCOL</b> - IoT Central will show a Single Gateway and all Data is Associated with the Gateway
-  * <b>PROTOCOLWITHIDENTITY</b> - IoT Central will show a Single Gateway and Leaf Devices
+````bash
+python3 ./provisiondevices.py -h
+````
 
-Let's provision a specific device from our devicescache.json...
+<b>Output</b>
+````bash
+  HELP for provisiondevices.py
+  ------------------------------------------------------------------------------------------------------------------
+  -h or --help - Print out this Help Information
+  -v or --verbose - Verbose Mode with lots of INFO will be Output to Assist with Tracing and Debugging
+  -d or --debug - Debug Mode with lots of DEBUG Data will be Output to Assist with Tracing and Debugging
+  -w or --whatif - Combine with Verbose it will Output the Configuration sans starting the Server
+  ------------------------------------------------------------------------------------------------------------------
+````
+
+Let's provision our OPC Server and take a look at what happens with our configuration, run the command below and we will get Verbose output that outputs "What If" so we can see what will happen...
+
+````bash
+python3 ./provisiondevices.py -v -w
+````
+
 ````json
 ...
     {

@@ -24,7 +24,6 @@ from azure.keyvault.secrets import SecretClient
 from azure.keyvault.keys import KeyClient
 from azure.identity import ClientSecretCredential
 
-
 # uses the Azure IoT Device SDK for Python (Native Python libraries)
 from azure.iot.device.aio import ProvisioningDeviceClient
 
@@ -37,15 +36,14 @@ class ProvisionDevices():
     timer_ran = False
     dcm_value = None
 
-    def __init__(self, Log, ProvisioningScope, GatewayType):
+    def __init__(self, Log, WhatIf):
         self.logger = Log
+        self.whatif = WhatIf
         self.config = {}
         self.data = []
         self.devices_provision = []
         self.new_devices = []
         self.characteristics = []
-        self.provisioning_scope = ProvisioningScope
-        self.gateway_type = GatewayType
   
     async def provision_devices(self):
 
@@ -116,68 +114,47 @@ class ProvisionDevices():
         symmetrickey = SymmetricKey(self.logger)
 
         try:
-            # Iterate the Discovered Devices and Provision
-            # the devicescache.json file element [DeviceNamePrefix]...
-            for device in self.devices_provision["Devices"]:
-                provision_this_device = False
-                
-                if (self.provisioning_scope == "ALL"):
-                    provision_this_device = True
-                elif (self.provisioning_scope == "NEW" and device["LastProvisioned"] == None):
-                    provision_this_device = True
-                elif (self.provisioning_scope == device["DeviceName"]):
-                    provision_this_device = True
+          
+          # Iterate the Discovered Devices and Provision
+          # the devicescache.json file element [DeviceNamePrefix]...
+          for device in self.devices_provision["Devices"]:
+            
+            # Get a Device Specific Symetric Key
+            device_symmetrickey = symmetrickey.compute_derived_symmetric_key(device["DeviceName"], device_secondary_key.value)
+            self.logger.info("[SYMETRIC KEY] %s" % device_symmetrickey)
 
-                if provision_this_device:
-                    # Get a Device Specific Symetric Key
-                    device_symmetrickey = symmetrickey.compute_derived_symmetric_key(device["DeviceName"], device_secondary_key.value)
-                    self.logger.info("[SYMETRIC KEY] %s" % device_symmetrickey)
+            # Provision the Device
+            self.logger.warning("[PROVISIONING] %s" % device["DeviceName"])
+            
+            if not self.whatif:
+              
+              provisioning_device_client = ProvisioningDeviceClient.create_from_symmetric_key(
+                provisioning_host=secrets.data["ProvisioningHost"],
+                registration_id=device["DeviceName"],
+                id_scope=scope_id.value,
+                symmetric_key=device_symmetrickey,
+                websockets=True
+              )
 
-                    # Provision the Device
-                    self.logger.warning("[PROVISIONING] %s" % device["DeviceName"])
-                    provisioning_device_client = ProvisioningDeviceClient.create_from_symmetric_key(
-                      provisioning_host=secrets.data["ProvisioningHost"],
-                      registration_id=device["DeviceName"],
-                      id_scope=scope_id.value,
-                      symmetric_key=device_symmetrickey,
-                      websockets=True
-                    )
+              provisioning_device_client.provisioning_payload = '{"iotcModelId":"%s"}' % (device["DCM"])
+              registration_result = await provisioning_device_client.register()
 
-                    provisioning_device_client.provisioning_payload = '{"iotcModelId":"%s"}' % (device["DCM"])
-                    registration_result = await provisioning_device_client.register()
-
-                    newDevice = {
-                      "DeviceName": device["DeviceName"], 
-                      "Address": device["Address"], 
-                      "LastRSSI": device["LastRSSI"],
-                      "DCM": device["DCM"],                    
-                      "DeviceInfoInterface": device["DeviceInfoInterface"],
-                      "DeviceInfoInterfaceInstanceName": device["DeviceInfoInterfaceInstanceName"],
-                      "NanoBLEInterface": device["NanoBLEInterface"],
-                      "NanoBLEInterfaceInstanceName": device["NanoBLEInterfaceInstanceName"],
-                      "LastProvisioned": str(datetime.datetime.now())
-                    } 
-                    self.data["Devices"].append(newDevice)
-                    continue
-                else:
-                    newDevice = {
-                      "DeviceName": device["DeviceName"], 
-                      "Address": device["Address"], 
-                      "LastRSSI": device["LastRSSI"],
-                      "DCM": device["DCM"],                    
-                      "DeviceInfoInterface": device["DeviceInfoInterface"],
-                      "DeviceInfoInterfaceInstanceName": device["DeviceInfoInterfaceInstanceName"],
-                      "NanoBLEInterface": device["NanoBLEInterface"],
-                      "NanoBLEInterfaceInstanceName": device["NanoBLEInterfaceInstanceName"],
-                      "LastProvisioned": None
-                    } 
-                    self.data["Devices"].append(newDevice)
-                    continue
+            newDevice = {
+              "DeviceName": device["DeviceName"], 
+              "DCM": device["DCM"],                    
+              "DeviceInfoInterface": device["DeviceInfoInterface"],
+              "DeviceInfoInterfaceInstanceName": device["DeviceInfoInterfaceInstanceName"],
+              "NanoBLEInterface": device["NanoBLEInterface"],
+              "NanoBLEInterfaceInstanceName": device["NanoBLEInterfaceInstanceName"],
+              "LastProvisioned": str(datetime.datetime.now())
+            } 
+            self.data["Devices"].append(newDevice)
+            continue
 
         except Exception as ex:
-            self.logger.error("[ERROR] %s" % ex)
-            self.logger.error("[TERMINATING] We encountered an error provisioning for BLE Devices" )
-            return
+          self.logger.error("[ERROR] %s" % ex)
+          self.logger.error("[TERMINATING] We encountered an error provisioning for BLE Devices" )
+          return
 
         # Update the Cache
         devicescache.update_file(self.data)

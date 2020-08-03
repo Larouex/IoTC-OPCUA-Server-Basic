@@ -16,7 +16,7 @@ from asyncua import ua, Server
 from asyncua.common.methods import uamethod
 
 # our classes
-from Classes.opcserver import OpcServer
+from Classes.server import Server
 from Classes.config import Config
 from Classes.varianttype import VariantType
 
@@ -27,7 +27,7 @@ from Classes.varianttype import VariantType
 async def start_server(WhatIf, CacheAddrSpace):
 
   # Start Server
-  opc_server = OpcServer(Log, WhatIf, CacheAddrSpace)
+  opc_server = Server(Log, WhatIf, CacheAddrSpace)
   await opc_server.start()
 
   return
@@ -52,7 +52,8 @@ async def main(argv):
             print("HELP for server.py")
             print("------------------------------------------------------------------------------------------------------------------")
             print("-h or --help - Print out this Help Information")
-            print("-v or --verbose - Debug Mode with lots of Data will be Output to Assist with Debugging")
+            print("-v or --verbose - Verbose Mode with lots of INFO will be Output to Assist with Tracing and Debugging")
+            print("-d or --debug - Debug Mode with lots of DEBUG Data will be Output to Assist with Tracing and Debugging")
             print("-w or --whatif - Combine with Verbose it will Output the Configuration sans starting the Server")
             print("------------------------------------------------------------------------------------------------------------------")
             sys.exit()
