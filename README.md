@@ -711,8 +711,6 @@ This is the data that will be written to our "devicescache.json" for the device 
 ````json
   {
     "DeviceName": "larouex-industrial-manufacturing-001",
-    "AssignedHub": "-- hidden --",
-    "DeviceSymmetricKey": "-- hidden --",
     "DeviceCapabilityModelId": "urn:LarouexIndustrialManufacturing:Server:1",
     "Interfaces": [
       {
@@ -730,7 +728,19 @@ This is the data that will be written to our "devicescache.json" for the device 
   }
  ````
 
-The OPC Server as a Device is Provisioned!
+This is the secret data that will be written to our "secrets.json" for the device connectivity reflecting our OPC Server details to connect to Azure IoT Central...
+
+````json
+  "Devices": [
+    {
+      "Name": "larouex-industrial-manufacturing-001",
+      "AssignedHub": "-- hidden assigned-hub --",
+      "DeviceSymmetricKey": "-- hidden device-symmetric-key --"
+    }
+  ]
+````
+
+## The OPC Server as a Device is Provisioned!
 
 ![alt text](./Assets/azure-iotc-provisioned-device-1.png "Device Provisioned")
 

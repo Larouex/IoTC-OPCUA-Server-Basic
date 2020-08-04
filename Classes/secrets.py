@@ -47,6 +47,13 @@ class Secrets():
       with open('alerts.json', 'r') as alerts_file:
         return json.load(alerts_file)
 
+    def update_device_secrets(self, data):
+        with open('secrets.json', 'w') as configs_file:
+            alerts = self.load_alerts() 
+            self.logger.info(alerts["Alerts"]["Secrets"]["Updated"].format(self.data))
+            self.data["Devices"] = data
+            configs_file.write(json.dumps(self.data, indent=2))
+
     def init(self):
 
       self.provisioning_host = self.data["ProvisioningHost"]

@@ -42,6 +42,7 @@ class ProvisionDevices():
         self.new_devices = []
         self.characteristics = []
         self.load_config()
+        self.device_secrets = []
   
     async def provision_devices(self):
 
@@ -99,8 +100,8 @@ class ProvisionDevices():
 
             provisioning_device_client.provisioning_payload = '{"iotcModelId":"%s"}' % (device_capability_model["DeviceCapabilityModelId"])
             registration_result = await provisioning_device_client.register()
-            device_capability_model["AssignedHub"] = registration_result.registration_state.assigned_hub
-            device_capability_model["DeviceSymmetricKey"] = device_symmetrickey
+            device_capability_model["DeviceName"]
+            self.device_secrets.append(self.create_device_secret(device_capability_model["DeviceName"], registration_result.registration_state.assigned_hub, device_symmetrickey))
             self.logger.info("[REGISTRATION RESULT] %s" % registration_result)
 
           self.data["Devices"].append(device_capability_model)
@@ -113,6 +114,7 @@ class ProvisionDevices():
         # Update the Cache
         #if not self.whatif:
         devicescache.update_file(self.data)
+        secrets.update_device_secrets(self.device_secrets)
 
         return
 
@@ -134,8 +136,6 @@ class ProvisionDevices():
     def create_device_capability_model(self, deviceName, id):
       newDeviceCapabilityModel = {
         "DeviceName": deviceName, 
-        "AssignedHub": "iot-hub-connection",
-        "DeviceSymmetricKey": "device-symetric-key",
         "DeviceCapabilityModelId": id,
         "Interfaces": [
         ],
@@ -154,4 +154,16 @@ class ProvisionDevices():
         "InterfaceInstanceName": instantName
       }
       return newInterface 
+
+    # -------------------------------------------------------------------------------
+    #   Function:   create_device_interface
+    #   Usage:      Returns a Device Interface for Interfaces Array
+    # -------------------------------------------------------------------------------
+    def create_device_secret(self, name, assigned_hub, device_symmetric_key):
+      newDeviceSecret = {
+        "Name": name,
+        "AssignedHub": assigned_hub,
+        "DeviceSymmetricKey": device_symmetric_key
+      }
+      return newDeviceSecret 
 
