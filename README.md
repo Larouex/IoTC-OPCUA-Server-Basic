@@ -86,8 +86,7 @@ Here are the steps we will go through...
   * [Running the "OPC Server" Application](running-the-opc-server-application)
   * [Using the UaExpert Client Application to Browse the OPC Server](using-the-uaexpert-client-application-to-browse-the-opc-server)
   * [Provisioning our OPC Server as a Device in Azure IoT Central](provisioning-our-opc-server-as-a-device-in-azure-iot-central)
-  * [Send Telemetry to Azure IoT Central and Visualize that Data]()
-
+  * [Send Telemetry to Azure IoT Central and Visualize that Data](send-telemetry-to-azure-iot-central-and-visualize-that-data)
 
 ## Define and Configure Nodes and Variables for our OPC UA Server.
 The defintion of our Nodes and Variables (<i>and Device Interfaces and Telemetry in Azure IoT Central</i>) is contained in the "config.json" file in the root of the project.
