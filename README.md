@@ -95,14 +95,19 @@ Here are the default contents of the file...
 
 ````json
 {
-    "UrlPattern": "opc.tcp://{ip}:{port}/Larouex-Industrial-Manufacturing/Server",
+    "ServerUrlPattern": "opc.tcp://{ip}:{port}/Larouex-Industrial-Manufacturing/Server",
+    "ClientUrlPattern": "opc.tcp://localhost:{port}/Larouex-Industrial-Manufacturing/Server",
+    "Port": 4840,
+    "IPAddress":"0.0.0.0",
     "ApplicationUri": "urn:LarouexIndustrialManufacturing:Server",
     "DeviceCapabilityModelId": "urn:LarouexIndustrialManufacturing:Server:1",
     "ServerDiscoveryName": "Larouex Industrial Manufacturing Server",
     "Description": "Larouex Industrials LLC. Heavy Equipment and Adhesive Manufacturing Device Template.",
-    "Name": "LAROUEX_INDUSTRIAL_MANUFACTURING_SERVER_{id}",
+    "DeviceName": "larouex-industrial-manufacturing-{id}",
     "NameSpace": "Larouex-Industrial-Manufacturing",
     "CacheAddrSpaceFileName": "cache.opc",
+    "ServerFrequencyInSeconds": 10,
+    "ClientFrequencyInSeconds": 15,
     "Nodes": [
       {
         "Name": "Ambient",
@@ -200,7 +205,8 @@ Here are the default contents of the file...
 The table below defines and explains the configuration options...
 | Item | Explanation |
 |---|---|
-| UrlPattern | The URL that the OPC Server advertises as its endpoint. The ip and port are assigned in the code. |
+| ServerUrlPattern | The URL that the OPC Server advertises as its endpoint. The ip and port are assigned in the code. |
+| ClientUrlPattern | The URL that the OPC Client Gateway connects to the OPC Server endpoint. The port are assigned in the code. |
 | ApplicationUri | urn for the Application Namespace |
 | DeviceCapabilityModelId | This urn is used when generating the Device Template as the DCM @id |
 | ServerDiscoveryName | The name that is advertised when discovering the OPC Server |
@@ -208,6 +214,9 @@ The table below defines and explains the configuration options...
 | DeviceName | The name used for the OPC Server when provisioned as a Device in Azure IoT Central |
 | NameSpace | OPC Server Namsspace |
 | CacheAddrSpaceFileName | File name for caching the OPC Sever Address Space |
+| ServerFrequencyInSeconds | Number of seconds to sleep between sending value updates to the Variables |
+| ClientFrequencyInSeconds | Number of seconds to sleep between reading the values from the OPC Server Variables |
+
 
 Next we have the "Nodew" array and this is where all of the configuration for your OPC Server and the Telemetry for Azure IoT Central happens. Let's look at the simple scenario of an Ambient Node that expresses two Variables; Temeperature and Humidity...
 
