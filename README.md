@@ -722,27 +722,39 @@ WARNING: [PROVISIONING] larouex-industrial-manufacturing-001
 INFO: Updated Devices Cache file: {'DeviceCapabilityModels': [{'DeviceNamePrefix': 'larouex-industrial-manufacturing-', 'DCM': 'urn:larouexindustrialmanufacturing:server:1'}], 'Devices': [{'DeviceName': 'larouex-industrial-manufacturing-001', 'DeviceCapabilityModelId': 'urn:LarouexIndustrialManufacturing:Server:1', 'Interfaces': [{'Name': 'Ambient', 'InterfacelId': 'urn:larouexindustrialmanufacturing:AmbientInterface:1', 'InterfaceInstanceName': 'AmbientInterface'}, {'Name': 'Process', 'InterfacelId': 'urn:larouexindustrialmanufacturing:ProcessInterface:1', 'InterfaceInstanceName': 'ProcessInterface'}], 'LastProvisioned': '2020-08-03 17:38:54.033954'}]}
 ````
 
+This is the data that will be written to our "devicescache.json" for the device information reflecting our OPC Server...
 ````json
 ...
-    {
-      "DeviceName": "larouex-ble-sense-0001",
-      "Address": "c7:94:90:1c:8f:3c",
-      "LastRSSI": "-64 dB",
-      "DCM": "urn:larouexiot:nanoble33sense:1",
-      "DeviceInfoInterface": "urn:azureiot:DeviceManagement:DeviceInformation:1",
-      "DeviceInfoInterfaceInstanceName": "DeviceInformationInterface",
-      "NanoBLEInterface": "urn:larouexiot:nanoble33sense:NanoBLE33SenseInterface:1",
-      "NanoBLEInterfaceInstanceName": "NanoBLE33SenseInterface",
-      "LastProvisioned": null
-    },
-...
+{
+	"DeviceName": "larouex-industrial-manufacturing-001",
+	"DeviceCapabilityModelId": "urn:LarouexIndustrialManufacturing:Server:1",
+	"Interfaces": [{
+		"Name": "Ambient",
+		"InterfacelId": "urn:larouexindustrialmanufacturing:AmbientInterface:1",
+		"InterfaceInstanceName": "AmbientInterface"
+	}, {
+		"Name": "Process",
+		"InterfacelId": "urn:larouexindustrialmanufacturing:ProcessInterface:1",
+		"InterfaceInstanceName": "ProcessInterface"
+	}],
+	"LastProvisioned": "2020-08-03 17:28:32.305775"
+}
 ````
 
-Here is the command we are going to execute on our Raspberry Pi terminal...
+Lot's of options to test and see how our device will end up in Azure IoT Central, let's actually provision our Device now...
+
 ````bash
-python3 ./provisiondevices.py -v -p "larouex-ble-sense-0001" -g "TRANSPARENT"
+python3 ./provisiondevices.py -v -i "001"
 ````
 
-The Device is Registered!
+You will get simliar verbose output to the What If scenario we ran previousl;y along with this conformation...
 
-![alt text](./Assets/transparent-gateway-iotc-single-device-provisioned.png "Device Provisioned")
+````bash
+...
+WARNING: [PROVISIONING] larouex-industrial-manufacturing-001
+INFO: Updated Devices Cache file: {'DeviceCapabilityModels': [{'DeviceNamePrefix': 'larouex-industrial-manufacturing-', 'DCM': 'urn:larouexindustrialmanufacturing:server:1'}], 'Devices': [{'DeviceName': 'larouex-industrial-manufacturing-001', 'DeviceCapabilityModelId': 'urn:LarouexIndustrialManufacturing:Server:1', 'Interfaces': [{'Name': 'Ambient', 'InterfacelId': 'urn:larouexindustrialmanufacturing:AmbientInterface:1', 'InterfaceInstanceName': 'AmbientInterface'}, {'Name': 'Process', 'InterfacelId': 'urn:larouexindustrialmanufacturing:ProcessInterface:1', 'InterfaceInstanceName': 'ProcessInterface'}], 'LastProvisioned': '2020-08-03 17:38:54.033954'}]}
+````
+
+The OpC Server as a Device is Provisioned!
+
+![alt text](./Assets/azure-iotc-provisioned-device-1.png "Device Provisioned")
