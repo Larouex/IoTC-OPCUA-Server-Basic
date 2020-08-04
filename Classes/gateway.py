@@ -28,47 +28,36 @@ from Classes.config import Config
 from Classes.maptelemetry import MapTelemetry
 from Classes.varianttype import VariantType
 
-try:
-    from IPython import embed
-except ImportError:
-    import code
-
-    def embed():
-        vars = globals()
-        vars.update(locals())
-        shell = code.InteractiveConsole(vars)
-        shell.interact()
-
-class SubHandler(object):
-    """
-    Subscription Handler. To receive events from server for a subscription.
-    The handler forwards updates to it's referenced python object
-    """
-
-    def __init__(self, obj):
-        self.obj = obj
-
-    def datachange_notification(self, node, val, data):
-        # print("Python: New data change event", node, val, data)
-        self.obj.value = data.monitored_item.Value.Value.Value #this sets the value in your python object
-
 class Gateway():
     
     def __init__(self, Log, WhatIf):
       self.logger = Log
       self.whatif = WhatIf
+
+      # load up configuration and mapping files
       self.config = []
       self.nodes = []
       self.load_config()
       self.map_telemetry = []
       self.load_map_telemetry()
 
-        
+      # Azure Device
+      self.device_client = None
+
     # -------------------------------------------------------------------------------
     #   Function:   start
     #   Usage:      The start function loads configuration and starts the OPC Server
     # -------------------------------------------------------------------------------
     async def start(self):
+
+      try:
+        self.device_client = IoTHubDeviceClient.create_from_symmetric_key(
+            symmetric_key=dps_cache[0],
+            hostname=dps_cache[1],
+            device_id=dps_cache[2],
+            websockets=use_websockets
+        )
+
       
       # Gateway Loop
       try:
@@ -129,4 +118,17 @@ class Gateway():
       map_telemetry.load_file()
       self.map_telemetry = map_telemetry.data
 
+    # -------------------------------------------------------------------------------
+    #   Function:   send_telemetry
+    #   Usage:      Loads the Map Telemetry File that Maps Telemtry for Azure
+    #               Iot Central to the Node Id's for the Opc Server.
+    # -------------------------------------------------------------------------------
+    async def send_telemetry(device_client, send_frequency):
+      while not terminate:
+        payload = '{"temp": %f, "humidity": %f}' % (random.randrange(60.0, 95.0), random.randrange(10.0, 100.0))
+        print("sending message: %s" % (payload))
+        msg = Message(payload)
+        await device_client.send_message(msg)
+        print("completed sending message")
+        await asyncio.sleep(send_frequency)
 

@@ -661,7 +661,7 @@ You can see that the UaExpert tool is now displaying the changing values for our
 | Process | Mixing Ratio | Float | 9.6,12.9,13.4,10.2,9.9,13.2 |
 
 ## Provisioning our OPC Server as a Device in Azure IoT Central
-Provisioning follows the same pattern as ScanDevices in that we have separated this script into a "stand-alone" operation. 
+Provisioning is factored into a "stand-alone" operation. 
 
 There are excellent tutorials on connecting devices to IoT Central and using Device Provisioning Services online and we won't try to repeat that here. If you are not familar, take a break and visit these topics...
 

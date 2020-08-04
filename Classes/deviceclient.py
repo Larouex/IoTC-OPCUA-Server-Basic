@@ -26,21 +26,16 @@ from Classes.varianttype import VariantType
 class DeviceClient():
     
     def __init__(self, Log, ConfigData, MapTelemetryData):
-      self.config_data = Log
-      self.whatif = WhatIf
-
-      # load up configuration and mapping files
-      self.config = []
-      self.load_config()
-      self.map_telemetry = []
-      self.load_map_telemetry()
-
+      self.logger = Log
+      self.config = ConfigData
+      self.map_telemetry = MapTelemetryData
+      
       # Azure Device
       self.device_client = None
 
     # -------------------------------------------------------------------------------
     #   Function:   start
-    #   Usage:      The start function loads configuration and starts the OPC Server
+    #   Usage:      The start function creates the device instance
     # -------------------------------------------------------------------------------
     async def start(self):
 
