@@ -16,6 +16,7 @@ import time, logging, string, json, os, binascii, struct, threading, asyncio, da
 from Classes.devicescache import DevicesCache
 from Classes.secrets import Secrets
 from Classes.symmetrickey import SymmetricKey
+from Classes.config import Config
 
 # Azure IoT Libraries
 from azure.keyvault.certificates import CertificateClient, CertificatePolicy,CertificateContentType, WellKnownIssuerNames 
@@ -36,14 +37,17 @@ class ProvisionDevices():
     timer_ran = False
     dcm_value = None
 
-    def __init__(self, Log, WhatIf):
+    def __init__(self, Log, WhatIf, Id):
         self.logger = Log
         self.whatif = WhatIf
+        self.iddevice = Id
         self.config = {}
+        self.nodes = {}
         self.data = []
         self.devices_provision = []
         self.new_devices = []
         self.characteristics = []
+        self.load_config()
   
     async def provision_devices(self):
 
@@ -70,7 +74,8 @@ class ProvisionDevices():
 
         # load the secrets
         secrets = Secrets(self.logger)
-        if secrets.data["KeyVaultSecrets"]:
+        if secrets.data["UseKeyVault"]:
+          
           self.logger.info("[USING KEY VAULT SECRETS]")
           
           # key vault account uri
@@ -95,69 +100,76 @@ class ProvisionDevices():
           gateway_secondary_key = secret_client.get_secret(secrets.data["KeyVaultSecrets"]["GatewayConnect"]["SaSKeys"]["Secondary"])
         
         else:
+
           # Read all of our LOCAL Secrets for Accessing IoT Central
           self.logger.info("[USING LOCAL SECRETS]")
-          scope_id = secret_client.get_secret(secrets.data["LocalSecrets"]["ScopeId"])
-          device_primary_key = secret_client.get_secret(secrets.data["LocalSecrets"]["DeviceConnect"]["SaSKeys"]["Primary"])
-          device_secondary_key = secret_client.get_secret(secrets.data["LocalSecrets"]["DeviceConnect"]["SaSKeys"]["Secondary"])
-          gateway_primary_key = secret_client.get_secret(secrets.data["LocalSecrets"]["GatewayConnect"]["SaSKeys"]["Primary"])
-          gateway_secondary_key = secret_client.get_secret(secrets.data["LocalSecrets"]["GatewayConnect"]["SaSKeys"]["Secondary"])
+          scope_id = secrets.data["LocalSecrets"]["ScopeId"]
+          device_primary_key = secrets.data["LocalSecrets"]["DeviceConnect"]["SaSKeys"]["Primary"]
+          device_secondary_key = secrets.data["LocalSecrets"]["DeviceConnect"]["SaSKeys"]["Secondary"]
+          gateway_primary_key = secrets.data["LocalSecrets"]["GatewayConnect"]["SaSKeys"]["Primary"]
+          gateway_secondary_key = secrets.data["LocalSecrets"]["GatewayConnect"]["SaSKeys"]["Secondary"]
 
           # Verbose
-          self.logger.info("[SCOPE ID]: %s" % scope_id.value)
-          self.logger.info("[DEVICE PRIMARY KEY]: %s" % device_primary_key.value)
-          self.logger.info("[DEVICE SECONDARY KEY]: %s" % device_secondary_key.value)
-          self.logger.info("[GATEWAY PRIMARY KEY]: %s" % gateway_primary_key.value)
-          self.logger.info("[GATEWAY SECONDARY KEY]: %s" % gateway_secondary_key.value)
+          self.logger.info("[SCOPE ID]: %s" % scope_id)
+          self.logger.info("[DEVICE PRIMARY KEY]: %s" % device_primary_key)
+          self.logger.info("[DEVICE SECONDARY KEY]: %s" % device_secondary_key)
+          self.logger.info("[GATEWAY PRIMARY KEY]: %s" % gateway_primary_key)
+          self.logger.info("[GATEWAY SECONDARY KEY]: %s" % gateway_secondary_key)
 
         # Symetric Key for handling Device Specific SaS Keys
         symmetrickey = SymmetricKey(self.logger)
 
         try:
+
+          # Gather the DCM Information
+          device_id = self.config["DeviceName"].format(id=self.iddevice)
+          dcm_id = self.config["DeviceCapabilityModelId"]
+          device_capability_model = self.create_device_capability_model(device_id, dcm_id)
+          self.logger.info("[DCM ID] %s" % dcm_id)
+          self.logger.info("[DEVICE ID] %s" % device_id)
+          self.logger.info("[DCM] %s" % device_capability_model)
+
+          # Let's Look at the Config File and Generate 
+          # our Device from the OPC Server Configuration
+          for node in self.nodes:
+            device_interface = self.create_device_interface(node["Name"], node["InterfacelId"], node["InterfaceInstanceName"])
+            device_capability_model["Interfaces"].append(device_interface)
+            self.logger.info("[INTERFACE] %s" % device_interface)
+
+          # Dump the Device Info  
+          self.logger.info("[DEVICE] %s" % device_capability_model)
+           
+          # Get a Device Specific Symetric Key
+          device_symmetrickey = symmetrickey.compute_derived_symmetric_key(device_capability_model["DeviceName"], device_secondary_key)
+          self.logger.info("[SYMETRIC KEY] %s" % device_symmetrickey)
+
+          # Provision the Device
+          self.logger.warning("[PROVISIONING] %s" % device_capability_model["DeviceName"])
           
-          # Iterate the Discovered Devices and Provision
-          # the devicescache.json file element [DeviceNamePrefix]...
-          for device in self.devices_provision["Devices"]:
+          if not self.whatif:
             
-            # Get a Device Specific Symetric Key
-            device_symmetrickey = symmetrickey.compute_derived_symmetric_key(device["DeviceName"], device_secondary_key.value)
-            self.logger.info("[SYMETRIC KEY] %s" % device_symmetrickey)
+            provisioning_device_client = ProvisioningDeviceClient.create_from_symmetric_key(
+              provisioning_host=secrets.data["ProvisioningHost"],
+              registration_id=device_capability_model["DeviceName"],
+              id_scope=scope_id,
+              symmetric_key=device_symmetrickey,
+              websockets=True
+            )
 
-            # Provision the Device
-            self.logger.warning("[PROVISIONING] %s" % device["DeviceName"])
-            
-            if not self.whatif:
-              
-              provisioning_device_client = ProvisioningDeviceClient.create_from_symmetric_key(
-                provisioning_host=secrets.data["ProvisioningHost"],
-                registration_id=device["DeviceName"],
-                id_scope=scope_id.value,
-                symmetric_key=device_symmetrickey,
-                websockets=True
-              )
+            provisioning_device_client.provisioning_payload = '{"iotcModelId":"%s"}' % (device_capability_model["DeviceCapabilityModelId"])
+            registration_result = await provisioning_device_client.register()
 
-              provisioning_device_client.provisioning_payload = '{"iotcModelId":"%s"}' % (device["DCM"])
-              registration_result = await provisioning_device_client.register()
-
-            newDevice = {
-              "DeviceName": device["DeviceName"], 
-              "DCM": device["DCM"],                    
-              "DeviceInfoInterface": device["DeviceInfoInterface"],
-              "DeviceInfoInterfaceInstanceName": device["DeviceInfoInterfaceInstanceName"],
-              "NanoBLEInterface": device["NanoBLEInterface"],
-              "NanoBLEInterfaceInstanceName": device["NanoBLEInterfaceInstanceName"],
-              "LastProvisioned": str(datetime.datetime.now())
-            } 
-            self.data["Devices"].append(newDevice)
-            continue
+          self.data["Devices"].append(device_capability_model)
 
         except Exception as ex:
           self.logger.error("[ERROR] %s" % ex)
-          self.logger.error("[TERMINATING] We encountered an error provisioning for BLE Devices" )
+          self.logger.error("[TERMINATING] We encountered an error provisioning device for OPC Server" )
           return
 
         # Update the Cache
+        #if not self.whatif:
         devicescache.update_file(self.data)
+
         return
 
     # -------------------------------------------------------------------------------
@@ -169,3 +181,31 @@ class ProvisionDevices():
       # Load all the configuration
       config = Config(self.logger)
       self.config = config.data
+      self.nodes = self.config["Nodes"]
+
+    # -------------------------------------------------------------------------------
+    #   Function:   create_device_interface
+    #   Usage:      Returns a Device Interface for Interfaces Array
+    # -------------------------------------------------------------------------------
+    def create_device_capability_model(self, deviceName, id):
+      newDeviceCapabilityModel = {
+        "DeviceName": deviceName, 
+        "DeviceCapabilityModelId": id,
+        "Interfaces": [
+        ],
+        "LastProvisioned": str(datetime.datetime.now())
+      } 
+      return newDeviceCapabilityModel 
+
+    # -------------------------------------------------------------------------------
+    #   Function:   create_device_interface
+    #   Usage:      Returns a Device Interface for Interfaces Array
+    # -------------------------------------------------------------------------------
+    def create_device_interface(self, name, id, instantName):
+      newInterface = {
+        "Name": name,
+        "InterfacelId": id,
+        "InterfaceInstanceName": instantName
+      }
+      return newInterface 
+

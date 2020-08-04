@@ -22,6 +22,23 @@
         }
       ],
       "LastProvisioned": null
+    },
+    {
+      "DeviceName": "larouex-industrial-manufacturing-001",
+      "DeviceCapabilityModelId": "urn:LarouexIndustrialManufacturing:Server:1",
+      "Interfaces": [
+        {
+          "Name": "Ambient",
+          "InterfacelId": "urn:larouexindustrialmanufacturing:AmbientInterface:1",
+          "InterfaceInstanceName": "AmbientInterface"
+        },
+        {
+          "Name": "Process",
+          "InterfacelId": "urn:larouexindustrialmanufacturing:ProcessInterface:1",
+          "InterfaceInstanceName": "ProcessInterface"
+        }
+      ],
+      "LastProvisioned": "2020-08-03 17:39:29.087753"
     }
   ]
 }

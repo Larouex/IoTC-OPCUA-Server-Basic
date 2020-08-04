@@ -683,13 +683,43 @@ python3 ./provisiondevices.py -h
   -v or --verbose - Verbose Mode with lots of INFO will be Output to Assist with Tracing and Debugging
   -d or --debug - Debug Mode with lots of DEBUG Data will be Output to Assist with Tracing and Debugging
   -w or --whatif - Combine with Verbose it will Output the Configuration sans starting the Server
+  -i or --iddevice - This ID will get appended to your Device. Example "001" = larouex-industrial-manufacturing-001
   ------------------------------------------------------------------------------------------------------------------
 ````
 
-Let's provision our OPC Server and take a look at what happens with our configuration, run the command below and we will get Verbose output that outputs "What If" so we can see what will happen...
+Let's provision our OPC Server and take a look at what happens with our configuration, run the command below and we will get output that is Verbose and "What If" so we can see what would have happened...
 
 ````bash
-python3 ./provisiondevices.py -v -w
+python3 ./provisiondevices.py -v -w -i "001"
+````
+
+````bash
+INFO: Verbose Logging Mode...
+INFO: Whatif Mode...
+INFO: File Name is Specified...
+INFO: Loaded Devices Cache file: {'DeviceCapabilityModels': [{'DeviceNamePrefix': 'larouex-industrial-manufacturing-', 'DCM': 'urn:larouexindustrialmanufacturing:server:1'}], 'Devices': [{'DeviceName': 'Simulated Device', 'DeviceCapabilityModelId': 'urn:LarouexIndustrialManufacturing:Server:1', 'Interfaces': [{'Name': 'Ambient', 'InterfacelId': 'urn:larouexindustrialmanufacturing:AmbientInterface:1', 'InterfaceInstanceName': 'AmbientInterface'}, {'Name': 'Process', 'InterfacelId': 'urn:larouexindustrialmanufacturing:ProcessInterface:1', 'InterfaceInstanceName': 'ProcessInterface'}], 'LastProvisioned': None}, {'DeviceName': 'larouex-industrial-manufacturing-001', 'DeviceCapabilityModelId': 'urn:LarouexIndustrialManufacturing:Server:1', 'Interfaces': [{'Name': 'Ambient', 'InterfacelId': 'urn:larouexindustrialmanufacturing:AmbientInterface:1', 'InterfaceInstanceName': 'AmbientInterface'}, {'Name': 'Process', 'InterfacelId': 'urn:larouexindustrialmanufacturing:ProcessInterface:1', 'InterfaceInstanceName': 'ProcessInterface'}], 'LastProvisioned': '2020-08-03 17:38:54.033954'}]}
+INFO: [DEVICES] devicescache.data Count 2
+INFO: [DEVICES] self.data Count 1
+INFO: Loaded Devices Cache file: {'DeviceCapabilityModels': [{'DeviceNamePrefix': 'larouex-industrial-manufacturing-', 'DCM': 'urn:larouexindustrialmanufacturing:server:1'}], 'Devices': [{'DeviceName': 'Simulated Device', 'DeviceCapabilityModelId': 'urn:LarouexIndustrialManufacturing:Server:1', 'Interfaces': [{'Name': 'Ambient', 'InterfacelId': 'urn:larouexindustrialmanufacturing:AmbientInterface:1', 'InterfaceInstanceName': 'AmbientInterface'}, {'Name': 'Process', 'InterfacelId': 'urn:larouexindustrialmanufacturing:ProcessInterface:1', 'InterfaceInstanceName': 'ProcessInterface'}], 'LastProvisioned': None}, {'DeviceName': 'larouex-industrial-manufacturing-001', 'DeviceCapabilityModelId': 'urn:LarouexIndustrialManufacturing:Server:1', 'Interfaces': [{'Name': 'Ambient', 'InterfacelId': 'urn:larouexindustrialmanufacturing:AmbientInterface:1', 'InterfaceInstanceName': 'AmbientInterface'}, {'Name': 'Process', 'InterfacelId': 'urn:larouexindustrialmanufacturing:ProcessInterface:1', 'InterfaceInstanceName': 'ProcessInterface'}], 'LastProvisioned': '2020-08-03 17:38:54.033954'}]}
+INFO: [DEVICES] self.devices_provision.data Count 1
+INFO: Loaded Secrets file: {'UseKeyVault': False, 'ProvisioningHost': 'global.azure-devices-provisioning.net', 'LocalSecrets': {'ScopeId': '0ne0014A0DA', 'DeviceConnect': {'SaSKeys': {'Primary': 'jSU+g1YUpqU88l282j+D+RSv3haXbkFp5z76Vz5x/sOw0pUjkVy3VjwN2aKtKNLM/qlCw8QeIwvHjoyRxujNaw==', 'Secondary': '2LXWqseQoLdy/j9LIUtO92nP3lcKgwPR+A0OHdCRTLjuW9ZARRrvKh6XziWdAXDfzcxlR+i3F2UMMxYEis1ZHg=='}}, 'GatewayConnect': {'SaSKeys': {'Primary': 'oj8SzQRL/bAC7Ac0eyOwjum38YpUB+H6WpI/GEoPOJcdL6Dc3vCyNX6ADRi6bZoi1PPKlZcwLMaOT3N72vBiRA==', 'Secondary': 'fA4aApWbW1uGSrli/ZtPahX86gfB3hX1ZA2cvlsR9sHN82ibRnCXz3rW/BRpK+Q5As6rAcUH2PTlpHeOjaRcpg=='}}}, 'KeyVaultSecrets': {'KeyVaultUri': '', 'TenantId': '', 'ClientId': '', 'ClientSecret': '', 'ScopeId': 'larouex-industrial-manufacturing-scopeid', 'DeviceConnect': {'SaSKeys': {'Primary': 'larouex-industrial-manufacturing-saskey-device-primary', 'Secondary': 'larouex-industrial-manufacturing-saskey-device-secondary'}}, 'GatewayConnect': {'SaSKeys': {'Primary': 'larouex-industrial-manufacturing-saskey-gateway-primary', 'Secondary': 'larouex-industrial-manufacturing-saskey-gateway-secondary'}}}}
+INFO: [USING LOCAL SECRETS]
+INFO: [SCOPE ID]: ------------- (hidden)
+INFO: [DEVICE PRIMARY KEY]: ------------- (hidden)
+INFO: [DEVICE SECONDARY KEY]: ------------- (hidden)
+INFO: [GATEWAY PRIMARY KEY]: ------------- (hidden)
+INFO: [GATEWAY SECONDARY KEY]: ------------- (hidden)
+INFO: [DCM ID] urn:LarouexIndustrialManufacturing:Server:1
+INFO: [DEVICE ID] larouex-industrial-manufacturing-001
+INFO: [DCM] {'DeviceName': 'larouex-industrial-manufacturing-001', 'DeviceCapabilityModelId': 'urn:LarouexIndustrialManufacturing:Server:1', 'Interfaces': [], 'LastProvisioned': '2020-08-03 17:39:29.087753'}
+INFO: [INTERFACE] {'Name': 'Ambient', 'InterfacelId': 'urn:larouexindustrialmanufacturing:AmbientInterface:1', 'InterfaceInstanceName': 'AmbientInterface'}   
+INFO: [INTERFACE] {'Name': 'Process', 'InterfacelId': 'urn:larouexindustrialmanufacturing:ProcessInterface:1', 'InterfaceInstanceName': 'ProcessInterface'}   
+INFO: [DEVICE] {'DeviceName': 'larouex-industrial-manufacturing-001', 'DeviceCapabilityModelId': 'urn:LarouexIndustrialManufacturing:Server:1', 'Interfaces': 
+[{'Name': 'Ambient', 'InterfacelId': 'urn:larouexindustrialmanufacturing:AmbientInterface:1', 'InterfaceInstanceName': 'AmbientInterface'}, {'Name': 'Process', 'InterfacelId': 'urn:larouexindustrialmanufacturing:ProcessInterface:1', 'InterfaceInstanceName': 'ProcessInterface'}], 'LastProvisioned': '2020-08-03 17:39:29.087753'}
+INFO: Generated Device Key: ------------- (hidden)
+INFO: [SYMETRIC KEY] ------------- (hidden)
+WARNING: [PROVISIONING] larouex-industrial-manufacturing-001
+INFO: Updated Devices Cache file: {'DeviceCapabilityModels': [{'DeviceNamePrefix': 'larouex-industrial-manufacturing-', 'DCM': 'urn:larouexindustrialmanufacturing:server:1'}], 'Devices': [{'DeviceName': 'larouex-industrial-manufacturing-001', 'DeviceCapabilityModelId': 'urn:LarouexIndustrialManufacturing:Server:1', 'Interfaces': [{'Name': 'Ambient', 'InterfacelId': 'urn:larouexindustrialmanufacturing:AmbientInterface:1', 'InterfaceInstanceName': 'AmbientInterface'}, {'Name': 'Process', 'InterfacelId': 'urn:larouexindustrialmanufacturing:ProcessInterface:1', 'InterfaceInstanceName': 'ProcessInterface'}], 'LastProvisioned': '2020-08-03 17:38:54.033954'}]}
 ````
 
 ````json

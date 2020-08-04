@@ -21,20 +21,20 @@ from Classes.config import Config
 # -------------------------------------------------------------------------------
 #   Provision Devices
 # -------------------------------------------------------------------------------
-async def provision_devices(ProvisioningScope, GatewayType):
+async def provision_devices(Whatif, Id):
 
-  provisiondevices = ProvisionDevices(Log, ProvisioningScope, GatewayType)
+  provisiondevices = ProvisionDevices(Log, Whatif, Id)
   await provisiondevices.provision_devices()
   return True
 
 async def main(argv):
 
     # execution state from args
-    provisioning_scope = None
-    gateway_type = None
+    whatif = False
+    id = None
 
-    short_options = "hvp:g:"
-    long_options = ["help", "verbose", "provisioningscope=", "gatewaytype="]
+    short_options = "hvdwi:"
+    long_options = ["help", "verbose", "debug", "whatif", "iddevice="]
     full_cmd_arguments = sys.argv
     argument_list = full_cmd_arguments[1:]
     try:
@@ -50,34 +50,31 @@ async def main(argv):
             print("-v or --verbose - Debug Mode with lots of Data will be Output to Assist with Debugging")
             print("-d or --debug - Debug Mode with lots of DEBUG Data will be Output to Assist with Tracing and Debugging")
             print("-w or --whatif - Combine with Verbose it will Output the Configuration sans starting the Server")
+            print("-i or --iddevice - This ID will get appended to your Device. Example '001' = larouex-industrial-manufacturing-001")
             print("------------------------------------------------------------------------------------------------------------------")
             sys.exit()
         
         if current_argument in ("-v", "--verbose"):
-            Log.basicConfig(format="%(levelname)s: %(message)s", level=Log.DEBUG)
-            Log.info("Verbose mode...")
+            Log.basicConfig(format="%(levelname)s: %(message)s", level=Log.INFO)
+            Log.info("Verbose Logging Mode...")
         else:
             Log.basicConfig(format="%(levelname)s: %(message)s")
-        
-        if current_argument in ("-p", "--provisioningscope"):
-            Log.info("Provisioning Scope Override...%s" % current_value)
-            provisioning_scope = current_value
 
-        if current_argument in ("-g", "--gatewaytype"):
-            Log.info("Gateway Type  Override...%s" % current_value)
-            gateway_type = current_value
+        if current_argument in ("-d", "--debug"):
+            Log.basicConfig(format="%(levelname)s: %(message)s", level=Log.DEBUG)
+            Log.info("Debug Logging Mode...")
+        else:
+            Log.basicConfig(format="%(levelname)s: %(message)s")
 
-    # Load Configuration File
-    config = Config(Log)
-    config_data = config.data
-    
-    if provisioning_scope == None:
-      provisioning_scope = config_data["ProvisioningScope"]
+        if current_argument in ("-w", "--whatif"):
+            whatif = True
+            Log.info("Whatif Mode...")
 
-    if gateway_type == None:
-      gateway_type = config_data["GatewayType"]
+        if current_argument in ("-i", "--iddevice"):
+            id = current_value
+            Log.info("File Name is Specified...")
 
-    await provision_devices(ProvisioningScope=provisioning_scope, GatewayType=gateway_type)
+    await provision_devices(whatif, id)
 
 if __name__ == "__main__":
     asyncio.run(main(sys.argv[1:]))
