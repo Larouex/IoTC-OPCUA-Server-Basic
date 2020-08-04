@@ -761,7 +761,7 @@ The OpC Server as a Device is Provisioned!
 ## Send Telemetry to Azure IoT Central and Visualize that Data
 So far we have...
 
-* Confgigured our OPC Server with the Nodes and Variables
+* Configured our OPC Server with the Nodes and Variables
 * Created Azure IoT Central Application
 * Created a Device Template and imported into Azure IoT Central
 * Provisioned our OPC Server as a Device in Azure IoT Central and associated with our Device Template
