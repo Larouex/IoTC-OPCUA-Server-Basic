@@ -20,9 +20,11 @@ from asyncua.common.methods import uamethod
 
 # our classes
 from Classes.config import Config
+from Classes.maptelemetry import MapTelemetry
 from Classes.varianttype import VariantType
 
-class Server():
+
+class OpcServer():
     
     def __init__(self, Log, WhatIf, CacheAddrSpace):
       self.logger = Log
@@ -32,6 +34,9 @@ class Server():
       self.nodes = []
       self.nodes_dict = {}
       self.nodes_dict_counter = {}
+      self.map_telemetry = []
+      self.map_telemetry_nodes = []
+      self.map_telemetry_nodes_variables = []
       self.load_config()
         
     # -------------------------------------------------------------------------------
@@ -51,7 +56,7 @@ class Server():
       try:
 
         # configure the endpoint
-        opc_url = self.config["UrlPattern"].format(ip ="0.0.0.0", port = 4840)
+        opc_url = self.config["ServerUrlPattern"].format(ip = self.config["IPAddress"], port = self.config["Port"])
         
         if not self.whatif:
           
@@ -59,15 +64,18 @@ class Server():
           opc_server = Server()
           await opc_server.init()
           
-          # set the endpoint
+          # set the endpoint and name
           opc_server.set_endpoint(opc_url)
+          opc_server.set_server_name(self.config["ServerDiscoveryName"])
           
           # set discovery
-          opc_server.set_application_uri(self.config["ApplicationUri"])
-          opc_server.set_server_name(self.config["ServerDiscoveryName"])
+          await opc_server.set_application_uri(self.config["ApplicationUri"])
 
         log_msg = "[SERVER CONFIG] ENDPOINT: {ep} APPLICATION URI: {au} APPLICATION NAME: {an}"
         self.logger.info(log_msg.format(ep = opc_url, au = self.config["ApplicationUri"], an = self.config["ServerDiscoveryName"]))
+
+        # Setup root for Map Telemetry
+        self.map_telemetry = self.create_map_telemetry(self.config["NameSpace"], self.config["DeviceCapabilityModelId"])
 
       except Exception as ex:
         self.logger.error("[ERROR] %s" % ex)
@@ -85,14 +93,23 @@ class Server():
         if not self.whatif:
           id_namespace = await opc_server.register_namespace(namespace)
 
+        node_count = 0
+
         # Create our Nodes and Parameters
         for node in self.nodes:
 
           # Add Node and Begin Populating our Address Space
           if not self.whatif:
+            
+            # Create Node
             node_obj[node["Name"]] = await opc_server.nodes.objects.add_object(id_namespace, node["Name"])
-          
+            self.logger.info("[NODE ID] %s" % node_obj[node["Name"]])
+            
+            # Setup nodes for Map Telemetry
+            self.map_telemetry["Nodes"].append(self.create_map_telemetry_node(node["Name"], str(node_obj[node["Name"]]), node["InterfacelId"], node["InterfaceInstanceName"]))
+
           for variable in node["Variables"]:
+            
             variable_name = variable["DisplayName"]
             telemetry_name = variable["TelemetryName"]
             range_value = variable["RangeValues"][0]
@@ -104,9 +121,28 @@ class Server():
                 ovt = opc_variant_type, odt = opc_variant_type))
 
             if not self.whatif:
+              
+              # Create Node Variable
               variable_obj[telemetry_name] = await node_obj[node["Name"]].add_variable(id_namespace, telemetry_name, range_value)
+
+              # Setup Variable for Map Telemetry
+              self.map_telemetry_nodes_variables.append(self.create_map_telemetry_variable(variable_name, telemetry_name, str(variable_obj[telemetry_name]), variable["IoTCDataType"]))
+              self.logger.info("[VARIABLE NODE ID] %s" % variable_obj[telemetry_name])
+              self.logger.info("[VARIABLE NODE MAP] %s" % self.map_telemetry_nodes_variables)
               await variable_obj[telemetry_name].set_writable()
-      
+
+          if not self.whatif:
+            #self.logger.info(self.map_telemetry_nodes["Variables"])
+            self.logger.info("here***")
+            self.map_telemetry["Nodes"][node_count]["Variables"] = copy.copy(self.map_telemetry_nodes_variables)
+            self.logger.info("[MAP] %s" % self.map_telemetry)
+            self.map_telemetry_nodes_variables =  []
+          
+          node_count += 1
+
+        if not self.whatif:
+          self.update_map_telemetry()
+            
       except Exception as ex:
         self.logger.error("[ERROR] %s" % ex)
         self.logger.error("[TERMINATING] We encountered an error in OPCUA Server Setup for the Nodes and Variables" )
@@ -144,7 +180,7 @@ class Server():
 
         async with opc_server:
           while True:
-            await asyncio.sleep(5)
+            await asyncio.sleep(self.config["ServerFrequencyInSeconds"])
             for node in self.nodes:
               temp_dict = self.nodes_dict[node["Name"]]
               temp_dict_counter = self.nodes_dict_counter[node["Name"]]
@@ -195,3 +231,53 @@ class Server():
       
       self.logger.info("[NODES_DICT] %s" % self.nodes_dict)
       self.logger.info("[NODES_DICT_COUNTER] %s" % self.nodes_dict_counter)
+
+    # -------------------------------------------------------------------------------
+    #   Function:   create_map_telemetry
+    #   Usage:      Sets the root for the Map Telemetry configuration file
+    # -------------------------------------------------------------------------------
+    def create_map_telemetry(self, NameSpace, DeviceCapabilityModelId):
+      mapTelemetry = {
+        "NameSpace": NameSpace, 
+        "DeviceCapabilityModelId": DeviceCapabilityModelId,
+        "Nodes": [
+        ]
+      }
+      return mapTelemetry 
+
+    # -------------------------------------------------------------------------------
+    #   Function:   create_map_telemetry_node
+    #   Usage:      Sets the node for the Map Telemetry configuration file
+    # -------------------------------------------------------------------------------
+    def create_map_telemetry_node(self, Name, NodeId, InterfacelId, InterfaceInstanceName):
+      mapTelemetryNode = {
+        "Name": Name,
+        "NodeId": NodeId,
+        "InterfacelId": InterfacelId,
+        "InterfaceInstanceName": InterfaceInstanceName,
+        "Variables":[
+        ]
+      }
+      return mapTelemetryNode 
+    
+    # -------------------------------------------------------------------------------
+    #   Function:   create_map_telemetry_variable
+    #   Usage:      Sets the variable for the Map Telemetry configuration file
+    # -------------------------------------------------------------------------------
+    def create_map_telemetry_variable(self, DisplayName, TelemetryName, NodeId, IoTCDataType):
+      mapTelemetryNodeVariable = {
+        "DisplayName": DisplayName,
+        "TelemetryName": TelemetryName,
+        "NodeId": NodeId,
+        "IoTCDataType": IoTCDataType
+      }
+      return mapTelemetryNodeVariable 
+
+    # -------------------------------------------------------------------------------
+    #   Function:   update_map_telemetry
+    #   Usage:      Saves the generated Map Telemetry File
+    # -------------------------------------------------------------------------------
+    def update_map_telemetry(self):
+      map_telemetry_file = MapTelemetry(self.logger)
+      map_telemetry_file.update_file(self.map_telemetry)
+      return

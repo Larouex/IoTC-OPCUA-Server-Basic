@@ -11,15 +11,10 @@
 import  getopt, sys, time, string, threading, asyncio, os
 import logging as Log
 
-# opcua
-from asyncua import ua, Server
-from asyncua.common.methods import uamethod
-
 # our classes
-from Classes.server import Server
+from Classes.opcserver import OpcServer
 from Classes.config import Config
 from Classes.varianttype import VariantType
-
 
 # -------------------------------------------------------------------------------
 #   Start the OPC Server
@@ -27,7 +22,7 @@ from Classes.varianttype import VariantType
 async def start_server(WhatIf, CacheAddrSpace):
 
   # Start Server
-  opc_server = Server(Log, WhatIf, CacheAddrSpace)
+  opc_server = OpcServer(Log, WhatIf, CacheAddrSpace)
   await opc_server.start()
 
   return
@@ -38,8 +33,8 @@ async def main(argv):
     cache_addr_space = None
 
     # execution state from args
-    short_options = "hvwc:"
-    long_options = ["help", "verbose", "whatif", "cacheaddrspace"]
+    short_options = "hvdwc:"
+    long_options = ["help", "verbose", "debug", "whatif", "cacheaddrspace"]
     full_cmd_arguments = sys.argv
     argument_list = full_cmd_arguments[1:]
     try:
@@ -55,8 +50,9 @@ async def main(argv):
             print("-v or --verbose - Verbose Mode with lots of INFO will be Output to Assist with Tracing and Debugging")
             print("-d or --debug - Debug Mode with lots of DEBUG Data will be Output to Assist with Tracing and Debugging")
             print("-w or --whatif - Combine with Verbose it will Output the Configuration sans starting the Server")
+            print("-c or --cacheaddrspace - Load or Dump")
             print("------------------------------------------------------------------------------------------------------------------")
-            sys.exit()
+            return
         
         if current_argument in ("-v", "--verbose"):
             Log.basicConfig(format="%(levelname)s: %(message)s", level=Log.INFO)

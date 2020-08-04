@@ -1,0 +1,52 @@
+{
+  "NameSpace": "Larouex-Industrial-Manufacturing",
+  "DeviceCapabilityModelId": "urn:LarouexIndustrialManufacturing:Server:1",
+  "Nodes": [
+    {
+      "Name": "Ambient",
+      "NodeId": "ns=2;i=1",
+      "InterfacelId": "urn:larouexindustrialmanufacturing:AmbientInterface:1",
+      "InterfaceInstanceName": "AmbientInterface",
+      "Variables": [
+        {
+          "DisplayName": "Temperature",
+          "TelemetryName": "temperature",
+          "NodeId": "ns=2;i=2",
+          "IoTCDataType": "float"
+        },
+        {
+          "DisplayName": "Humidity",
+          "TelemetryName": "humidity",
+          "NodeId": "ns=2;i=3",
+          "IoTCDataType": "float"
+        }
+      ]
+    },
+    {
+      "Name": "Process",
+      "NodeId": "ns=2;i=4",
+      "InterfacelId": "urn:larouexindustrialmanufacturing:ProcessInterface:1",
+      "InterfaceInstanceName": "ProcessInterface",
+      "Variables": [
+        {
+          "DisplayName": "Temperature",
+          "TelemetryName": "temperature",
+          "NodeId": "ns=2;i=5",
+          "IoTCDataType": "float"
+        },
+        {
+          "DisplayName": "Pressure",
+          "TelemetryName": "pressure",
+          "NodeId": "ns=2;i=6",
+          "IoTCDataType": "integer"
+        },
+        {
+          "DisplayName": "Mixing Ratio",
+          "TelemetryName": "mixratio",
+          "NodeId": "ns=2;i=7",
+          "IoTCDataType": "float"
+        }
+      ]
+    }
+  ]
+}

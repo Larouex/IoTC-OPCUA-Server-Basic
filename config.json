@@ -1,5 +1,8 @@
 {
-    "UrlPattern": "opc.tcp://{ip}:{port}/Larouex-Industrial-Manufacturing/Server",
+    "ServerUrlPattern": "opc.tcp://{ip}:{port}/Larouex-Industrial-Manufacturing/Server",
+    "ClientUrlPattern": "opc.tcp://localhost:{port}/Larouex-Industrial-Manufacturing/Server",
+    "Port": 4840,
+    "IPAddress":"0.0.0.0",
     "ApplicationUri": "urn:LarouexIndustrialManufacturing:Server",
     "DeviceCapabilityModelId": "urn:LarouexIndustrialManufacturing:Server:1",
     "ServerDiscoveryName": "Larouex Industrial Manufacturing Server",
@@ -7,6 +10,8 @@
     "DeviceName": "larouex-industrial-manufacturing-{id}",
     "NameSpace": "Larouex-Industrial-Manufacturing",
     "CacheAddrSpaceFileName": "cache.opc",
+    "ServerFrequencyInSeconds": 10,
+    "ClientFrequencyInSeconds": 15,
     "Nodes": [
       {
         "Name": "Ambient",

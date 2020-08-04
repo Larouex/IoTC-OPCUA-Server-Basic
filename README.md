@@ -747,7 +747,7 @@ Lot's of options to test and see how our device will end up in Azure IoT Central
 python3 ./provisiondevices.py -v -i "001"
 ````
 
-You will get simliar verbose output to the What If scenario we ran previousl;y along with this conformation...
+You will get simliar verbose output to the What If scenario we ran previousl;y along with this confirmation...
 
 ````bash
 ...
@@ -758,3 +758,75 @@ INFO: Updated Devices Cache file: {'DeviceCapabilityModels': [{'DeviceNamePrefix
 The OpC Server as a Device is Provisioned!
 
 ![alt text](./Assets/azure-iotc-provisioned-device-1.png "Device Provisioned")
+
+## Sending Telemtry to Azure IoT Central
+So far we have...
+
+* Confgigured our OPC Server with the Nodes and Variables
+* Created Azure IoT Central Application
+* Created a Device Template and imported into Azure IoT Central
+* Provisioned our OPC Server as a Device in Azure IoT Central and associated with our Device Template
+
+Now we need to map the data from our OPC Server into Azure IoT Central Telemetry. Let's start our OPC Server...
+
+* Open a new terminal window in Visual Studio Code and type in...
+
+````bash
+python ./server.py -v
+````
+This will start our server and generate an update to file named "maptelemetry.json" in the root of the project. Go ahead and click on this file and open it up in Visual Studio Code. The default contents are below...
+
+````json
+{
+  "NameSpace": "Larouex-Industrial-Manufacturing",
+  "DeviceCapabilityModelId": "urn:LarouexIndustrialManufacturing:Server:1",
+  "Nodes": [
+    {
+      "Name": "Ambient",
+      "NodeId": "ns=2;i=1",
+      "InterfacelId": "urn:larouexindustrialmanufacturing:AmbientInterface:1",
+      "InterfaceInstanceName": "AmbientInterface",
+      "Variables": [
+        {
+          "DisplayName": "Temperature",
+          "TelemetryName": "temperature",
+          "NodeId": "ns=2;i=2",
+          "IoTCDataType": "float"
+        },
+        {
+          "DisplayName": "Humidity",
+          "TelemetryName": "humidity",
+          "NodeId": "ns=2;i=3",
+          "IoTCDataType": "float"
+        }
+      ]
+    },
+    {
+      "Name": "Process",
+      "NodeId": "ns=2;i=4",
+      "InterfacelId": "urn:larouexindustrialmanufacturing:ProcessInterface:1",
+      "InterfaceInstanceName": "ProcessInterface",
+      "Variables": [
+        {
+          "DisplayName": "Temperature",
+          "TelemetryName": "temperature",
+          "NodeId": "ns=2;i=5",
+          "IoTCDataType": "float"
+        },
+        {
+          "DisplayName": "Pressure",
+          "TelemetryName": "pressure",
+          "NodeId": "ns=2;i=6",
+          "IoTCDataType": "integer"
+        },
+        {
+          "DisplayName": "Mixing Ratio",
+          "TelemetryName": "mixratio",
+          "NodeId": "ns=2;i=7",
+          "IoTCDataType": "float"
+        }
+      ]
+    }
+  ]
+}
+````

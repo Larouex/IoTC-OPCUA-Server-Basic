@@ -23,5 +23,10 @@
       "DcmTemplate":{
         "Loaded": "Loaded DCM Template file: {0}",
         "Updated": "Updated DCM Template file: {0}"
-      }    }
+      },
+      "MapTelemetry":{
+        "Loaded": "Loaded MapTelemetry file: {0}",
+        "Updated": "Updated MapTelemetry file: {0}"
+      }
+    }
 }
