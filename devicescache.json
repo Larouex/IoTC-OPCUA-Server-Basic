@@ -8,6 +8,8 @@
   "Devices": [
     {
       "DeviceName": "Simulated Device",
+      "AssignedHub": "iot-hub-connection",
+      "DeviceSymmetricKey": "device-symetric-key",
       "DeviceCapabilityModelId": "urn:LarouexIndustrialManufacturing:Server:1",
       "Interfaces": [
         {
@@ -25,6 +27,8 @@
     },
     {
       "DeviceName": "larouex-industrial-manufacturing-001",
+      "AssignedHub": "iotc-0c9d65d6-d308-4c37-9ba6-5c56d83873aa.azure-devices.net",
+      "DeviceSymmetricKey": "5Cw/ZXpX+sKmQNmDLUsPORhLkzdJ2iSJt3jaPoGM8/0=",
       "DeviceCapabilityModelId": "urn:LarouexIndustrialManufacturing:Server:1",
       "Interfaces": [
         {
@@ -38,7 +42,7 @@
           "InterfaceInstanceName": "ProcessInterface"
         }
       ],
-      "LastProvisioned": "2020-08-03 17:39:29.087753"
+      "LastProvisioned": "2020-08-04 14:22:06.216106"
     }
   ]
 }

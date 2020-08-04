@@ -18,12 +18,6 @@ from Classes.secrets import Secrets
 from Classes.symmetrickey import SymmetricKey
 from Classes.config import Config
 
-# Azure IoT Libraries
-from azure.keyvault.certificates import CertificateClient, CertificatePolicy,CertificateContentType, WellKnownIssuerNames 
-from azure.identity import DefaultAzureCredential
-from azure.keyvault.secrets import SecretClient
-from azure.keyvault.keys import KeyClient
-from azure.identity import ClientSecretCredential
 
 # uses the Azure IoT Device SDK for Python (Native Python libraries)
 from azure.iot.device.aio import ProvisioningDeviceClient
@@ -51,70 +45,15 @@ class ProvisionDevices():
   
     async def provision_devices(self):
 
-        # Load the Devices Cache File for any devices
-        # that have already been provisioned
-        devicescache = DevicesCache(self.logger)
-        self.logger.info("[DEVICES] devicescache.data Count %s" % str(len(devicescache.data["Devices"])))
-
         # Make a working copy of the cache file
+        devicescache = DevicesCache(self.logger)
         self.data = devicescache.data
         self.data["Devices"] = [x for x in devicescache.data["Devices"] if x["DeviceName"] == "Simulated Device"]
-        self.logger.info("[DEVICES] self.data Count %s" % str(len(self.data["Devices"])))
-        devicescache.load_file()
-        self.devices_provision = devicescache.data
-        self.devices_provision["Devices"] = [x for x in devicescache.data["Devices"] if x["DeviceName"] != "Simulated Device"]
-        self.logger.info("[DEVICES] self.devices_provision.data Count %s" % str(len(self.devices_provision["Devices"])))
-
-        # secrets
-        scope_id = None
-        device_primary_key = None
-        device_secondary_key = None
-        gateway_primary_key = None
-        gateway_secondary_key = None
+        self.logger.info("[DEVICES] self.data Count %s" % len(self.data["Devices"]))
 
         # load the secrets
         secrets = Secrets(self.logger)
-        if secrets.data["UseKeyVault"]:
-          
-          self.logger.info("[USING KEY VAULT SECRETS]")
-          
-          # key vault account uri
-          key_vault_uri = secrets.data["KeyVaultSecrets"]["KeyVaultUri"]
-          self.logger.info("[KEY VAULT URI] %s" % key_vault_uri)
-
-          tenant_id = secrets.data["KeyVaultSecrets"]["TenantId"]
-          client_id = secrets.data["KeyVaultSecrets"]["ClientId"]
-          client_secret = secrets.data["KeyVaultSecrets"]["ClientSecret"]
-          
-          # Get access to Key Vault Secrets
-          credential = ClientSecretCredential(tenant_id, client_id, client_secret)
-          self.logger.info("[credential] %s" % credential)
-          secret_client = SecretClient(vault_url=key_vault_uri, credential=credential)
-          self.logger.info("[secret_client] %s" % secret_client)
-
-          # Read all of our Secrets for Accessing IoT Central
-          scope_id = secret_client.get_secret(secrets.data["KeyVaultSecrets"]["ScopeId"])
-          device_primary_key = secret_client.get_secret(secrets.data["KeyVaultSecrets"]["DeviceConnect"]["SaSKeys"]["Primary"])
-          device_secondary_key = secret_client.get_secret(secrets.data["KeyVaultSecrets"]["DeviceConnect"]["SaSKeys"]["Secondary"])
-          gateway_primary_key = secret_client.get_secret(secrets.data["KeyVaultSecrets"]["GatewayConnect"]["SaSKeys"]["Primary"])
-          gateway_secondary_key = secret_client.get_secret(secrets.data["KeyVaultSecrets"]["GatewayConnect"]["SaSKeys"]["Secondary"])
-        
-        else:
-
-          # Read all of our LOCAL Secrets for Accessing IoT Central
-          self.logger.info("[USING LOCAL SECRETS]")
-          scope_id = secrets.data["LocalSecrets"]["ScopeId"]
-          device_primary_key = secrets.data["LocalSecrets"]["DeviceConnect"]["SaSKeys"]["Primary"]
-          device_secondary_key = secrets.data["LocalSecrets"]["DeviceConnect"]["SaSKeys"]["Secondary"]
-          gateway_primary_key = secrets.data["LocalSecrets"]["GatewayConnect"]["SaSKeys"]["Primary"]
-          gateway_secondary_key = secrets.data["LocalSecrets"]["GatewayConnect"]["SaSKeys"]["Secondary"]
-
-          # Verbose
-          self.logger.info("[SCOPE ID]: %s" % scope_id)
-          self.logger.info("[DEVICE PRIMARY KEY]: %s" % device_primary_key)
-          self.logger.info("[DEVICE SECONDARY KEY]: %s" % device_secondary_key)
-          self.logger.info("[GATEWAY PRIMARY KEY]: %s" % gateway_primary_key)
-          self.logger.info("[GATEWAY SECONDARY KEY]: %s" % gateway_secondary_key)
+        secrets.init()
 
         # Symetric Key for handling Device Specific SaS Keys
         symmetrickey = SymmetricKey(self.logger)
@@ -137,27 +76,32 @@ class ProvisionDevices():
             self.logger.info("[INTERFACE] %s" % device_interface)
 
           # Dump the Device Info  
-          self.logger.info("[DEVICE] %s" % device_capability_model)
+          self.logger.info("[DEVICE] MODEL %s" % device_capability_model)
            
           # Get a Device Specific Symetric Key
-          device_symmetrickey = symmetrickey.compute_derived_symmetric_key(device_capability_model["DeviceName"], device_secondary_key)
+          device_symmetrickey = symmetrickey.compute_derived_symmetric_key(device_capability_model["DeviceName"], secrets.get_device_secondary_key())
           self.logger.info("[SYMETRIC KEY] %s" % device_symmetrickey)
 
           # Provision the Device
-          self.logger.warning("[PROVISIONING] %s" % device_capability_model["DeviceName"])
+          self.logger.info("[PROVISIONING] %s" % device_capability_model["DeviceName"])
           
           if not self.whatif:
             
+            self.logger.info("[PROVISIONING HOST]: %s" % secrets.get_provisioning_host())
+
             provisioning_device_client = ProvisioningDeviceClient.create_from_symmetric_key(
-              provisioning_host=secrets.data["ProvisioningHost"],
-              registration_id=device_capability_model["DeviceName"],
-              id_scope=scope_id,
-              symmetric_key=device_symmetrickey,
+              provisioning_host = secrets.get_provisioning_host(),
+              registration_id = device_capability_model["DeviceName"],
+              id_scope = secrets.get_scope_id(),
+              symmetric_key = device_symmetrickey,
               websockets=True
             )
 
             provisioning_device_client.provisioning_payload = '{"iotcModelId":"%s"}' % (device_capability_model["DeviceCapabilityModelId"])
             registration_result = await provisioning_device_client.register()
+            device_capability_model["AssignedHub"] = registration_result.registration_state.assigned_hub
+            device_capability_model["DeviceSymmetricKey"] = device_symmetrickey
+            self.logger.info("[REGISTRATION RESULT] %s" % registration_result)
 
           self.data["Devices"].append(device_capability_model)
 
@@ -190,6 +134,8 @@ class ProvisionDevices():
     def create_device_capability_model(self, deviceName, id):
       newDeviceCapabilityModel = {
         "DeviceName": deviceName, 
+        "AssignedHub": "iot-hub-connection",
+        "DeviceSymmetricKey": "device-symetric-key",
         "DeviceCapabilityModelId": id,
         "Interfaces": [
         ],
