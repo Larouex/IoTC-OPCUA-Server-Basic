@@ -113,6 +113,7 @@ class ProvisionDevices():
 
         # Update the Cache
         #if not self.whatif:
+        self.data["DefaultDeviceName"] = device_capability_model["DeviceName"]
         devicescache.update_file(self.data)
         secrets.update_device_secrets(self.device_secrets)
 

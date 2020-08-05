@@ -763,7 +763,7 @@ So far we have...
 
 Now we need to map the data from our OPC Server into Azure IoT Central Telemetry. Let's start our OPC Server...
 
-* Open a new terminal window in Visual Studio Code and type in...
+Open a new terminal window in Visual Studio Code and type in...
 
 ````bash
 python ./server.py -v
@@ -824,3 +824,47 @@ This will start our server and generate an update to file named "maptelemetry.js
   ]
 }
 ````
+Next let's work with our Transparent Gateway. The features...
+
+* Acts as an OPC Client to the OPC Server
+* Reads the values from the OPC Nodes for the Variables
+* We do a "Protocol Translation" to Azure IoT Central Telemetry Messages
+* Send those Messages to the Azure IoT Central Application
+
+Open a new terminal window in Visual Studio Code and type in...
+
+````bash
+python ./server.py -v
+````
+The Gateway will connect to the locally running OLPC Server and start sending data...
+
+````bash
+INFO: [MESSAGE] {"temperature": 112.45, "pressure": 223, "mixratio": 9.6}
+INFO: [NODE NAME] Ambient
+INFO: [TELEMETRY] NAME: temperature VALUE: 72.45 NODE ID: ns=2;i=2 DISPLAY NAME: Temperature
+INFO: [DICTIONARY] {'temperature': 72.45}
+INFO: [TELEMETRY] NAME: humidity VALUE: 71.0 NODE ID: ns=2;i=3 DISPLAY NAME: Humidity
+INFO: [DICTIONARY] {'temperature': 72.45, 'humidity': 71.0}
+INFO: Sending message to Hub...
+INFO: payload published for 19
+INFO: Successfully sent message to Hub
+
+INFO: [NODE NAME] Process
+INFO: [TELEMETRY] NAME: temperature VALUE: 113.23 NODE ID: ns=2;i=5 DISPLAY NAME: Temperature
+INFO: [DICTIONARY] {'temperature': 113.23}
+INFO: [TELEMETRY] NAME: pressure VALUE: 289 NODE ID: ns=2;i=6 DISPLAY NAME: Pressure
+INFO: [DICTIONARY] {'temperature': 113.23, 'pressure': 289}
+INFO: [TELEMETRY] NAME: mixratio VALUE: 12.9 NODE ID: ns=2;i=7 DISPLAY NAME: Mixing Ratio
+INFO: [DICTIONARY] {'temperature': 113.23, 'pressure': 289, 'mixratio': 12.9}
+INFO: Sending message to Hub...
+INFO: payload published for 20
+INFO: Successfully sent message to Hub
+````
+
+Now we can return to our Azure IoT Central application and see our data visualizaed on the Application and Device Dashboard!
+
+Application Dashboard
+![alt text](./Assets/azure_iot-central-send-telemetry1.png "View Data 1")
+
+Device Dashboard
+![alt text](./Assets/azure_iot-central-send-telemetry2.png "View Data 2")

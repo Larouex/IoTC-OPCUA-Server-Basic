@@ -119,3 +119,8 @@ class Secrets():
 
     def get_gateway_secondary_key(self):
       return self.gateway_secondary_key     
+    
+    def get_device_secrets(self, DeviceName):
+      return [x for x in self.data["Devices"] if x["Name"] == DeviceName][0]
+
+      

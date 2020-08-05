@@ -27,6 +27,8 @@ from azure.iot.device import MethodResponse
 from Classes.config import Config
 from Classes.maptelemetry import MapTelemetry
 from Classes.varianttype import VariantType
+from Classes.deviceclient import DeviceClient
+from Classes.devicescache import DevicesCache
 
 class Gateway():
     
@@ -38,8 +40,16 @@ class Gateway():
       self.config = []
       self.nodes = []
       self.load_config()
+
+      # Device Information
+      self.devices_cache = []
+      self.load_devices_cache()
+
+      # Map Telemetry
       self.map_telemetry = []
       self.load_map_telemetry()
+      self.telemetry_msg = {}
+      self.telemetry_dict = {}
 
       # Azure Device
       self.device_client = None
@@ -50,17 +60,12 @@ class Gateway():
     # -------------------------------------------------------------------------------
     async def start(self):
 
-      try:
-        self.device_client = IoTHubDeviceClient.create_from_symmetric_key(
-            symmetric_key=dps_cache[0],
-            hostname=dps_cache[1],
-            device_id=dps_cache[2],
-            websockets=use_websockets
-        )
-
-      
       # Gateway Loop
       try:
+        
+        device_client = DeviceClient(self.logger, self.devices_cache["DefaultDeviceName"])
+        await device_client.connect()
+        self.logger.info("[CONNECTING IOT CENTRAL] %s" % self.device_client)
 
         # configure the endpoint
         url = self.config["ClientUrlPattern"].format(port = self.config["Port"])
@@ -78,11 +83,16 @@ class Gateway():
 
             for node in self.map_telemetry["Nodes"]:
               self.logger.info("[NODE NAME] %s" % node["Name"])
+              self.telemetry_dict = {}
               for variable in node["Variables"]:
                 read_node = client.get_node(variable["NodeId"])
                 val = await read_node.get_value()
                 log_msg = "[TELEMETRY] NAME: {tn} VALUE: {val} NODE ID: {ni} DISPLAY NAME: {dn}"
                 self.logger.info(log_msg.format(tn = variable["TelemetryName"], val = val, ni = variable["NodeId"], dn = variable["DisplayName"]))
+                self.telemetry_dict[variable["TelemetryName"]] = val
+                self.logger.info("[DICTIONARY] %s" % self.telemetry_dict)
+
+              await device_client.send_telemetry(self.telemetry_dict, node["InterfacelId"], node["InterfaceInstanceName"])
 
       except Exception as ex:
         self.logger.error("[ERROR] %s" % ex)
@@ -91,6 +101,8 @@ class Gateway():
         
       finally:
           await client.disconnect()
+          self.device_client = None
+          device_client.disconnect()
     
       return
 
@@ -105,6 +117,7 @@ class Gateway():
       config = Config(self.logger)
       self.config = config.data
       self.nodes = self.config["Nodes"]
+      return
     
     # -------------------------------------------------------------------------------
     #   Function:   load_map_telemetry
@@ -117,18 +130,18 @@ class Gateway():
       map_telemetry = MapTelemetry(self.logger)
       map_telemetry.load_file()
       self.map_telemetry = map_telemetry.data
+      return
 
     # -------------------------------------------------------------------------------
-    #   Function:   send_telemetry
-    #   Usage:      Loads the Map Telemetry File that Maps Telemtry for Azure
-    #               Iot Central to the Node Id's for the Opc Server.
+    #   Function:   load_devices_cache
+    #   Usage:      Loads the Device Cache Information and Configuration
     # -------------------------------------------------------------------------------
-    async def send_telemetry(device_client, send_frequency):
-      while not terminate:
-        payload = '{"temp": %f, "humidity": %f}' % (random.randrange(60.0, 95.0), random.randrange(10.0, 100.0))
-        print("sending message: %s" % (payload))
-        msg = Message(payload)
-        await device_client.send_message(msg)
-        print("completed sending message")
-        await asyncio.sleep(send_frequency)
+    def load_devices_cache(self):
+      
+      # Load Device Cache
+      devices_cache = DevicesCache(self.logger)
+      self.devices_cache = devices_cache.data
+      return
+
+      
 
