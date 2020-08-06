@@ -273,8 +273,7 @@ Next we have the "Node" array and this is where all of the configuration for you
 
 You can  have many Nodes and many Variable in your configuration file. It represents your address space in the OPC Server and the interfaces and telemtery values in Azure Iot Central.
 
-## Create our Application, Device Template and Visualization for Azure IoT Central
-### Running the "Create IoT Central Template" Application
+## Create our Device Template for Import into Azure IoT Central
 This is a nifty little helper application that interrogates your configuration of the Nodes and Variables that you defined in the <b>config.json</b> in the previous section.
 
 Run the command below and you will see the help details.
