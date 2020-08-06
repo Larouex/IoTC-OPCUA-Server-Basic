@@ -461,12 +461,12 @@ Let's get started at IoT Central and create an application [LINK: Welcome to IoT
 ### THIS SECTION IS OPTIONAL AND IS INCLUDED AS A "BEST PRACTICE" FOR HANDLING SECRETS FOR AZURE IOT CENTRAL CONNECTIONS
 <b>NOTE:</b> You can skip this section if you do not plan to use Azure Key Vault to store and retrieve connection secrets. [Click here to jump to the section: I don't want to use Key Vault](#i-dont-want-to-use-key-vault)
 
-Azure IoT Central is what we using for capturing Telemetry and Managing out Gateway and Devices. It is a powerful SaaS offering and we will be using the tools and visualizations to build out a rich application for our scenario. In order to connect our devices and gateway to IoT Central, we need to manage a set of secrets and we will store those secrets in Azure Key Vault. I highly recommend that you do this so you do not make a mistake and expose access to your application, gateway or devices.
+Azure IoT Central is used for our telemetry, visualizations and managing devices. It is a powerful SaaS offering and we will be using the tools and visualizations to build out a rich application for our scenario. In order to connect our devices and gateway to IoT Central, we need to manage a set of secrets that we need to protect I highly recomnmend that you store those secrets in Azure Key Vault and that you do this so as not to make a mistake and expose access to your application, gateway or devices.
 
 I am going to assume the following when we work with Azure and Azure Portal...
 
 * That you already have an Azure Account (If you don't, get started here [LINK: Create your Azure free account today](https://azure.microsoft.com/en-us/free/)
-* That you have sufficient permissions in your Azure account to create Resource Groups and Resources
+* That you have sufficient permissions in your Azure account to create Resource Groups and assolciated resources
 * That you are familiar creating and using resources with the Azure CLI or the Azure Portal [LINK: Azure Portal](https://portal.azure.com/)
 
 ### Create our Connection Secrets...
