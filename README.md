@@ -1,31 +1,33 @@
 # IoTC-OPCUA-Server-Basic
-OPC UA Server for demonstration of IIoT Scenarios for Azure IoT Central.
+OPC-UA Server, Client and Transparent Gateway for demonstration of IIoT Scenarios for Azure IoT Central.
 
 ## Overview
-This repository is part of a training and project series for Azure IoT Central. In this respository we have created an "End to End" demonstration of the components that comprise a OPC UA Server that integrates with Azure IoT Central for Telemetry and Visualizations. This is a contrived scenario that teaches the main components and how to translate and act as a Transparent Gateway to IoT Central. 
+This repository is part of a training and project series for Azure IoT Central. We have created an "End to End" demonstration of the components that comprise a OPC-UA Server that integrates with Azure IoT Central for Telemetry and Visualizations. This is a contrived scenario that demonstrates the main components and how to do protocol translation as a "Transparent Gateway" to Azure IoT Central. 
+
+![alt text](./Assets/comms-diagram1.png "Comms Diagram")
 
 ## OPC Server Overview and Features
-This is a simple OPC Server written in Python using the opcua-asyncio that is based on the popular FreeOpcUa project/library. We have added implementations using the Azure IoT SDK for Python. 
+This is a OPC Server written in Python using the opcua-asyncio that is based on the popular FreeOpcUa project/library. We have added implementations to Azure IoT Central using the Azure IoT SDK for Python. 
 
 Here are links for reference (<i>no need to install anything yet</i>)
 
 * [LINK: Azure IoT SDKs for Python](https://github.com/Azure/azure-iot-sdk-python)
 * [LINK: opcua-asyncio](https://github.com/FreeOpcUa/opcua-asyncio)
 
-One important thing to note as you work through the tutorial here: If you are coming from the IoT Device world, the terminology of OPC is very different and vice-versa from OPC to Azure IoT Central. I will give simple, high level explanations, but be aware of those differences. The easist way to think about it in the context of this tutorial is...
+One important thing to note as you work through the tutorial here: If you are coming from the IoT Device world, the terminology of OPC is very different and vice-versa from OPC to Azure IoT Central. I will give simple, high level explanations, but be aware of those differences. The easist way to think about the assumptions we are making in the context of this tutorial...
 
 | OPC | Azure IoT | Represented in Azure IoT Central |
 |---|---|---|
 | Node | Device Interface | Interface in the Device Capability Model |
 | Variable | Telemetry | Telemetry Items in the Device Interface  |
-| OPC Server | Device | We treat the OPC Server as a Device in IoT Central  |
+| OPC Server | Device | We represent the OPC Server as a Device in IoT Central  |
 
-The OPC Server expresses two Nodes...
+The OPC Server implements two Nodes...
 
   * Ambient
   * Process
 
-The table below shows the Variables (Telemetry) per Node and the Sequence of the data that is emitted by the OPC Server.
+The table below shows the Variables (Telemetry) per Node and the Sequence of the data that is published by the OPC Server.
 | Node | Variables | Data Type | Sequence of Data |
 |---|---|---|---|
 | Ambient | Temperature | Float | 72.45,73.23,85.90,91.54,73.28,67.54,69.28,81.54,73.68,81.23 |
@@ -64,21 +66,21 @@ pip3 install -r requirements.txt
 
 Open the "IoTC-OPCUA-Server-Basic" folder in Visual Studio Code.
 
-## Install the "UaExpert — A Full-Featured OPC UA Client"
+## Install the "UaExpert — A Full-Featured OPC-UA Client"
 [LINK: OPC UA Client – Overview](https://www.unified-automation.com/products/development-tools/uaexpert.html)
 
-The UaExpert® is a full-featured OPC UA Client demonstrating the capabilities of C++ OPC UA Client SDK/Toolkit. The UaExpert is designed as a general purpose test client supporting OPC UA features like DataAccess, Alarms & Conditions, Historical Access and calling of UA Methods.
+The UaExpert® is a full-featured OPC-UA Client demonstrating the capabilities of C++ OPC-UA Client SDK/Toolkit. The UaExpert is designed as a general purpose test client supporting OPC-UA features like DataAccess, Alarms & Conditions, Historical Access and calling of UA Methods.
 
 Install the Client from here...
 [LINK: OPC UA Clients – Downloads](https://www.unified-automation.com/downloads/opc-ua-clients.html)
 We are now ready!
 
 # Getting Started!
-There are set of steps you will want to follow in order to make this project work as intended and give you a good foundation for the basics of an OPC UA Server, browse that data with OPC UA Clients and how to send that data to Azure IoT Central.
+There are set of steps you will want to follow in order to make this project work as intended and give you a good foundation for the basics of an OPC-UA Server, browse that data with OPC-UA Clients and how to send that data to Azure IoT Central.
 
 Here are the steps we will go through...
 
-  * [Define and Configure Nodes and Variables for our OPC UA Server](#define-and-configure-nodes-and-variables-for-our-opc-ua-server)
+  * [Define and Configure Nodes and Variables for our OPC Server](#define-and-configure-nodes-and-variables-for-our-opc-server)
   * [Create our Device Template for Import into Azure IoT Central.](create-our-device-template-for-import-into-azure-iot-central)
   * [Create our Application, Device Template and Visualization for Azure IoT Central](create-our-device-template-for-azure-iot-central-that-defines-our-telemetry-using-the-dtdl-specification)
   * [OPTIONAL: Create Key Vault in Azure for Storing Connecting Secrets for Azure IoT Central](secrets---azure-connectivity-and-protecting-your-secrets)
@@ -88,7 +90,7 @@ Here are the steps we will go through...
   * [Provisioning our OPC Server as a Device in Azure IoT Central](provisioning-our-opc-server-as-a-device-in-azure-iot-central)
   * [Send Telemetry to Azure IoT Central and Visualize that Data](send-telemetry-to-azure-iot-central-and-visualize-that-data)
 
-## Define and Configure Nodes and Variables for our OPC UA Server.
+## Define and Configure Nodes and Variables for our OPC Server.
 The defintion of our Nodes and Variables (<i>and Device Interfaces and Telemetry in Azure IoT Central</i>) is contained in the "config.json" file in the root of the project.
 
 Here are the default contents of the file...
@@ -218,7 +220,7 @@ The table below defines and explains the configuration options...
 | ClientFrequencyInSeconds | Number of seconds to sleep between reading the values from the OPC Server Variables |
 
 
-Next we have the "Nodew" array and this is where all of the configuration for your OPC Server and the Telemetry for Azure IoT Central happens. Let's look at the simple scenario of an Ambient Node that expresses two Variables; Temeperature and Humidity...
+Next we have the "Node" array and this is where all of the configuration for your OPC Server and the Telemetry for Azure IoT Central happens. Let's look at the simple scenario of an Ambient Node that expresses two Variables; Temperature and Humidity...
 
 ````json
     "Nodes": [
@@ -264,11 +266,11 @@ Next we have the "Nodew" array and this is where all of the configuration for yo
 | Item | Explanation |
 |---|---|
 | DisplayName | The Name that will be displayed in the OPC Server when browsing and the Dsiplay Name in IoT Central.  |
-| TelemetryName | The Telemetry name that will be sent in the payload to IOT Central for mapping to the Device Template. |
+| TelemetryName | The Telemetry name that will be sent in the payload to IoT Central for mapping to the Device Template. |
 | IoTCDataType | The datatype as it is selected in Azure IoT Central. |
 | RangeValues | This is a Array of values mapping to the datatype that will be sent in sequence when cycling throught the item. |
 
-You can  have many Nodes and many Variable in your configuration file. It represents your address space in teh OPC server ant the interfaces and telemtery values in Azure Iot Central.
+You can  have many Nodes and many Variable in your configuration file. It represents your address space in the OPC Server and the interfaces and telemtery values in Azure Iot Central.
 
 ## Create our Device Template for Import into Azure IoT Central
 ### Running the "Create IoT Central Template" Application
@@ -288,14 +290,14 @@ Run the command below and you will see the help details.
   -f or --filename - Name of the DCM File that will be output into ./DeviceTemplates Folder
   ------------------------------------------------------------------------------------------------------------------
 ````
-Based on the default Nodes and Variables that were defined in the Config file (<i>of course your results will be different if you customized the confg file</i>).
+Based on the default Nodes and Variables that were defined in the Config file (<i>of course your results will be different if you customized the config.json file</i>).
 
 Run this...
 ````bash
   python3 ./createiotctemplate.py -v -f larouex_dcm.json
 ````
 
-Open the file created "./DeviceTemplates/larouex_dcm.json" in your favorite editor if yhou want to view the contents...
+Open the file created "./DeviceTemplates/larouex_dcm.json" in your favorite editor if you want to view the contents...
 ````json
 {
   "@id": "urn:LarouexIndustrialManufacturing:Server:1",
@@ -624,7 +626,7 @@ Save the file and you can ignore the "KeyVaultSecrets" section.
 ## Running the "OPC Server" Application
 
 ### Configuration
-Our OPC/UA Server is designed to be simple and easy to get started with, but we have also focussed on being configuration driven for the OPC/UA Server, Node and Variable options. You can define lots of nodes and many variables for those nodes.
+Our OPC-UA Server is designed to be simple and easy to get started with, but we have also focussed on being configuration driven for the OPC-UA Server, Node and Variable options. You can define lots of nodes and many variables for those nodes.
 
 ### Startup
 Let's look at the startup options...
@@ -640,7 +642,7 @@ Let's look at the startup options...
   ------------------------------------------------------------------------------------------------------------------
 ````
 ````bash
-python ./server.py -v
+python3 ./server.py -v
 ````
 
 ![alt text](./Assets/ops-server-terminal-1.png "Opc Server Terminal 1")
@@ -766,7 +768,7 @@ Now we need to map the data from our OPC Server into Azure IoT Central Telemetry
 Open a new terminal window in Visual Studio Code and type in...
 
 ````bash
-python ./server.py -v
+python3 ./server.py -v
 ````
 This will start our server and generate an update to file named "maptelemetry.json" in the root of the project. Go ahead and click on this file and open it up in Visual Studio Code. The default contents are below...
 
@@ -834,7 +836,7 @@ Next let's work with our Transparent Gateway. The features...
 Open a new terminal window in Visual Studio Code and type in...
 
 ````bash
-python ./gateway.py -v
+python3 ./gateway.py -v
 ````
 The Gateway will connect to the locally running OLPC Server and start sending data...
 
