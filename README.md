@@ -214,7 +214,7 @@ The table below defines and explains the configuration options...
 | DeviceCapabilityModelId | This urn is used when generating the Device Template as the DCM @id |
 | ServerDiscoveryName | The name that is advertised when discovering the OPC Server |
 | Description | This is a decsrtiption that is added to the Device Template when generating |
-| DeviceName | The "Prefix" name used for the OPC Server when provisioned as a Device in Azure IoT Central. You will indicate an enumeration as a arguement when you run the Provisioing app (i.e. -i ) |
+| DeviceName | The "Prefix" name used for the OPC Server when provisioned as a Device in Azure IoT Central. You will indicate an enumeration as a argument when you run the provisioning.py app (i.e. -i "001") [Provisioning our OPC Server as a Device in Azure IoT Central](#provisioning-our-opc-server-as-a-device-in-azure-iot-central) |
 | NameSpace | OPC Server Namsspace |
 | CacheAddrSpaceFileName | File name for caching the OPC Sever Address Space |
 | ServerFrequencyInSeconds | Number of seconds to sleep between sending value updates to the Variables |
