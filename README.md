@@ -209,19 +209,19 @@ The table below defines and explains the configuration options...
 | Item | Explanation |
 |---|---|
 | ServerUrlPattern | The URL that the OPC Server advertises as its endpoint. The ip and port are assigned in the code. |
-| ClientUrlPattern | The URL that the OPC Client Gateway connects to the OPC Server endpoint. The port are assigned in the code. |
-| ApplicationUri | urn for the Application Namespace |
+| ClientUrlPattern | The URL that the OPC Client Gateway connects to the OPC Server endpoint. The port is assigned in the code. |
+| ApplicationUri | The urn for the Application Namespace |
 | DeviceCapabilityModelId | This urn is used when generating the Device Template as the DCM @id |
 | ServerDiscoveryName | The name that is advertised when discovering the OPC Server |
-| Description | This is a decsrtiption that is added to the Device Template when generating |
-| DeviceName | The "Prefix" name used for the OPC Server when provisioned as a Device in Azure IoT Central. You will indicate an enumeration as a argument when you run the provisioning.py app (i.e. -i "001") [Provisioning our OPC Server as a Device in Azure IoT Central](#provisioning-our-opc-server-as-a-device-in-azure-iot-central) |
+| Description | This is a description that is added to the Device Template when generating |
+| DeviceName | The "Prefix" name used for the OPC Server when provisioned as a Device in Azure IoT Central. You will indicate an enumeration argument when you run the provisioning.py app (i.e. -i "001") [Provisioning our OPC Server as a Device in Azure IoT Central](#provisioning-our-opc-server-as-a-device-in-azure-iot-central) |
 | NameSpace | OPC Server Namsspace |
 | CacheAddrSpaceFileName | File name for caching the OPC Sever Address Space |
 | ServerFrequencyInSeconds | Number of seconds to sleep between sending value updates to the Variables |
 | ClientFrequencyInSeconds | Number of seconds to sleep between reading the values from the OPC Server Variables |
 
 
-Next we have the "Node" array and this is where all of the configuration for your OPC Server and the Telemetry for Azure IoT Central happens. Let's look at the simple scenario of an Ambient Node that expresses two Variables; Temperature and Humidity...
+Next we have the "Node" array and this is where all of the configuration for your OPC Server and the Telemetry for Azure IoT Central happens. Let's look at the simple scenario of an Ambient Node that publishes two Variables; Temperature and Humidity...
 
 ````json
     "Nodes": [
