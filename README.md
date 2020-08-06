@@ -373,7 +373,7 @@ Open the file created "./DeviceTemplates/larouex_dcm.json" in your favorite edit
   ]
 }
 ````
-This file in a minimal representation of Device Template file for import into Azure IoT Central. 
+This file is a minimal representation of Device Template file that we can now import into Azure IoT Central. 
 
 ## Create our Device Template for Azure IoT Central that defines our Telemetry using the DTDL Specification
 Let's create our Application, Device Template and Visualizations in Azure IoT Central. 
