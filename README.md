@@ -82,7 +82,7 @@ There are set of steps you will want to follow in order to make this project wor
 Here are the steps we will go through...
 
   * [Define and Configure Nodes and Variables for our OPC Server](#define-and-configure-nodes-and-variables-for-our-opc-server)
-  * [Create our Device Template for Import into Azure IoT Central.](create-our-device-template-for-import-into-azure-iot-central)
+  * [Create our Device Template for Import into Azure IoT Central.](create-our-device-template-for-azure-iot-central-that-defines-our-telemetry-using-the-dtdl-specification)
   * [Create our Application, Device Template and Visualization for Azure IoT Central](create-our-device-template-for-azure-iot-central-that-defines-our-telemetry-using-the-dtdl-specification)
   * [OPTIONAL: Create Key Vault in Azure for Storing Connecting Secrets for Azure IoT Central](secrets---azure-connectivity-and-protecting-your-secrets)
   * [SETUP SECRETS: Configure our Secrets for Local Development](configure-our-secrets-for-local-development)
@@ -214,7 +214,7 @@ The table below defines and explains the configuration options...
 | DeviceCapabilityModelId | This urn is used when generating the Device Template as the DCM @id |
 | ServerDiscoveryName | The name that is advertised when discovering the OPC Server |
 | Description | This is a decsrtiption that is added to the Device Template when generating |
-| DeviceName | The name used for the OPC Server when provisioned as a Device in Azure IoT Central |
+| DeviceName | The "Prefix" name used for the OPC Server when provisioned as a Device in Azure IoT Central. You will indicate an enumeration as a arguement when you run the Provisioing app (i.e. -i ) |
 | NameSpace | OPC Server Namsspace |
 | CacheAddrSpaceFileName | File name for caching the OPC Sever Address Space |
 | ServerFrequencyInSeconds | Number of seconds to sleep between sending value updates to the Variables |
@@ -273,7 +273,7 @@ Next we have the "Node" array and this is where all of the configuration for you
 
 You can  have many Nodes and many Variable in your configuration file. It represents your address space in the OPC Server and the interfaces and telemtery values in Azure Iot Central.
 
-## Create our Device Template for Import into Azure IoT Central
+## Create our Application, Device Template and Visualization for Azure IoT Central
 ### Running the "Create IoT Central Template" Application
 This is a nifty little helper application that interrogates your configuration of the Nodes and Variables that you defined in the <b>config.json</b> in the previous section.
 
