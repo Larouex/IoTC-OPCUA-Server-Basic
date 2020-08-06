@@ -74,7 +74,7 @@ The UaExpert® is a full-featured OPC-UA Client demonstrating the capabilities o
 Install the Client from here...
 [LINK: OPC UA Clients – Downloads](https://www.unified-automation.com/downloads/opc-ua-clients.html)
 
-##We are now ready!
+## We are now ready!
 
 # Getting Started!
 There are set of steps you will want to follow in order to make this project work as intended and give you a good foundation for the basics of an OPC-UA Server, browse that data with OPC-UA Clients and how to send that data to Azure IoT Central.
