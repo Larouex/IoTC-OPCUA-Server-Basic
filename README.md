@@ -82,7 +82,7 @@ There are set of steps you will want to follow in order to make this project wor
 Here are the steps we will go through...
 
   * [Define and Configure Nodes and Variables for our OPC Server](#define-and-configure-nodes-and-variables-for-our-opc-server)
-  * [Create our Device Template for Import into Azure IoT Central.](create-our-device-template-for-azure-iot-central-that-defines-our-telemetry-using-the-dtdl-specification)
+  * [Create our Device Template for Import into Azure IoT Central](create-our-device-template-for-import-into-azure-iot-central)
   * [Create our Application, Device Template and Visualization for Azure IoT Central](create-our-device-template-for-azure-iot-central-that-defines-our-telemetry-using-the-dtdl-specification)
   * [OPTIONAL: Create Key Vault in Azure for Storing Connecting Secrets for Azure IoT Central](secrets---azure-connectivity-and-protecting-your-secrets)
   * [SETUP SECRETS: Configure our Secrets for Local Development](configure-our-secrets-for-local-development)
