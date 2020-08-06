@@ -82,14 +82,14 @@ There are set of steps you will want to follow in order to make this project wor
 Here are the steps we will go through...
 
   * [Define and Configure Nodes and Variables for our OPC Server](#define-and-configure-nodes-and-variables-for-our-opc-server)
-  * [Create our Device Template for Import into Azure IoT Central](create-our-device-template-for-import-into-azure-iot-central)
-  * [Create our Application, Device Template and Visualization for Azure IoT Central](create-our-device-template-for-azure-iot-central-that-defines-our-telemetry-using-the-dtdl-specification)
-  * [OPTIONAL: Create Key Vault in Azure for Storing Connecting Secrets for Azure IoT Central](secrets---azure-connectivity-and-protecting-your-secrets)
-  * [SETUP SECRETS: Configure our Secrets for Local Development](configure-our-secrets-for-local-development)
-  * [Running the "OPC Server" Application](running-the-opc-server-application)
-  * [Using the UaExpert Client Application to Browse the OPC Server](using-the-uaexpert-client-application-to-browse-the-opc-server)
-  * [Provisioning our OPC Server as a Device in Azure IoT Central](provisioning-our-opc-server-as-a-device-in-azure-iot-central)
-  * [Send Telemetry to Azure IoT Central and Visualize that Data](send-telemetry-to-azure-iot-central-and-visualize-that-data)
+  * [Create our Device Template for Import into Azure IoT Central](#create-our-device-template-for-import-into-azure-iot-central)
+  * [Create our Application, Device Template and Visualization for Azure IoT Central](#create-our-device-template-for-azure-iot-central-that-defines-our-telemetry-using-the-dtdl-specification)
+  * [OPTIONAL: Create Key Vault in Azure for Storing Connecting Secrets for Azure IoT Central](#secrets---azure-connectivity-and-protecting-your-secrets)
+  * [SETUP SECRETS: Configure our Secrets for Local Development](#configure-our-secrets-for-local-development)
+  * [Running the "OPC Server" Application](#running-the-opc-server-application)
+  * [Using the UaExpert Client Application to Browse the OPC Server](#using-the-uaexpert-client-application-to-browse-the-opc-server)
+  * [Provisioning our OPC Server as a Device in Azure IoT Central](#provisioning-our-opc-server-as-a-device-in-azure-iot-central)
+  * [Send Telemetry to Azure IoT Central and Visualize that Data](#send-telemetry-to-azure-iot-central-and-visualize-that-data)
 
 ## Define and Configure Nodes and Variables for our OPC Server.
 The defintion of our Nodes and Variables (<i>and Device Interfaces and Telemetry in Azure IoT Central</i>) is contained in the "config.json" file in the root of the project.
