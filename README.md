@@ -215,7 +215,7 @@ The table below defines and explains the configuration options...
 | ServerDiscoveryName | The name that is advertised when discovering the OPC Server |
 | Description | This is a description that is added to the Device Template when generating |
 | DeviceName | The "Prefix" name used for the OPC Server when provisioned as a Device in Azure IoT Central. You will indicate an enumeration argument when you run the provisioning.py app (i.e. -i "001") [Provisioning our OPC Server as a Device in Azure IoT Central](#provisioning-our-opc-server-as-a-device-in-azure-iot-central) |
-| NameSpace | OPC Server Namsspace |
+| NameSpace | The OPC Server Namespace |
 | CacheAddrSpaceFileName | File name for caching the OPC Sever Address Space |
 | ServerFrequencyInSeconds | Number of seconds to sleep between sending value updates to the Variables |
 | ClientFrequencyInSeconds | Number of seconds to sleep between reading the values from the OPC Server Variables |
@@ -266,12 +266,12 @@ Next we have the "Node" array and this is where all of the configuration for you
 ````
 | Item | Explanation |
 |---|---|
-| DisplayName | The Name that will be displayed in the OPC Server when browsing and the Dsiplay Name in IoT Central.  |
+| DisplayName | The Name that will be displayed in the OPC Server when browsing and the Display Name in Azure IoT Central.  |
 | TelemetryName | The Telemetry name that will be sent in the payload to IoT Central for mapping to the Device Template. |
 | IoTCDataType | The datatype as it is selected in Azure IoT Central. |
 | RangeValues | This is a Array of values mapping to the datatype that will be sent in sequence when cycling throught the item. |
 
-You can  have many Nodes and many Variable in your configuration file. It represents your address space in the OPC Server and the interfaces and telemtery values in Azure Iot Central.
+You can have many Nodes and many Variable in your configuration file. It represents your address space in the OPC Server and the interfaces and telemtery values in Azure Iot Central.
 
 ## Create our Device Template for Import into Azure IoT Central
 This is a nifty little helper application that interrogates your configuration of the Nodes and Variables that you defined in the <b>config.json</b> in the previous section.
