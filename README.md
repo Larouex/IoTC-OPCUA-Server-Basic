@@ -216,9 +216,9 @@ The table below defines and explains the configuration options...
 | Description | This is a description that is added to the Device Template when generating |
 | DeviceName | The "Prefix" name used for the OPC Server when provisioned as a Device in Azure IoT Central. You will indicate an enumeration argument when you run the provisioning.py app (i.e. -i "001") [Provisioning our OPC Server as a Device in Azure IoT Central](#provisioning-our-opc-server-as-a-device-in-azure-iot-central) |
 | NameSpace | The OPC Server Namespace |
-| CacheAddrSpaceFileName | File name for caching the OPC Sever Address Space |
-| ServerFrequencyInSeconds | Number of seconds to sleep between sending value updates to the Variables |
-| ClientFrequencyInSeconds | Number of seconds to sleep between reading the values from the OPC Server Variables |
+| CacheAddrSpaceFileName | File name for caching the OPC Server Address Space |
+| ServerFrequencyInSeconds | Number of seconds to pause between sending value updates to the Variables |
+| ClientFrequencyInSeconds | Number of seconds to pause between reading the values from the OPC Server Variables |
 
 
 Next we have the "Node" array and this is where all of the configuration for your OPC Server and the Telemetry for Azure IoT Central happens. Let's look at the simple scenario of an Ambient Node that publishes two Variables; Temperature and Humidity...
@@ -629,7 +629,11 @@ Save the file and you can ignore the "KeyVaultSecrets" section.
 Our OPC-UA Server is designed to be simple and easy to get started with, but we have also focussed on being configuration driven for the OPC-UA Server, Node and Variable options. You can define lots of nodes and many variables for those nodes.
 
 ### Startup
-Let's look at the startup options...
+Let's look at the startup options, run the command below...
+
+````bash
+python3 ./server.py -v
+````
 
 <b>Output</b>
 ````bash
@@ -640,9 +644,6 @@ Let's look at the startup options...
   -d or --debug - Debug Mode with lots of DEBUG Data will be Output to Assist with Tracing and Debugging
   -w or --whatif - Combine with Verbose it will Output the Configuration sans starting the Server
   ------------------------------------------------------------------------------------------------------------------
-````
-````bash
-python3 ./server.py -v
 ````
 
 ![alt text](./Assets/ops-server-terminal-1.png "Opc Server Terminal 1")
@@ -709,7 +710,7 @@ You will see a lot of useful information that will "play back" all of the action
 python3 ./provisiondevices.py -v -i "001"
 ````
 
-You will get simliar verbose output to the What If scenario we ran previousl;y along with this confirmation...
+You will get simliar verbose output to the What If scenario we ran previously along with this confirmation...
 
 ````bash
 ...
